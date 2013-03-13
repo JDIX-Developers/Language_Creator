@@ -18,6 +18,9 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.JButton;
+
+import utils.Lang;
+
 import java.awt.FlowLayout;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
@@ -45,7 +48,7 @@ public class LangEditor extends JPanel
 		gridBagLayout.rowWeights = new double[]{0.0, 1.0, 0.0, Double.MIN_VALUE};
 		setLayout(gridBagLayout);
 		
-		JLabel lblNombrelenguaje = new JLabel("NombreLenguaje");
+		JLabel lblNombrelenguaje = new JLabel(Lang.getAvailableLocales().get(0).toString());
 		lblNombrelenguaje.setForeground(Color.BLACK);
 		lblNombrelenguaje.setHorizontalAlignment(SwingConstants.CENTER);
 		GridBagConstraints gbc_lblNombrelenguaje = new GridBagConstraints();

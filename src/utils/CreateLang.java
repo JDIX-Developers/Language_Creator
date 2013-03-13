@@ -17,5 +17,6 @@ public class CreateLang
 		ois.writeObject(hashMap);
 		ois.writeObject(null);
 		ois.close();
+		System.out.println("Fichero creado.");
 	}
 }

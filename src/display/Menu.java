@@ -6,10 +6,13 @@ import java.awt.event.ActionListener;
 import java.io.FileInputStream;
 import java.io.ObjectInputStream;
 import java.util.HashMap;
+import java.util.Vector;
 
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+
+import utils.Lang;
 
 
 /**
@@ -72,7 +75,13 @@ public class Menu extends JMenuBar implements ActionListener
 				Window.getInstance().setContentPane(lEdit);
 				lEdit.updateUI();
 			}catch(Exception ex){
-				System.out.println("Error al abrir el fichero");
+				System.out.println("Error al pulsar open");
+			}
+			
+			Vector<String> v = Lang.getCombableLocales();
+			for(int i=0; i<v.size(); i++)
+			{
+				System.out.println(v.get(i).toString());
 			}
 		}
 	}
