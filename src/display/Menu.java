@@ -20,8 +20,7 @@ public class Menu extends JMenuBar implements ActionListener
 
 	private static final long	serialVersionUID	= -2674054941368737779L;
 
-	private JMenu				file, edit;
-	private JMenuItem			help;
+	private JMenu				file, edit, help;
 	private JMenuItem			open, save, save_where;
 
 	/**
@@ -37,17 +36,9 @@ public class Menu extends JMenuBar implements ActionListener
 		edit = new JMenu("Edit");
 		edit.setMargin(new Insets(5, 5, 5, 5));
 
-		help = new JMenuItem("Help");
+		help = new JMenu("Help");
 		help.setMargin(new Insets(5, 5, 5, 5));
-		help.addActionListener(new ActionListener()
-		{
-			@Override
-			public void actionPerformed(ActionEvent e)
-			{
-				// TODO Create help menu
-			}
-		});
-
+		
 		open = new JMenuItem("Open");
 		open.setMargin(new Insets(5, 5, 5, 5));
 		open.addActionListener(this);
