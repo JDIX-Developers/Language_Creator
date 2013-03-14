@@ -10,21 +10,13 @@ import java.io.FilenameFilter;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.util.HashMap;
-import java.util.Vector;
 
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.filechooser.FileNameExtensionFilter;
 
-import utils.Lang;
-
-
-/**
- * @author Razican (Iban Eguia)
- */
 public class Menu extends JMenuBar implements ActionListener
 {
 
@@ -78,6 +70,8 @@ public class Menu extends JMenuBar implements ActionListener
 	private void openAction()
 	{
 		FileDialog fileDialog = new FileDialog(Window.getInstance(),"Open file", FileDialog.LOAD); 
+		FilenameFilter filter = new FileListFilter("", "lang");
+		fileDialog.setFilenameFilter(filter);
 		// Hay que añadir filtro para .lang
 		fileDialog.setVisible(true);
 		
@@ -85,7 +79,6 @@ public class Menu extends JMenuBar implements ActionListener
 		System.out.println(absolutePath);
 		
 		String extension = fileDialog.getFile().substring(fileDialog.getFile().lastIndexOf('.'), fileDialog.getFile().length());
-		//String extension = fileDialog.getFile().substring(fileDialog.getFile().length()-5, fileDialog.getFile().length());
 		System.out.println("Extension: "+extension);
 		
 		if(extension.equals(".lang"))
@@ -107,4 +100,26 @@ public class Menu extends JMenuBar implements ActionListener
 			JOptionPane.showMessageDialog(null, "El fichero debe tener extension .lang");
 		}
 	}
+	class FileListFilter implements FilenameFilter {
+		  private String name; 
+		  private String extension; 
+
+		  public FileListFilter(String name, String extension) {
+		    this.name = name;
+		    this.extension = extension;
+		  }
+
+		  public boolean accept(File directory, String filename) {
+		    boolean fileOK = true;
+
+		    if (name != null) {
+		      fileOK &= filename.startsWith(name);
+		    }
+
+		    if (extension != null) {
+		      fileOK &= filename.endsWith('.' + extension);
+		    }
+		    return fileOK;
+		  }
+		}
 }

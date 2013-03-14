@@ -19,8 +19,6 @@ import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.JButton;
 
-import utils.Lang;
-
 import java.awt.FlowLayout;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
@@ -113,7 +111,7 @@ public class LangEditor extends JPanel
 		gbc_panel.gridy = 2;
 		add(panelBtnSouth, gbc_panel);
 		
-		btnInsertRow = new JButton("A\u00F1adir");
+		btnInsertRow = new JButton("Insert");
 		btnInsertRow.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				modelTable.addRow(new Vector<String>());
@@ -122,7 +120,7 @@ public class LangEditor extends JPanel
 		btnInsertRow.setForeground(Color.BLACK);
 		panelBtnSouth.add(btnInsertRow);
 		
-		btnDeleteRow = new JButton("Eliminar");
+		btnDeleteRow = new JButton("Delete");
 		btnDeleteRow.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				if(table.getSelectedRow()>0){
