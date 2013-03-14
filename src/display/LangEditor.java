@@ -46,12 +46,12 @@ public class LangEditor extends JPanel {
 		Double.MIN_VALUE};
 		setLayout(gridBagLayout);
 
-		JLabel lblNombrelenguaje = new JLabel(filePaht);
+		JLabel lblNombrelenguaje = new JLabel("File path: " + filePaht);
 		lblNombrelenguaje.setForeground(Color.BLACK);
 		lblNombrelenguaje.setHorizontalAlignment(SwingConstants.CENTER);
 		GridBagConstraints gbc_lblNombrelenguaje = new GridBagConstraints();
-		gbc_lblNombrelenguaje.insets = new Insets(10, 0, 20, 0);
-		gbc_lblNombrelenguaje.fill = GridBagConstraints.HORIZONTAL;
+		gbc_lblNombrelenguaje.anchor = GridBagConstraints.WEST;
+		gbc_lblNombrelenguaje.insets = new Insets(10, 15, 20, 15);
 		gbc_lblNombrelenguaje.gridx = 0;
 		gbc_lblNombrelenguaje.gridy = 0;
 		add(lblNombrelenguaje, gbc_lblNombrelenguaje);

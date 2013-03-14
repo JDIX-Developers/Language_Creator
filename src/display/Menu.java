@@ -1,21 +1,21 @@
 package display;
 
-import java.awt.FileDialog;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FilenameFilter;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.util.HashMap;
 
+import javax.swing.JFileChooser;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 public class Menu extends JMenuBar implements ActionListener {
 
@@ -71,69 +71,34 @@ public class Menu extends JMenuBar implements ActionListener {
 
 	private void openAction()
 	{
-		FileDialog fileDialog = new FileDialog(Window.getInstance(),
-		"Open file", FileDialog.LOAD);
-		FilenameFilter filter = new FileListFilter("", "lang");
-		fileDialog.setFilenameFilter(filter);
-		fileDialog.setVisible(true);
+		JFileChooser fileChooser = new JFileChooser();
+		FileNameExtensionFilter langFilter = new FileNameExtensionFilter(
+		"LANG", "lang");
+		fileChooser.setFileFilter(langFilter);
+		fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
+		int op = fileChooser.showOpenDialog(null);
 
-		String absolutePath = fileDialog.getDirectory() + fileDialog.getFile();
-		System.out.println(absolutePath);
-
-		String extension = fileDialog.getFile().substring(
-		fileDialog.getFile().lastIndexOf('.'), fileDialog.getFile().length());
-		System.out.println("Extension: " + extension);
-
-		try
+		if (op == JFileChooser.APPROVE_OPTION)
 		{
-			ObjectInputStream ois = new ObjectInputStream(new FileInputStream(
-			absolutePath));
-			@SuppressWarnings ("unchecked")
-			HashMap<String, String> hashMap = (HashMap<String, String>) ois
-			.readObject();
-			ois.close();
-			LangEditor lEdit = new LangEditor(hashMap, absolutePath);
-			Window.getInstance().setContentPane(lEdit);
-			((JPanel) lEdit).updateUI();
-		}
-		catch (IOException e)
-		{
-			JOptionPane.showMessageDialog(null, "Error al abrir el fichero "
-			+ fileDialog.getFile());
-		}
-		catch (ClassNotFoundException e)
-		{
-			JOptionPane.showMessageDialog(null, "Error al abrir el fichero "
-			+ fileDialog.getFile());
-		}
-	}
-
-	class FileListFilter implements FilenameFilter {
-
-		private String	name;
-		private String	extension;
-
-		public FileListFilter(String name, String extension)
-		{
-			this.name = name;
-			this.extension = extension;
-		}
-
-		@Override
-		public boolean accept(File directory, String filename)
-		{
-			boolean fileOK = true;
-
-			if (name != null)
+			File file = fileChooser.getSelectedFile();
+			String absolutePath = file.getAbsolutePath();
+			try
 			{
-				fileOK &= filename.startsWith(name);
+				ObjectInputStream ois = new ObjectInputStream(
+				new FileInputStream(absolutePath));
+				@SuppressWarnings ("unchecked")
+				HashMap<String, String> hashMap = (HashMap<String, String>) ois
+				.readObject();
+				ois.close();
+				LangEditor langEditor = new LangEditor(hashMap, absolutePath);
+				Window.getInstance().setContentPane(langEditor);
+				((JPanel) langEditor).updateUI();
 			}
-
-			if (extension != null)
+			catch (IOException | ClassNotFoundException e)
 			{
-				fileOK &= filename.endsWith('.' + extension);
+				JOptionPane.showMessageDialog(null,
+				"Error al abrir el fichero " + absolutePath);
 			}
-			return fileOK;
 		}
 	}
 }
