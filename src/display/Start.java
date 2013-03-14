@@ -11,14 +11,14 @@ import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.border.EmptyBorder;
 
-public class Start extends JPanel
-{
-	private static final long serialVersionUID = -3019955922941567348L;
+public class Start extends JPanel {
+
+	private static final long	serialVersionUID	= -3019955922941567348L;
 
 	public Start()
 	{
 		setLayout(new BorderLayout(0, 0));
-		
+
 		JLabel copyLabel = new JLabel("JDIX Developers");
 		copyLabel.setFont(new Font("DejaVu Sans", Font.PLAIN, 10));
 		copyLabel.setForeground(Color.GRAY);
@@ -27,7 +27,7 @@ public class Start extends JPanel
 		copyLabel.setBorder(new EmptyBorder(0, 0, 3, 7));
 		add(copyLabel, BorderLayout.SOUTH);
 	}
-	
+
 	public static void main(String[] args)
 	{
 		try
