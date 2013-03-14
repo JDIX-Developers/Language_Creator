@@ -67,12 +67,14 @@ public class Menu extends JMenuBar implements ActionListener
 			openAction();
 		}
 	}
+	
+	
+	
 	private void openAction()
 	{
 		FileDialog fileDialog = new FileDialog(Window.getInstance(),"Open file", FileDialog.LOAD); 
 		FilenameFilter filter = new FileListFilter("", "lang");
 		fileDialog.setFilenameFilter(filter);
-		// Hay que añadir filtro para .lang
 		fileDialog.setVisible(true);
 		
 		String absolutePath = fileDialog.getDirectory()+fileDialog.getFile();
@@ -81,23 +83,18 @@ public class Menu extends JMenuBar implements ActionListener
 		String extension = fileDialog.getFile().substring(fileDialog.getFile().lastIndexOf('.'), fileDialog.getFile().length());
 		System.out.println("Extension: "+extension);
 		
-		if(extension.equals(".lang"))
-		{
-			try{
-				ObjectInputStream ois = new ObjectInputStream(new FileInputStream(absolutePath));
-				@SuppressWarnings("unchecked")
-				HashMap<String,String> hashMap = (HashMap<String, String>)ois.readObject();
-				ois.close();
-				LangEditor lEdit = new LangEditor(hashMap,absolutePath);
-				Window.getInstance().setContentPane(lEdit);
-				((JPanel) lEdit).updateUI();
-			} catch(IOException e){
-				JOptionPane.showMessageDialog(null, "Error al abrir el fichero "+fileDialog.getFile());
-			} catch (ClassNotFoundException e) {
-				JOptionPane.showMessageDialog(null, "Error al abrir el fichero "+fileDialog.getFile());
-			}
-		}else{
-			JOptionPane.showMessageDialog(null, "El fichero debe tener extension .lang");
+		try{
+			ObjectInputStream ois = new ObjectInputStream(new FileInputStream(absolutePath));
+			@SuppressWarnings("unchecked")
+			HashMap<String,String> hashMap = (HashMap<String, String>)ois.readObject();
+			ois.close();
+			LangEditor lEdit = new LangEditor(hashMap,absolutePath);
+			Window.getInstance().setContentPane(lEdit);
+			((JPanel) lEdit).updateUI();
+		} catch(IOException e){
+			JOptionPane.showMessageDialog(null, "Error al abrir el fichero "+fileDialog.getFile());
+		} catch (ClassNotFoundException e) {
+			JOptionPane.showMessageDialog(null, "Error al abrir el fichero "+fileDialog.getFile());
 		}
 	}
 	class FileListFilter implements FilenameFilter {
