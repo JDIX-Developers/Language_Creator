@@ -22,7 +22,7 @@ public class Menu extends JMenuBar implements ActionListener {
 	private static final long	serialVersionUID	= -2674054941368737779L;
 
 	private JMenu				file, edit, help;
-	private JMenuItem			open, save, save_where;
+	private JMenuItem			newLang, open, save, save_where;
 
 	/**
 	 * Create the menu.
@@ -40,15 +40,17 @@ public class Menu extends JMenuBar implements ActionListener {
 		help = new JMenu("Help");
 		help.setMargin(new Insets(5, 5, 5, 5));
 
+		newLang = new JMenuItem("New...");
+		newLang.setMargin(new Insets(5, 5, 5, 5));
 		open = new JMenuItem("Open");
 		open.setMargin(new Insets(5, 5, 5, 5));
 		open.addActionListener(this);
-
 		save = new JMenuItem("Save");
 		save.setMargin(new Insets(5, 5, 5, 5));
 		save_where = new JMenuItem("Save in...");
 		save_where.setMargin(new Insets(5, 5, 5, 5));
 
+		file.add(newLang);
 		file.add(open);
 		file.add(save);
 		file.add(save_where);
