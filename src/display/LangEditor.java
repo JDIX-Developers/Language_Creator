@@ -37,7 +37,7 @@ public class LangEditor extends JPanel
 	private JPanel panelBtnSouth;
 	private JButton btnInsertRow, btnDeleteRow;
 	
-	public LangEditor(HashMap<String, String> lines)
+	public LangEditor(HashMap<String, String> lines, String filePaht)
 	{
 		this.lines = lines;
 		
@@ -48,7 +48,7 @@ public class LangEditor extends JPanel
 		gridBagLayout.rowWeights = new double[]{0.0, 1.0, 0.0, Double.MIN_VALUE};
 		setLayout(gridBagLayout);
 		
-		JLabel lblNombrelenguaje = new JLabel(Lang.getAvailableLocales().get(0).toString());
+		JLabel lblNombrelenguaje = new JLabel(filePaht);
 		lblNombrelenguaje.setForeground(Color.BLACK);
 		lblNombrelenguaje.setHorizontalAlignment(SwingConstants.CENTER);
 		GridBagConstraints gbc_lblNombrelenguaje = new GridBagConstraints();

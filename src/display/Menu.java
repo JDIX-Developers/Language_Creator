@@ -1,9 +1,13 @@
 package display;
 
+import java.awt.FileDialog;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
 import java.io.FileInputStream;
+import java.io.FilenameFilter;
+import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.util.HashMap;
 import java.util.Vector;
@@ -11,6 +15,9 @@ import java.util.Vector;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 import utils.Lang;
 
@@ -65,26 +72,39 @@ public class Menu extends JMenuBar implements ActionListener
 	{
 		if(e.getSource()==open)
 		{
+			openAction();
+		}
+	}
+	private void openAction()
+	{
+		FileDialog fileDialog = new FileDialog(Window.getInstance(),"Open file", FileDialog.LOAD); 
+		// Hay que añadir filtro para .lang
+		fileDialog.setVisible(true);
+		
+		String absolutePath = fileDialog.getDirectory()+fileDialog.getFile();
+		System.out.println(absolutePath);
+		
+		String extension = fileDialog.getFile().substring(fileDialog.getFile().lastIndexOf('.'), fileDialog.getFile().length());
+		//String extension = fileDialog.getFile().substring(fileDialog.getFile().length()-5, fileDialog.getFile().length());
+		System.out.println("Extension: "+extension);
+		
+		if(extension.equals(".lang"))
+		{
 			try{
-				FileInputStream fis = new FileInputStream("lang/es_ES.lang");
-				ObjectInputStream ois = new ObjectInputStream(fis);
+				ObjectInputStream ois = new ObjectInputStream(new FileInputStream(absolutePath));
 				@SuppressWarnings("unchecked")
 				HashMap<String,String> hashMap = (HashMap<String, String>)ois.readObject();
 				ois.close();
-				LangEditor lEdit = new LangEditor(hashMap);
+				LangEditor lEdit = new LangEditor(hashMap,absolutePath);
 				Window.getInstance().setContentPane(lEdit);
-				lEdit.updateUI();
-			}catch(Exception ex){
-				System.out.println("Error al pulsar open");
+				((JPanel) lEdit).updateUI();
+			} catch(IOException e){
+				JOptionPane.showMessageDialog(null, "Error al abrir el fichero "+fileDialog.getFile());
+			} catch (ClassNotFoundException e) {
+				JOptionPane.showMessageDialog(null, "Error al abrir el fichero "+fileDialog.getFile());
 			}
-			
-			Vector<String> v = Lang.getCombableLocales();
-			for(int i=0; i<v.size(); i++)
-			{
-				System.out.println(v.get(i).toString());
-			}
+		}else{
+			JOptionPane.showMessageDialog(null, "El fichero debe tener extension .lang");
 		}
 	}
-	
-	
 }
