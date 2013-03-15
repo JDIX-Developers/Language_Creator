@@ -108,7 +108,7 @@ public class LangEditor extends JPanel {
 		FlowLayout flowLayout = (FlowLayout) panelBtnSouth.getLayout();
 		flowLayout.setAlignment(FlowLayout.RIGHT);
 		GridBagConstraints gbc_panel = new GridBagConstraints();
-		gbc_panel.insets = new Insets(0, 15, 0, 15);
+		gbc_panel.insets = new Insets(0, 15, 10, 15);
 		gbc_panel.fill = GridBagConstraints.BOTH;
 		gbc_panel.gridx = 0;
 		gbc_panel.gridy = 2;
@@ -141,7 +141,7 @@ public class LangEditor extends JPanel {
 				else
 				{
 					JOptionPane.showMessageDialog(null,
-					"Selecciona una fila para eliminar.");
+					"Select a row to delete.");
 				}
 			}
 		});

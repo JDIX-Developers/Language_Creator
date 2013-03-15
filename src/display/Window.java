@@ -2,9 +2,6 @@ package display;
 
 import javax.swing.JFrame;
 
-/**
- * @author Razican (Iban Eguia)
- */
 public class Window extends JFrame {
 
 	private static final long	serialVersionUID	= -8641413596663241575L;
@@ -17,7 +14,8 @@ public class Window extends JFrame {
 		setIconImage(null); // TODO set Animature World Icon
 		setSize(800, 600);
 		setLocationRelativeTo(null);
-		// setExtendedState(JFrame.MAXIMIZED_BOTH);
+		setTitle("Language Creator");
+		setExtendedState(JFrame.MAXIMIZED_BOTH);
 	}
 
 	/**
@@ -32,4 +30,5 @@ public class Window extends JFrame {
 
 		return instance;
 	}
+
 }
