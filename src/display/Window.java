@@ -1,5 +1,6 @@
 package display;
 
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 
 public class Window extends JFrame {
@@ -11,7 +12,7 @@ public class Window extends JFrame {
 	{
 		super();
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-		setIconImage(null); // TODO set Animature World Icon
+		setIconImage((new ImageIcon("img/app-icon.png")).getImage());
 		setSize(800, 600);
 		setLocationRelativeTo(null);
 		setTitle("Language Creator");

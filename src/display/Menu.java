@@ -101,7 +101,7 @@ public class Menu extends JMenuBar implements ActionListener {
 	{
 		JFileChooser fileChooser = new JFileChooser();
 		FileNameExtensionFilter langFilter = new FileNameExtensionFilter(
-		"LANG", "lang");
+		"Language", "lang");
 		fileChooser.setFileFilter(langFilter);
 		fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
 		int op = fileChooser.showOpenDialog(null);
@@ -118,7 +118,7 @@ public class Menu extends JMenuBar implements ActionListener {
 				HashMap<String, String> hashMap = (HashMap<String, String>) ois
 				.readObject();
 				ois.close();
-				LangEditor langEditor = new LangEditor(hashMap, absolutePath);
+				LangEditor langEditor = new LangEditor(hashMap, file.getName());
 				Window.getInstance().getContentPane()
 				.add(langEditor, BorderLayout.CENTER);
 				((JPanel) langEditor).updateUI();

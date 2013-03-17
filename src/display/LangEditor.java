@@ -10,6 +10,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Vector;
@@ -34,7 +35,7 @@ public class LangEditor extends JPanel {
 	private JPanel					panelBtnSouth;
 	private JButton					btnInsertRow, btnDeleteRow;
 
-	public LangEditor(HashMap<String, String> lines, String filePaht)
+	public LangEditor(HashMap<String, String> lines, String fileName)
 	{
 		this.lines = lines;
 
@@ -46,7 +47,11 @@ public class LangEditor extends JPanel {
 		Double.MIN_VALUE};
 		setLayout(gridBagLayout);
 
-		JLabel lblNombrelenguaje = new JLabel("File path: " + filePaht);
+		Locale l = new Locale(fileName.substring(0, 2),
+		fileName.substring(3, 5));
+
+		JLabel lblNombrelenguaje = new JLabel("Language: "
+		+ l.getDisplayLanguage() + " (" + l.getDisplayCountry() + ")");
 		lblNombrelenguaje.setForeground(Color.BLACK);
 		lblNombrelenguaje.setHorizontalAlignment(SwingConstants.CENTER);
 		GridBagConstraints gbc_lblNombrelenguaje = new GridBagConstraints();
