@@ -52,6 +52,7 @@ public class LangEditor extends JPanel {
 
 		JLabel lblNombrelenguaje = new JLabel("Language: "
 		+ l.getDisplayLanguage() + " (" + l.getDisplayCountry() + ")");
+		lblNombrelenguaje.setFont(new Font("Segoe UI Symbol", Font.PLAIN, 14));
 		lblNombrelenguaje.setForeground(Color.BLACK);
 		lblNombrelenguaje.setHorizontalAlignment(SwingConstants.CENTER);
 		GridBagConstraints gbc_lblNombrelenguaje = new GridBagConstraints();

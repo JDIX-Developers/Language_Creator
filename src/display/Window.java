@@ -16,7 +16,6 @@ public class Window extends JFrame {
 		setSize(800, 600);
 		setLocationRelativeTo(null);
 		setTitle("Language Creator");
-		setExtendedState(JFrame.MAXIMIZED_BOTH);
 	}
 
 	/**

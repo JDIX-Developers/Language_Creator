@@ -6,6 +6,7 @@ import java.awt.Font;
 
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JTabbedPane;
 import javax.swing.SwingConstants;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
@@ -15,9 +16,14 @@ public class Start extends JPanel {
 
 	private static final long	serialVersionUID	= -3019955922941567348L;
 
+	private JTabbedPane			tabs;
+
 	public Start()
 	{
 		setLayout(new BorderLayout(0, 0));
+
+		tabs = new JTabbedPane(JTabbedPane.TOP);
+		add(tabs, BorderLayout.CENTER);
 
 		JLabel copyLabel = new JLabel("JDIX Developers");
 		copyLabel.setFont(new Font("DejaVu Sans", Font.PLAIN, 10));
@@ -43,5 +49,13 @@ public class Start extends JPanel {
 		Window.getInstance().setJMenuBar(new Menu());
 		Window.getInstance().setContentPane(new Start());
 		Window.getInstance().setVisible(true);
+	}
+
+	/**
+	 * @return Current tabbed pane of the view
+	 */
+	public JTabbedPane getTabbedPane()
+	{
+		return tabs;
 	}
 }
