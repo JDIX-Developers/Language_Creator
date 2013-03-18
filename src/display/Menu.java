@@ -24,6 +24,7 @@ import javax.swing.KeyStroke;
 
 import utils.FileMode;
 import utils.Lang;
+import utils.TabPanel;
 
 public class Menu extends JMenuBar implements ActionListener {
 
@@ -102,6 +103,7 @@ public class Menu extends JMenuBar implements ActionListener {
 	{
 		Start startPanel = (Start) Window.getInstance().getContentPane();
 		JTabbedPane tPane = startPanel.getTabbedPane();
+		Vector<String> vector = startPanel.getOpenFiles();
 
 		if (e.getSource() == newLang)
 		{
@@ -109,7 +111,7 @@ public class Menu extends JMenuBar implements ActionListener {
 		}
 		else if (e.getSource() == open)
 		{
-			openAction(tPane);
+			openAction(tPane, vector);
 		}
 
 	}
@@ -126,6 +128,8 @@ public class Menu extends JMenuBar implements ActionListener {
 		{
 			Locale l = new Locale(selection);
 			File file = new File(l.getLanguage());
+			System.out.println("* " + l.getDisplayName().toString());
+
 			LangEditor langEditor = new LangEditor(
 			new HashMap<String, String>(), file);
 			tabs.addTab(file.getName(), langEditor);
@@ -133,10 +137,11 @@ public class Menu extends JMenuBar implements ActionListener {
 		}
 	}
 
-	private void openAction(JTabbedPane tabs)
+	private void openAction(JTabbedPane tabs, Vector<String> openFiles)
 	{
 		File file = FileMode.openFileMode("LANG", "lang");
-		if (file != null)
+		int i = isOpenFile(file, openFiles);
+		if (file != null && i == openFiles.size())
 		{
 			try
 			{
@@ -148,9 +153,15 @@ public class Menu extends JMenuBar implements ActionListener {
 				ois.close();
 
 				LangEditor langEditor = new LangEditor(hashMap, file);
+				TabPanel pTab = new TabPanel(file.getName(), hashMap.size(),
+				file.toString(), tabs);
 				tabs.addTab(file.getName() + " (" + hashMap.size() + ")",
 				langEditor);
+
+				tabs.setTabComponentAt(tabs.getTabCount() - 1, pTab);
 				tabs.setSelectedIndex(tabs.getTabCount() - 1);
+
+				openFiles.add(file.toString());
 			}
 			catch (IOException | ClassNotFoundException e)
 			{
@@ -158,5 +169,27 @@ public class Menu extends JMenuBar implements ActionListener {
 				"Error al abrir el fichero " + file.toString());
 			}
 		}
+		else if (i < openFiles.size())
+		{
+			tabs.setSelectedIndex(i);
+		}
+	}
+
+	private int isOpenFile(File file, Vector<String> openFiles)
+	{
+		boolean enc = false;
+		int i = 0;
+		while (!enc && i < openFiles.size())
+		{
+			if (file.toString().equals(openFiles.get(i)))
+			{
+				enc = true;
+			}
+			else
+			{
+				i++;
+			}
+		}
+		return i;
 	}
 }

@@ -25,6 +25,8 @@ import javax.swing.JTable;
 import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableModel;
 
+import utils.StringUtils;
+
 public class LangEditor extends JPanel {
 
 	private static final long		serialVersionUID	= 2486033380987365663L;
@@ -54,7 +56,8 @@ public class LangEditor extends JPanel {
 		.substring(3, 5));
 
 		JLabel lblNombrelenguaje = new JLabel("Language: "
-		+ l.getDisplayLanguage() + " (" + l.getDisplayCountry() + ")");
+		+ StringUtils.firstToUpper(l.getDisplayLanguage()) + " ("
+		+ l.getDisplayCountry() + ")");
 		lblNombrelenguaje.setFont(new Font("Segoe UI Symbol", Font.PLAIN, 14));
 		lblNombrelenguaje.setForeground(Color.BLACK);
 		lblNombrelenguaje.setHorizontalAlignment(SwingConstants.CENTER);

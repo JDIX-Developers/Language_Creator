@@ -3,6 +3,7 @@ package display;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Font;
+import java.util.Vector;
 
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -17,6 +18,7 @@ public class Start extends JPanel {
 	private static final long	serialVersionUID	= -3019955922941567348L;
 
 	private JTabbedPane			tabs;
+	private Vector<String>		openFiles;
 
 	public Start()
 	{
@@ -24,6 +26,8 @@ public class Start extends JPanel {
 
 		tabs = new JTabbedPane(JTabbedPane.TOP);
 		add(tabs, BorderLayout.CENTER);
+
+		openFiles = new Vector<String>();
 
 		JLabel copyLabel = new JLabel("JDIX Developers");
 		copyLabel.setFont(new Font("DejaVu Sans", Font.PLAIN, 10));
@@ -58,4 +62,18 @@ public class Start extends JPanel {
 	{
 		return tabs;
 	}
+
+	/**
+	 * @return The vector with opened files
+	 */
+	public Vector<String> getOpenFiles()
+	{
+		return openFiles;
+	}
+
+	public void setOpenFiles(Vector<String> openFiles)
+	{
+		this.openFiles = openFiles;
+	}
+
 }
