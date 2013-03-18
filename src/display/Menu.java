@@ -1,7 +1,6 @@
 package display;
 
 import java.awt.Cursor;
-import java.awt.Dimension;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -12,19 +11,19 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.util.HashMap;
+import java.util.Locale;
+import java.util.Vector;
 
 import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
-import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 import javax.swing.KeyStroke;
 
 import utils.FileMode;
+import utils.Lang;
 
 public class Menu extends JMenuBar implements ActionListener {
 
@@ -58,6 +57,7 @@ public class Menu extends JMenuBar implements ActionListener {
 		InputEvent.ALT_MASK | InputEvent.SHIFT_MASK));
 		newLang.setIcon(new ImageIcon("img/new-icon.png"));
 		newLang.setMargin(new Insets(5, 5, 5, 5));
+		newLang.addActionListener(this);
 
 		open = new JMenuItem("Open");
 		open.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
@@ -101,10 +101,35 @@ public class Menu extends JMenuBar implements ActionListener {
 	public void actionPerformed(ActionEvent e)
 	{
 		Start startPanel = (Start) Window.getInstance().getContentPane();
+		JTabbedPane tPane = startPanel.getTabbedPane();
 
-		if (e.getSource() == open)
+		if (e.getSource() == newLang)
 		{
-			openAction(startPanel.getTabbedPane());
+			newLangAction(tPane);
+		}
+		else if (e.getSource() == open)
+		{
+			openAction(tPane);
+		}
+
+	}
+
+	private void newLangAction(JTabbedPane tabs)
+	{
+		Vector<String> vect = Lang.getCombableLocales();
+
+		String selection = (String) JOptionPane.showInputDialog(null,
+		"Select a language", "Select a language", JOptionPane.QUESTION_MESSAGE,
+		new ImageIcon("img/app-icon.png"), vect.toArray(), vect.get(0));
+
+		if (selection != null)
+		{
+			Locale l = new Locale(selection);
+			File file = new File(l.getLanguage());
+			LangEditor langEditor = new LangEditor(
+			new HashMap<String, String>(), file);
+			tabs.addTab(file.getName(), langEditor);
+			tabs.setSelectedIndex(tabs.getTabCount() - 1);
 		}
 	}
 
@@ -122,13 +147,9 @@ public class Menu extends JMenuBar implements ActionListener {
 				.readObject();
 				ois.close();
 
-				LangEditor langEditor = new LangEditor(hashMap, file.getName());
+				LangEditor langEditor = new LangEditor(hashMap, file);
 				tabs.addTab(file.getName() + " (" + hashMap.size() + ")",
 				langEditor);
-
-				PanelTab pTab = new PanelTab(file.getName() + " ("
-				+ hashMap.size() + ")", tabs);
-				tabs.setTabComponentAt(tabs.getTabCount() - 1, pTab);
 				tabs.setSelectedIndex(tabs.getTabCount() - 1);
 			}
 			catch (IOException | ClassNotFoundException e)
@@ -136,50 +157,6 @@ public class Menu extends JMenuBar implements ActionListener {
 				JOptionPane.showMessageDialog(null,
 				"Error al abrir el fichero " + file.toString());
 			}
-		}
-	}
-
-	private class PanelTab extends JPanel implements ActionListener {
-
-		private static final long	serialVersionUID	= 8155818731609154350L;
-		private String				title				= null;
-		private JLabel				label				= null;
-		private JButton				button				= null;
-		private JTabbedPane			tabs				= null;
-
-		public PanelTab(String title, JTabbedPane tabs)
-		{
-			this.title = title;
-			this.label = new JLabel(title);
-			this.button = new JButton(new ImageIcon("img/x-icon.png"));
-			this.button.setPreferredSize(new Dimension(20, 20));
-			this.button.setContentAreaFilled(false);
-			this.tabs = tabs;
-			button.addActionListener(this);
-			this.add(label);
-			this.add(button);
-			this.setOpaque(false);
-		}
-
-		@Override
-		public void actionPerformed(final ActionEvent e)
-		{
-			removeTab(title);
-		}
-
-		public boolean removeTab(String title)
-		{
-			int i = tabs.getTabCount();
-			for (int index = 0; index < i; index++)
-			{
-				String temp = tabs.getTitleAt(index);
-				if (temp.equals(title))
-				{
-					tabs.removeTabAt(index);
-					return true;
-				}
-			}
-			return false;
 		}
 	}
 }
