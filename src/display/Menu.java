@@ -123,9 +123,11 @@ public class Menu extends JMenuBar implements ActionListener {
 				ois.close();
 
 				LangEditor langEditor = new LangEditor(hashMap, file.getName());
-				tabs.addTab(file.getName(), langEditor);
+				tabs.addTab(file.getName() + " (" + hashMap.size() + ")",
+				langEditor);
 
-				PanelTab pTab = new PanelTab(file.getName(), tabs);
+				PanelTab pTab = new PanelTab(file.getName() + " ("
+				+ hashMap.size() + ")", tabs);
 				tabs.setTabComponentAt(tabs.getTabCount() - 1, pTab);
 				tabs.setSelectedIndex(tabs.getTabCount() - 1);
 			}
