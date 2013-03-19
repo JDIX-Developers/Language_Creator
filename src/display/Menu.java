@@ -110,7 +110,7 @@ public class Menu extends JMenuBar implements ActionListener {
 
 	private void openAction(JTabbedPane tabs)
 	{
-		File file = FileMode.openFileMode("LANG", "lang");
+		File file = FileMode.openFileMode("Language file", "lang");
 		if (file != null)
 		{
 			try
