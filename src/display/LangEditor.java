@@ -8,6 +8,7 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Locale;
@@ -24,6 +25,8 @@ import javax.swing.JTable;
 import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableModel;
 
+import utils.StringUtils;
+
 public class LangEditor extends JPanel {
 
 	private static final long		serialVersionUID	= 2486033380987365663L;
@@ -34,10 +37,12 @@ public class LangEditor extends JPanel {
 	private DefaultTableModel		modelTable;
 	private JPanel					panelBtnSouth;
 	private JButton					btnInsertRow, btnDeleteRow;
+	private File					file;
 
-	public LangEditor(HashMap<String, String> lines, String fileName)
+	public LangEditor(HashMap<String, String> lines, File file)
 	{
 		this.lines = lines;
+		this.file = file;
 
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[] {0, 0};
@@ -47,11 +52,12 @@ public class LangEditor extends JPanel {
 		Double.MIN_VALUE};
 		setLayout(gridBagLayout);
 
-		Locale l = new Locale(fileName.substring(0, 2),
-		fileName.substring(3, 5));
+		Locale l = new Locale(file.getName().substring(0, 2), file.getName()
+		.substring(3, 5));
 
 		JLabel lblNombrelenguaje = new JLabel("Language: "
-		+ l.getDisplayLanguage() + " (" + l.getDisplayCountry() + ")");
+		+ StringUtils.firstToUpper(l.getDisplayLanguage()) + " ("
+		+ l.getDisplayCountry() + ")");
 		lblNombrelenguaje.setFont(new Font("Segoe UI Symbol", Font.PLAIN, 14));
 		lblNombrelenguaje.setForeground(Color.BLACK);
 		lblNombrelenguaje.setHorizontalAlignment(SwingConstants.CENTER);
@@ -153,5 +159,15 @@ public class LangEditor extends JPanel {
 		});
 		btnDeleteRow.setForeground(Color.BLACK);
 		panelBtnSouth.add(btnDeleteRow);
+	}
+
+	public File getFile()
+	{
+		return this.file;
+	}
+
+	public void setFilePath(File file)
+	{
+		this.file = file;
 	}
 }
