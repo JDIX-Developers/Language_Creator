@@ -17,12 +17,16 @@ public class Start extends JPanel {
 
 	private static final long	serialVersionUID	= -3019955922941567348L;
 
+	private ToolBar				toolBar;
 	private JTabbedPane			tabs;
 	private Vector<String>		openFiles;
 
 	public Start()
 	{
 		setLayout(new BorderLayout(0, 0));
+
+		toolBar = new ToolBar();
+		add(toolBar, BorderLayout.NORTH);
 
 		tabs = new JTabbedPane(JTabbedPane.TOP);
 		add(tabs, BorderLayout.CENTER);
@@ -42,7 +46,7 @@ public class Start extends JPanel {
 	{
 		try
 		{
-			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+			UIManager.setLookAndFeel(utils.Preferences.getLookAndFeel());
 		}
 		catch (ClassNotFoundException | InstantiationException
 		| IllegalAccessException | UnsupportedLookAndFeelException e)
@@ -53,6 +57,8 @@ public class Start extends JPanel {
 		Window.getInstance().setJMenuBar(new Menu());
 		Window.getInstance().setContentPane(new Start());
 		Window.getInstance().setVisible(true);
+		((Start) Window.getInstance().getContentPane()).getTabbedPane()
+		.requestFocus();
 	}
 
 	/**

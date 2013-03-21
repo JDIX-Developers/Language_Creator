@@ -6,6 +6,7 @@ import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
@@ -92,9 +93,13 @@ public class LangEditor extends JPanel {
 		modelTable.setDataVector(content, header);
 
 		table = new JTable(modelTable);
-		table.setSelectionForeground(new Color(0, 0, 0));
-		table.setSelectionBackground(new Color(152, 251, 152));
+		table.setShowVerticalLines(true);
+		table.setShowHorizontalLines(true);
+		table.setDragEnabled(false);
+		table.setSelectionForeground(Color.WHITE);
+		table.setSelectionBackground(Color.BLUE);
 		table.setForeground(Color.BLACK);
+		table.setBackground(Color.WHITE);
 		table.setFont(new Font("Segoe UI Symbol", Font.PLAIN, 14));
 		table.setRowHeight(30);
 
@@ -134,6 +139,12 @@ public class LangEditor extends JPanel {
 			public void actionPerformed(ActionEvent arg0)
 			{
 				modelTable.addRow(new Vector<String>());
+				int row = modelTable.getRowCount() - 1;
+				Rectangle rect = table.getCellRect(row, 0, true);
+				table.scrollRectToVisible(rect);
+				table.clearSelection();
+				table.setRowSelectionInterval(row, row);
+				modelTable.fireTableDataChanged();
 			}
 		});
 		btnInsertRow.setForeground(Color.BLACK);
