@@ -39,11 +39,13 @@ public class LangEditor extends JPanel {
 	private JPanel					panelBtnSouth;
 	private JButton					btnInsertRow, btnDeleteRow;
 	private File					file;
+	private boolean					changes;
 
 	public LangEditor(HashMap<String, String> lines, File file)
 	{
 		this.lines = lines;
 		this.file = file;
+		this.changes = false;
 
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[] {0, 0};
@@ -93,6 +95,7 @@ public class LangEditor extends JPanel {
 		modelTable.setDataVector(content, header);
 
 		table = new JTable(modelTable);
+		table.getTableHeader().setReorderingAllowed(false);
 		table.setShowVerticalLines(true);
 		table.setShowHorizontalLines(true);
 		table.setDragEnabled(false);
@@ -138,13 +141,7 @@ public class LangEditor extends JPanel {
 			@Override
 			public void actionPerformed(ActionEvent arg0)
 			{
-				modelTable.addRow(new Vector<String>());
-				int row = modelTable.getRowCount() - 1;
-				Rectangle rect = table.getCellRect(row, 0, true);
-				table.scrollRectToVisible(rect);
-				table.clearSelection();
-				table.setRowSelectionInterval(row, row);
-				modelTable.fireTableDataChanged();
+				insertRow();
 			}
 		});
 		btnInsertRow.setForeground(Color.BLACK);
@@ -172,6 +169,31 @@ public class LangEditor extends JPanel {
 		panelBtnSouth.add(btnDeleteRow);
 	}
 
+	private void insertRow()
+	{
+		modelTable.addRow(new Vector<String>());
+		int row = modelTable.getRowCount() - 1;
+		Rectangle rect = table.getCellRect(row, 0, true);
+		table.scrollRectToVisible(rect);
+		table.clearSelection();
+		table.setRowSelectionInterval(row, row);
+		modelTable.fireTableDataChanged();
+	}
+
+	private void deleteRow()
+	{
+		if (table.getSelectedRow() > 0)
+		{
+			// lines.remove(table.getSelectedRow().get);
+			modelTable.removeRow(table.getSelectedRow());
+
+		}
+		else
+		{
+			JOptionPane.showMessageDialog(null, "Select a row to delete.");
+		}
+	}
+
 	public File getFile()
 	{
 		return this.file;
@@ -181,4 +203,15 @@ public class LangEditor extends JPanel {
 	{
 		this.file = file;
 	}
+
+	public HashMap<String, String> getLines()
+	{
+		return lines;
+	}
+
+	public void setLines(HashMap<String, String> lines)
+	{
+		this.lines = lines;
+	}
+
 }

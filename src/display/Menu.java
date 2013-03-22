@@ -144,10 +144,15 @@ public class Menu extends JMenuBar implements ActionListener {
 			Locale l = new Locale(selection);
 			File file = new File(l.getLanguage());
 			System.out.println("* " + l.getDisplayName().toString());
+			HashMap<String, String> hashMap = new HashMap<String, String>();
+			hashMap.put("", "");
+			LangEditor langEditor = new LangEditor(hashMap, file);
+			TabPanel pTab = new TabPanel(file.getName(), hashMap.size(),
+			file.toString(), tabs);
+			tabs.addTab(file.getName() + " (" + hashMap.size() + ")",
+			langEditor);
 
-			LangEditor langEditor = new LangEditor(
-			new HashMap<String, String>(), file);
-			tabs.addTab(file.getName(), langEditor);
+			tabs.setTabComponentAt(tabs.getTabCount() - 1, pTab);
 			tabs.setSelectedIndex(tabs.getTabCount() - 1);
 		}
 	}
