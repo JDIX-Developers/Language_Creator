@@ -40,6 +40,7 @@ public class LangEditor extends JPanel {
 	private JButton					btnInsertRow, btnDeleteRow;
 	private File					file;
 	private boolean					changes;
+	private JButton					btnUpdate;
 
 	public LangEditor(HashMap<String, String> lines, File file)
 	{
@@ -116,8 +117,8 @@ public class LangEditor extends JPanel {
 		while (it.hasNext())
 		{
 			Map.Entry<String, String> e = it.next();
-			content[i][0] = e.getKey() + "";
-			content[i][1] = e.getValue() + "";
+			content[i][0] = e.getKey().toString();
+			content[i][1] = e.getValue().toString();
 			i++;
 		}
 	}
@@ -134,7 +135,22 @@ public class LangEditor extends JPanel {
 		gbc_panel.gridy = 2;
 		add(panelBtnSouth, gbc_panel);
 
+		btnUpdate = new JButton("Update");
+		btnUpdate.setForeground(Color.BLACK);
+		btnUpdate.addActionListener(new ActionListener()
+		{
+
+			@Override
+			public void actionPerformed(ActionEvent arg0)
+			{
+				updateHashMap();
+			}
+		});
+		panelBtnSouth.add(btnUpdate);
+
 		btnInsertRow = new JButton("Insert");
+		btnInsertRow.setForeground(Color.BLACK);
+		panelBtnSouth.add(btnInsertRow);
 		btnInsertRow.addActionListener(new ActionListener()
 		{
 
@@ -144,8 +160,6 @@ public class LangEditor extends JPanel {
 				insertRow();
 			}
 		});
-		btnInsertRow.setForeground(Color.BLACK);
-		panelBtnSouth.add(btnInsertRow);
 
 		btnDeleteRow = new JButton("Delete");
 		btnDeleteRow.addActionListener(new ActionListener()
@@ -154,15 +168,7 @@ public class LangEditor extends JPanel {
 			@Override
 			public void actionPerformed(ActionEvent arg0)
 			{
-				if (table.getSelectedRow() > 0)
-				{
-					modelTable.removeRow(table.getSelectedRow());
-				}
-				else
-				{
-					JOptionPane.showMessageDialog(null,
-					"Select a row to delete.");
-				}
+				deleteRow();
 			}
 		});
 		btnDeleteRow.setForeground(Color.BLACK);
@@ -178,19 +184,57 @@ public class LangEditor extends JPanel {
 		table.clearSelection();
 		table.setRowSelectionInterval(row, row);
 		modelTable.fireTableDataChanged();
+		updateHashMap();
 	}
 
 	private void deleteRow()
 	{
 		if (table.getSelectedRow() > 0)
 		{
-			// lines.remove(table.getSelectedRow().get);
 			modelTable.removeRow(table.getSelectedRow());
-
+			updateHashMap();
 		}
 		else
 		{
-			JOptionPane.showMessageDialog(null, "Select a row to delete.");
+			JOptionPane.showMessageDialog(null, "Select a row to delete.",
+			"Error", JOptionPane.ERROR_MESSAGE);
+		}
+	}
+
+	public void updateHashMap()
+	{
+		deleteWhiteLines();
+		this.lines = new HashMap<String, String>();
+		boolean correct = true;
+		int i = 0;
+		while (correct && i < modelTable.getRowCount())
+		{
+			String key = (String) modelTable.getValueAt(i, 0);
+			if (!this.lines.containsKey(key))
+			{
+				this.lines.put(key, (String) modelTable.getValueAt(i, 1));
+				i++;
+			}
+			else
+			{
+				JOptionPane.showMessageDialog(this,
+				"Ya existe un campo con la clave: " + key, "Error",
+				JOptionPane.ERROR_MESSAGE);
+				correct = false;
+			}
+		}
+	}
+
+	private void deleteWhiteLines()
+	{
+		for (int i = modelTable.getRowCount() - 1; 0 <= i; i--)
+		{
+			System.out.println("Valor: " + i + " es "
+			+ modelTable.getValueAt(i, 0));
+			if (((String) modelTable.getValueAt(i, 0)).trim().equals(""))
+			{
+				table.removeRowSelectionInterval(i, i);
+			}
 		}
 	}
 
