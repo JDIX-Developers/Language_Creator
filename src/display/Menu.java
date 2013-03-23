@@ -26,6 +26,7 @@ import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
+import utils.ConsoleContent;
 import utils.FileMode;
 import utils.Lang;
 import utils.TabPanel;
@@ -159,6 +160,10 @@ public class Menu extends JMenuBar implements ActionListener {
 
 	private void openAction(JTabbedPane tabs, Vector<String> openFiles)
 	{
+		Start st = (Start) Window.getInstance().getContentPane();
+		ConsoleContent doc = (ConsoleContent) st.getTextPane_console()
+		.getStyledDocument();
+		doc.clearContent();
 		File file = FileMode.openFileMode("Language file", "lang");
 		int i = isOpenFile(file, openFiles);
 		if (file != null && i == openFiles.size())
@@ -182,15 +187,18 @@ public class Menu extends JMenuBar implements ActionListener {
 				tabs.setSelectedIndex(tabs.getTabCount() - 1);
 
 				openFiles.add(file.toString());
+				doc.addString("The file: " + file.toString()
+				+ "  successfully opened.");
 			}
 			catch (IOException | ClassNotFoundException e)
 			{
-				JOptionPane.showMessageDialog(null,
-				"Error al abrir el fichero " + file.toString());
+				doc.addErrorMessage("Error opening: " + file.toString()
+				+ " file");
 			}
 		}
 		else if (i < openFiles.size())
 		{
+			doc.addString("The file: " + file.toString() + " is already open.");
 			tabs.setSelectedIndex(i);
 		}
 	}

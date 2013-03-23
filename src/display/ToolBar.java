@@ -12,10 +12,10 @@ import java.util.Vector;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JOptionPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JToolBar;
 
+import utils.ConsoleContent;
 import utils.FileMode;
 import utils.TabPanel;
 
@@ -35,19 +35,33 @@ public class ToolBar extends JToolBar implements ActionListener {
 		setMargin(new Insets(0, 5, 0, 5));
 
 		btnNewFile = new JButton(new ImageIcon("img/new-icon.png"));
+		btnNewFile.setFocusable(false);
 		btnNewFile.setToolTipText("New File");
+		btnNewFile.addActionListener(this);
+
 		btnOpenFile = new JButton(new ImageIcon("img/open-icon.png"));
+		btnOpenFile.setFocusable(false);
 		btnOpenFile.setToolTipText("Open File");
 		btnOpenFile.addActionListener(this);
+
 		btnSaveFile = new JButton(new ImageIcon("img/save-icon.png"));
+		btnSaveFile.setFocusable(false);
 		btnSaveFile.setToolTipText("Save File");
+
 		btnSaveAsFile = new JButton(new ImageIcon("img/save-as-icon.png"));
+		btnSaveAsFile.setFocusable(false);
+
 		btnPrint = new JButton(new ImageIcon("img/print-icon.png"));
+		btnPrint.setFocusable(false);
 		btnPrint.setToolTipText("Print File");
+
 		btnAddRow = new JButton(new ImageIcon("img/newRow-icon.png"));
+		btnAddRow.setFocusable(false);
 		btnAddRow.setToolTipText("Add new row.");
 		btnAddRow.addActionListener(this);
+
 		btnRemoveRow = new JButton(new ImageIcon("img/removeRow-icon.png"));
+		btnRemoveRow.setFocusable(false);
 		btnRemoveRow.setToolTipText("Remove row.");
 
 		add(btnNewFile);
@@ -82,6 +96,10 @@ public class ToolBar extends JToolBar implements ActionListener {
 
 	private void openAction(JTabbedPane tabs, Vector<String> openFiles)
 	{
+		Start st = (Start) Window.getInstance().getContentPane();
+		ConsoleContent doc = (ConsoleContent) st.getTextPane_console()
+		.getStyledDocument();
+		doc.clearContent();
 		File file = FileMode.openFileMode("Language file", "lang");
 		int i = isOpenFile(file, openFiles);
 		if (file != null && i == openFiles.size())
@@ -105,15 +123,18 @@ public class ToolBar extends JToolBar implements ActionListener {
 				tabs.setSelectedIndex(tabs.getTabCount() - 1);
 
 				openFiles.add(file.toString());
+				doc.addString("The file: " + file.toString()
+				+ "  successfully opened.");
 			}
 			catch (IOException | ClassNotFoundException e)
 			{
-				JOptionPane.showMessageDialog(null,
-				"Error al abrir el fichero " + file.toString());
+				doc.addErrorMessage("Error opening: " + file.toString()
+				+ " file");
 			}
 		}
 		else if (i < openFiles.size())
 		{
+			doc.addString("The file: " + file.toString() + " is already open.");
 			tabs.setSelectedIndex(i);
 		}
 	}

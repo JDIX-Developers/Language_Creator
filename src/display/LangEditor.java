@@ -1,6 +1,5 @@
 package display;
 
-import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
@@ -21,9 +20,7 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.JSplitPane;
 import javax.swing.JTable;
-import javax.swing.JTextArea;
 import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
@@ -43,11 +40,6 @@ public class LangEditor extends JPanel {
 	private File					file;
 	private boolean					changes;
 	private JButton					btnUpdate;
-	private JSplitPane				splitPane;
-	private JPanel					panel;
-	private JLabel					lblConsole;
-	private JScrollPane				scrollPane;
-	private JTextArea				textArea;
 
 	public LangEditor(HashMap<String, String> lines, File file)
 	{
@@ -89,20 +81,9 @@ public class LangEditor extends JPanel {
 		modelTable = new DefaultTableModel();
 		modelTable.setDataVector(content, header);
 
-		splitPane = new JSplitPane();
-		splitPane.setOrientation(JSplitPane.VERTICAL_SPLIT);
-		GridBagConstraints gbc_splitPane = new GridBagConstraints();
-		gbc_splitPane.fill = GridBagConstraints.BOTH;
-		gbc_splitPane.anchor = GridBagConstraints.NORTH;
-		gbc_splitPane.insets = new Insets(0, 10, 10, 10);
-		gbc_splitPane.gridx = 0;
-		gbc_splitPane.gridy = 1;
-		add(splitPane, gbc_splitPane);
-
 		scrollPane_Content = new JScrollPane();
 		scrollPane_Content.setPreferredSize(new Dimension(2, 250));
 		scrollPane_Content.setMinimumSize(new Dimension(23, 50));
-		splitPane.setLeftComponent(scrollPane_Content);
 		scrollPane_Content.setFont(new Font("Segoe UI Symbol", Font.PLAIN, 13));
 
 		table = new JTable(modelTable);
@@ -121,23 +102,15 @@ public class LangEditor extends JPanel {
 		table.getColumnModel().getColumn(0).setMaxWidth(50);
 		table.getColumnModel().getColumn(0).setCellRenderer(tableCellModel);
 
+		GridBagConstraints gbc_splitPane = new GridBagConstraints();
+		gbc_splitPane.fill = GridBagConstraints.BOTH;
+		gbc_splitPane.anchor = GridBagConstraints.NORTH;
+		gbc_splitPane.insets = new Insets(0, 10, 10, 10);
+		gbc_splitPane.gridx = 0;
+		gbc_splitPane.gridy = 1;
+		add(scrollPane_Content, gbc_splitPane);
+
 		scrollPane_Content.setViewportView(table);
-
-		panel = new JPanel();
-		splitPane.setRightComponent(panel);
-		panel.setLayout(new BorderLayout(0, 0));
-
-		lblConsole = new JLabel("Console");
-		panel.add(lblConsole, BorderLayout.NORTH);
-
-		scrollPane = new JScrollPane();
-		panel.add(scrollPane, BorderLayout.CENTER);
-
-		textArea = new JTextArea();
-		textArea.setForeground(Color.BLACK);
-		textArea.setBackground(Color.WHITE);
-		textArea.setMargin(new Insets(10, 10, 10, 10));
-		scrollPane.setViewportView(textArea);
 	}
 
 	private void loadContent(String[][] content)
