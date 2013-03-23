@@ -22,10 +22,11 @@ import utils.ConsoleContent;
 
 public class Start extends JPanel {
 
-	private static final long	serialVersionUID	= -3019955922941567348L;
+	private static final long	serialVersionUID	= - 3019955922941567348L;
 
 	private ToolBar				toolBar;
 	private Vector<String>		openFiles;
+	private Vector<LangEditor>	langEditors;
 	private JSplitPane			splitPane;
 	private JTabbedPane			tabs;
 	private JPanel				panel;
@@ -41,6 +42,7 @@ public class Start extends JPanel {
 		add(toolBar, BorderLayout.NORTH);
 
 		openFiles = new Vector<String>();
+		langEditors = new Vector<LangEditor>();
 
 		splitPane = new JSplitPane();
 		splitPane.setOrientation(JSplitPane.VERTICAL_SPLIT);
@@ -132,4 +134,13 @@ public class Start extends JPanel {
 		this.textPane_console = textPane_console;
 	}
 
+	public Vector<LangEditor> getLangEditors()
+	{
+		return langEditors;
+	}
+
+	public void setLangEditors(Vector<LangEditor> langEditors)
+	{
+		this.langEditors = langEditors;
+	}
 }

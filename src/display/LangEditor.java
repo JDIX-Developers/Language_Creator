@@ -17,7 +17,6 @@ import java.util.Vector;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -25,6 +24,7 @@ import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
+import utils.ConsoleContent;
 import utils.StringUtils;
 
 public class LangEditor extends JPanel {
@@ -34,12 +34,11 @@ public class LangEditor extends JPanel {
 	private JScrollPane				scrollPane_Content;
 	private JTable					table;
 	private HashMap<String, String>	lines;
-	private DefaultTableModel		modelTable;
+	private TableModel				modelTable;
 	private JPanel					panelBtnSouth;
 	private JButton					btnInsertRow, btnDeleteRow;
 	private File					file;
 	private boolean					changes;
-	private JButton					btnUpdate;
 
 	public LangEditor(HashMap<String, String> lines, File file)
 	{
@@ -78,7 +77,7 @@ public class LangEditor extends JPanel {
 		tableCellModel.setHorizontalAlignment(SwingConstants.CENTER);
 
 		// Table Model
-		modelTable = new DefaultTableModel();
+		modelTable = new TableModel();
 		modelTable.setDataVector(content, header);
 
 		scrollPane_Content = new JScrollPane();
@@ -127,67 +126,52 @@ public class LangEditor extends JPanel {
 		}
 	}
 
-	private void insertRow()
+	public void insertRow()
 	{
-		modelTable.addRow(new Vector<String>());
+		Vector<String> vec = new Vector<String>();
+		vec.add((modelTable.getRowCount() + 1) + "");
+		vec.add("");
+		vec.add("");
+		modelTable.addRow(vec);
 		int row = modelTable.getRowCount() - 1;
 		Rectangle rect = table.getCellRect(row, 0, true);
 		table.scrollRectToVisible(rect);
 		table.clearSelection();
 		table.setRowSelectionInterval(row, row);
 		modelTable.fireTableDataChanged();
-		updateHashMap();
+		this.changes = true;
 	}
 
-	private void deleteRow()
+	public void deleteRow()
 	{
-		if (table.getSelectedRow() > 0)
+		Start st = (Start) Window.getInstance().getContentPane();
+		ConsoleContent doc = (ConsoleContent) st.getTextPane_console()
+		.getStyledDocument();
+		doc.clearContent();
+		int[] indexRows = table.getSelectedRows();
+
+		if (indexRows.length > 0)
 		{
-			modelTable.removeRow(table.getSelectedRow());
-			updateHashMap();
+			for (int i = indexRows.length - 1; 0 <= i; i--)
+			{
+				modelTable.removeRow(indexRows[i]);
+				doc.addString("Row " + (i + 1) + " deleted.");
+			}
+			doc.addString(indexRows.length + " row(s) have been removed.");
 		}
 		else
 		{
-			JOptionPane.showMessageDialog(null,
-			"Please, select a row to delete.", "Error",
-			JOptionPane.ERROR_MESSAGE);
+			doc.addErrorMessage("¡Error! Please, select a row(s) to delete.");
 		}
+		updateLinesNumbers();
+		this.changes = true;
 	}
 
-	public void updateHashMap()
+	private void updateLinesNumbers()
 	{
-		deleteWhiteLines();
-		this.lines = new HashMap<String, String>();
-		boolean correct = true;
-		int i = 0;
-		while (correct && i < modelTable.getRowCount())
+		for (int i = 0; i < modelTable.getRowCount(); i++)
 		{
-			String key = (String) modelTable.getValueAt(i, 0);
-			if (!this.lines.containsKey(key))
-			{
-				this.lines.put(key, (String) modelTable.getValueAt(i, 1));
-				i++;
-			}
-			else
-			{
-				JOptionPane.showMessageDialog(this,
-				"Ya existe un campo con la clave: " + key, "Error",
-				JOptionPane.ERROR_MESSAGE);
-				correct = false;
-			}
-		}
-	}
-
-	private void deleteWhiteLines()
-	{
-		for (int i = modelTable.getRowCount() - 1; 0 <= i; i--)
-		{
-			System.out.println("Valor: " + i + " es "
-			+ modelTable.getValueAt(i, 0));
-			if (((String) modelTable.getValueAt(i, 0)).trim().equals(null))
-			{
-				table.removeRowSelectionInterval(i, i);
-			}
+			modelTable.setValueAt(i + 1, i, 0);
 		}
 	}
 
@@ -209,6 +193,31 @@ public class LangEditor extends JPanel {
 	public void setLines(HashMap<String, String> lines)
 	{
 		this.lines = lines;
+	}
+
+	public boolean isChanges()
+	{
+		return changes;
+	}
+
+	public void setChanges(boolean changes)
+	{
+		this.changes = changes;
+	}
+
+	class TableModel extends DefaultTableModel {
+
+		private static final long	serialVersionUID	= 1L;
+
+		@Override
+		public boolean isCellEditable(int row, int column)
+		{
+			if (column == 0)
+			{
+				return false;
+			}
+			return true;
+		}
 	}
 
 }

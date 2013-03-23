@@ -47,7 +47,7 @@ public class FileMode {
 			if (fileChooser.showSaveDialog(null) == JFileChooser.APPROVE_OPTION)
 			{
 				path = fileChooser.getSelectedFile().getAbsolutePath();
-				if (!path.endsWith("." + extension))
+				if ( ! path.endsWith("." + extension))
 				{
 					path += "." + extension;
 				}
@@ -56,7 +56,7 @@ public class FileMode {
 				.showConfirmDialog(null,
 				"The file exists, do you want to replace it?", "File Exists",
 				JOptionPane.YES_NO_OPTION))
-				|| !file.exists())
+				|| ! file.exists())
 				{
 					ObjectOutputStream oos = new ObjectOutputStream(
 					new FileOutputStream(path));
@@ -72,11 +72,4 @@ public class FileMode {
 			return path;
 		}
 	}
-
-	public static void main(String[] args)
-	{
-		File file = FileMode.openFileMode("FCA", "fca");
-		System.out.println(file.toString());
-	}
-
 }

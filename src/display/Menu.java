@@ -11,7 +11,6 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.util.HashMap;
-import java.util.Locale;
 import java.util.Vector;
 
 import javax.swing.ImageIcon;
@@ -33,11 +32,11 @@ import utils.TabPanel;
 
 public class Menu extends JMenuBar implements ActionListener {
 
-	private static final long	serialVersionUID	= -2674054941368737779L;
+	private static final long	serialVersionUID	= - 2674054941368737779L;
 
-	private JMenu				file, edit, help;
+	private JMenu				file, edit, window, help;
 	private JMenuItem			newLang, open, save, save_as, print,
-	preferences;
+	preferences, showToolBar;
 
 	/**
 	 * Create the menu.
@@ -53,6 +52,10 @@ public class Menu extends JMenuBar implements ActionListener {
 		edit = new JMenu("Edit");
 		edit.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		edit.setMargin(new Insets(5, 5, 5, 5));
+
+		window = new JMenu("Window");
+		window.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		window.setMargin(new Insets(5, 5, 5, 5));
 
 		help = new JMenu("Help");
 		help.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
@@ -98,6 +101,10 @@ public class Menu extends JMenuBar implements ActionListener {
 		preferences.setIcon(new ImageIcon("img/sett-icon.png"));
 		preferences.addActionListener(this);
 
+		showToolBar = new JMenuItem("Hide ToolBar");
+		showToolBar.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		showToolBar.addActionListener(this);
+
 		file.add(newLang);
 		file.add(open);
 		file.add(save);
@@ -106,8 +113,11 @@ public class Menu extends JMenuBar implements ActionListener {
 
 		edit.add(preferences);
 
+		window.add(showToolBar);
+
 		add(file);
 		add(edit);
+		add(window);
 		add(help);
 	}
 
@@ -130,11 +140,30 @@ public class Menu extends JMenuBar implements ActionListener {
 		{
 			preferencesAction();
 		}
+		else if (e.getSource() == showToolBar)
+		{
+			ToolBar tB = startPanel.getToolBar();
+			if (showToolBar.getText().equals("Hide ToolBar"))
+			{
+				showToolBar.setText("Show ToolBar");
+				tB.setVisible(false);
+			}
+			else
+			{
+				showToolBar.setText("Hide ToolBar");
+				tB.setVisible(true);
+			}
+		}
 	}
 
 	private void newLangAction(JTabbedPane tabs)
 	{
-		Vector<String> vect = Lang.getCombableLocales();
+		Start st = (Start) Window.getInstance().getContentPane();
+		ConsoleContent doc = (ConsoleContent) st.getTextPane_console()
+		.getStyledDocument();
+		doc.clearContent();
+
+		Vector<String> vect = Lang.getCombableAvalaibleLocales();
 
 		String selection = (String) JOptionPane.showInputDialog(null,
 		"Select a language", "Select a language", JOptionPane.QUESTION_MESSAGE,
@@ -142,9 +171,7 @@ public class Menu extends JMenuBar implements ActionListener {
 
 		if (selection != null)
 		{
-			Locale l = new Locale(selection);
-			File file = new File(l.getLanguage());
-			System.out.println("* " + l.getDisplayName().toString());
+			File file = new File(Lang.getNameFileLang(selection));
 			HashMap<String, String> hashMap = new HashMap<String, String>();
 			hashMap.put("", "");
 			LangEditor langEditor = new LangEditor(hashMap, file);
@@ -152,9 +179,12 @@ public class Menu extends JMenuBar implements ActionListener {
 			file.toString(), tabs);
 			tabs.addTab(file.getName() + " (" + hashMap.size() + ")",
 			langEditor);
+			langEditor.setChanges(true);
 
 			tabs.setTabComponentAt(tabs.getTabCount() - 1, pTab);
 			tabs.setSelectedIndex(tabs.getTabCount() - 1);
+
+			doc.addString("A new language file has been succesfully created.");
 		}
 	}
 
@@ -178,6 +208,7 @@ public class Menu extends JMenuBar implements ActionListener {
 				ois.close();
 
 				LangEditor langEditor = new LangEditor(hashMap, file);
+				st.getLangEditors().add(langEditor);
 				TabPanel pTab = new TabPanel(file.getName(), hashMap.size(),
 				file.toString(), tabs);
 				tabs.addTab(file.getName() + " (" + hashMap.size() + ")",
@@ -243,7 +274,7 @@ public class Menu extends JMenuBar implements ActionListener {
 	{
 		boolean enc = false;
 		int i = 0;
-		while (!enc && i < openFiles.size())
+		while ( ! enc && i < openFiles.size())
 		{
 			if (file.toString().equals(openFiles.get(i)))
 			{

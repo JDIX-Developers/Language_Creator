@@ -49,7 +49,7 @@ public class TabPanel extends JPanel implements ActionListener {
 			Vector<String> vect = st.getOpenFiles();
 			boolean enc = false;
 			int i = 0;
-			while (i < vect.size() && !enc)
+			while (i < vect.size() && ! enc)
 			{
 				if (this.filePath.equals(vect.get(i)))
 				{
@@ -90,5 +90,4 @@ public class TabPanel extends JPanel implements ActionListener {
 	{
 		this.lines = lines;
 	}
-
 }

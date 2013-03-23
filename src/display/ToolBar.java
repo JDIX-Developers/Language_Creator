@@ -12,11 +12,13 @@ import java.util.Vector;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JOptionPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JToolBar;
 
 import utils.ConsoleContent;
 import utils.FileMode;
+import utils.Lang;
 import utils.TabPanel;
 
 public class ToolBar extends JToolBar implements ActionListener {
@@ -63,6 +65,7 @@ public class ToolBar extends JToolBar implements ActionListener {
 		btnRemoveRow = new JButton(new ImageIcon("img/removeRow-icon.png"));
 		btnRemoveRow.setFocusable(false);
 		btnRemoveRow.setToolTipText("Remove row.");
+		btnRemoveRow.addActionListener(this);
 
 		add(btnNewFile);
 		add(btnOpenFile);
@@ -80,9 +83,10 @@ public class ToolBar extends JToolBar implements ActionListener {
 		Start startPanel = (Start) Window.getInstance().getContentPane();
 		JTabbedPane tPane = startPanel.getTabbedPane();
 		Vector<String> vector = startPanel.getOpenFiles();
+
 		if (e.getSource() == btnNewFile)
 		{
-
+			newLangAction(tPane);
 		}
 		else if (e.getSource() == btnOpenFile)
 		{
@@ -91,6 +95,42 @@ public class ToolBar extends JToolBar implements ActionListener {
 		else if (e.getSource() == btnAddRow)
 		{
 			addRowAction(tPane);
+		}
+		else if (e.getSource() == btnRemoveRow)
+		{
+			removeRowAction(tPane);
+		}
+	}
+
+	private void newLangAction(JTabbedPane tabs)
+	{
+		Start st = (Start) Window.getInstance().getContentPane();
+		ConsoleContent doc = (ConsoleContent) st.getTextPane_console()
+		.getStyledDocument();
+		doc.clearContent();
+
+		Vector<String> vect = Lang.getCombableAvalaibleLocales();
+
+		String selection = (String) JOptionPane.showInputDialog(null,
+		"Select a language", "Select a language", JOptionPane.QUESTION_MESSAGE,
+		new ImageIcon("img/app-icon.png"), vect.toArray(), vect.get(0));
+
+		if (selection != null)
+		{
+			File file = new File(Lang.getNameFileLang(selection));
+			HashMap<String, String> hashMap = new HashMap<String, String>();
+			hashMap.put("", "");
+			LangEditor langEditor = new LangEditor(hashMap, file);
+			TabPanel pTab = new TabPanel(file.getName(), hashMap.size(),
+			file.toString(), tabs);
+			tabs.addTab(file.getName() + " (" + hashMap.size() + ")",
+			langEditor);
+			langEditor.setChanges(true);
+
+			tabs.setTabComponentAt(tabs.getTabCount() - 1, pTab);
+			tabs.setSelectedIndex(tabs.getTabCount() - 1);
+
+			doc.addString("A new language file has been succesfully created.");
 		}
 	}
 
@@ -114,6 +154,7 @@ public class ToolBar extends JToolBar implements ActionListener {
 				ois.close();
 
 				LangEditor langEditor = new LangEditor(hashMap, file);
+				st.getLangEditors().add(langEditor);
 				TabPanel pTab = new TabPanel(file.getName(), hashMap.size(),
 				file.toString(), tabs);
 				tabs.addTab(file.getName() + " (" + hashMap.size() + ")",
@@ -141,15 +182,32 @@ public class ToolBar extends JToolBar implements ActionListener {
 
 	private void addRowAction(JTabbedPane tPane)
 	{
-		int i = tPane.getSelectedIndex();
-		System.out.println("i" + i);
+		int index = tPane.getSelectedIndex();
+		Start st = (Start) Window.getInstance().getContentPane();
+		if (index >= 0)
+		{
+			LangEditor lEditor = st.getLangEditors().get(index);
+			lEditor.insertRow();
+		}
+
+	}
+
+	private void removeRowAction(JTabbedPane tPane)
+	{
+		int index = tPane.getSelectedIndex();
+		Start st = (Start) Window.getInstance().getContentPane();
+		if (index >= 0)
+		{
+			LangEditor lEditor = st.getLangEditors().get(index);
+			lEditor.deleteRow();
+		}
 	}
 
 	private int isOpenFile(File file, Vector<String> openFiles)
 	{
 		boolean enc = false;
 		int i = 0;
-		while (!enc && i < openFiles.size())
+		while ( ! enc && i < openFiles.size())
 		{
 			if (file.toString().equals(openFiles.get(i)))
 			{
