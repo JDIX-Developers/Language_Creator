@@ -15,12 +15,16 @@ import java.util.Locale;
 import java.util.Vector;
 
 import javax.swing.ImageIcon;
+import javax.swing.JDialog;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JTabbedPane;
 import javax.swing.KeyStroke;
+import javax.swing.SwingUtilities;
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
 
 import utils.FileMode;
 import utils.Lang;
@@ -31,7 +35,8 @@ public class Menu extends JMenuBar implements ActionListener {
 	private static final long	serialVersionUID	= -2674054941368737779L;
 
 	private JMenu				file, edit, help;
-	private JMenuItem			newLang, open, save, save_as, print;
+	private JMenuItem			newLang, open, save, save_as, print,
+	preferences;
 
 	/**
 	 * Create the menu.
@@ -52,7 +57,7 @@ public class Menu extends JMenuBar implements ActionListener {
 		help.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		help.setMargin(new Insets(5, 5, 5, 5));
 
-		newLang = new JMenuItem("New...");
+		newLang = new JMenuItem("New File");
 		newLang.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		newLang.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_N,
 		InputEvent.ALT_MASK | InputEvent.SHIFT_MASK));
@@ -87,11 +92,18 @@ public class Menu extends JMenuBar implements ActionListener {
 		print.setIcon(new ImageIcon("img/print-icon.png"));
 		print.setMargin(new Insets(5, 5, 5, 5));
 
+		preferences = new JMenuItem("Preferences");
+		preferences.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		preferences.setIcon(new ImageIcon("img/sett-icon.png"));
+		preferences.addActionListener(this);
+
 		file.add(newLang);
 		file.add(open);
 		file.add(save);
 		file.add(save_as);
 		file.add(print);
+
+		edit.add(preferences);
 
 		add(file);
 		add(edit);
@@ -113,7 +125,10 @@ public class Menu extends JMenuBar implements ActionListener {
 		{
 			openAction(tPane, vector);
 		}
-
+		else if (e.getSource() == preferences)
+		{
+			preferencesAction();
+		}
 	}
 
 	private void newLangAction(JTabbedPane tabs)
@@ -129,10 +144,15 @@ public class Menu extends JMenuBar implements ActionListener {
 			Locale l = new Locale(selection);
 			File file = new File(l.getLanguage());
 			System.out.println("* " + l.getDisplayName().toString());
+			HashMap<String, String> hashMap = new HashMap<String, String>();
+			hashMap.put("", "");
+			LangEditor langEditor = new LangEditor(hashMap, file);
+			TabPanel pTab = new TabPanel(file.getName(), hashMap.size(),
+			file.toString(), tabs);
+			tabs.addTab(file.getName() + " (" + hashMap.size() + ")",
+			langEditor);
 
-			LangEditor langEditor = new LangEditor(
-			new HashMap<String, String>(), file);
-			tabs.addTab(file.getName(), langEditor);
+			tabs.setTabComponentAt(tabs.getTabCount() - 1, pTab);
 			tabs.setSelectedIndex(tabs.getTabCount() - 1);
 		}
 	}
@@ -175,6 +195,42 @@ public class Menu extends JMenuBar implements ActionListener {
 		}
 	}
 
+	private void preferencesAction()
+	{
+		Preferences p = new Preferences();
+
+		String[] options = {"OK", "Cancel"};
+		JOptionPane pane = new JOptionPane(p, JOptionPane.PLAIN_MESSAGE,
+		JOptionPane.OK_CANCEL_OPTION, null, options, options[1]);
+		JDialog dialog = pane.createDialog("Preferences");
+		dialog.setLocationRelativeTo(Window.getInstance());
+		dialog.setVisible(true);
+
+		if (pane.getValue() == options[0])
+		{
+			utils.Preferences.setLocale(Lang.getAvailableLocales().get(
+			p.getLocaleIndex()));
+
+			// Lang
+			// .setLang(Lang.getAvailableLocales().get(p.getLocaleIndex()));
+
+			utils.Preferences.setLookAndFeelClass(p.getLookAndFeel());
+
+			try
+			{
+				UIManager.setLookAndFeel(p.getLookAndFeel());
+			}
+			catch (ClassNotFoundException | InstantiationException
+			| IllegalAccessException | UnsupportedLookAndFeelException e1)
+			{
+				e1.printStackTrace();
+			}
+
+			SwingUtilities.updateComponentTreeUI(Window.getInstance());
+			Window.getInstance().pack();
+		}
+	}
+
 	private int isOpenFile(File file, Vector<String> openFiles)
 	{
 		boolean enc = false;
@@ -192,4 +248,5 @@ public class Menu extends JMenuBar implements ActionListener {
 		}
 		return i;
 	}
+
 }

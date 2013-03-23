@@ -1,5 +1,7 @@
 package display;
 
+import java.awt.Dimension;
+
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 
@@ -31,4 +33,12 @@ public class Window extends JFrame {
 		return instance;
 	}
 
+	@Override
+	public void pack()
+	{
+		// CAMBIAR
+		super.pack();
+		Dimension d = getSize();
+		setSize(d);
+	}
 }
