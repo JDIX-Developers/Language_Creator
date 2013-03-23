@@ -26,6 +26,8 @@ public class ToolBar extends JToolBar implements ActionListener {
 	private JButton	btnSaveFile;
 	private JButton	btnSaveAsFile;
 	private JButton	btnPrint;
+	private JButton	btnAddRow;
+	private JButton	btnRemoveRow;
 
 	public ToolBar()
 	{
@@ -42,12 +44,20 @@ public class ToolBar extends JToolBar implements ActionListener {
 		btnSaveAsFile = new JButton(new ImageIcon("img/save-as-icon.png"));
 		btnPrint = new JButton(new ImageIcon("img/print-icon.png"));
 		btnPrint.setToolTipText("Print File");
+		btnAddRow = new JButton(new ImageIcon("img/newRow-icon.png"));
+		btnAddRow.setToolTipText("Add new row.");
+		btnAddRow.addActionListener(this);
+		btnRemoveRow = new JButton(new ImageIcon("img/removeRow-icon.png"));
+		btnRemoveRow.setToolTipText("Remove row.");
 
 		add(btnNewFile);
 		add(btnOpenFile);
 		add(btnSaveFile);
 		add(btnSaveAsFile);
 		add(btnPrint);
+		addSeparator();
+		add(btnAddRow);
+		add(btnRemoveRow);
 	}
 
 	@Override
@@ -63,6 +73,10 @@ public class ToolBar extends JToolBar implements ActionListener {
 		else if (e.getSource() == btnOpenFile)
 		{
 			openAction(tPane, vector);
+		}
+		else if (e.getSource() == btnAddRow)
+		{
+			addRowAction(tPane);
 		}
 	}
 
@@ -102,6 +116,12 @@ public class ToolBar extends JToolBar implements ActionListener {
 		{
 			tabs.setSelectedIndex(i);
 		}
+	}
+
+	private void addRowAction(JTabbedPane tPane)
+	{
+		int i = tPane.getSelectedIndex();
+		System.out.println("i" + i);
 	}
 
 	private int isOpenFile(File file, Vector<String> openFiles)
@@ -170,5 +190,25 @@ public class ToolBar extends JToolBar implements ActionListener {
 	public void setBtnPrint(JButton btnPrint)
 	{
 		this.btnPrint = btnPrint;
+	}
+
+	public JButton getBtnAddRow()
+	{
+		return btnAddRow;
+	}
+
+	public void setBtnAddRow(JButton btnAddRow)
+	{
+		this.btnAddRow = btnAddRow;
+	}
+
+	public JButton getBtnRemoveRow()
+	{
+		return btnRemoveRow;
+	}
+
+	public void setBtnRemoveRow(JButton btnRemoveRow)
+	{
+		this.btnRemoveRow = btnRemoveRow;
 	}
 }

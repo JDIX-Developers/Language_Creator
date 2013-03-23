@@ -82,4 +82,13 @@ public class Start extends JPanel {
 		this.openFiles = openFiles;
 	}
 
+	public ToolBar getToolBar()
+	{
+		return toolBar;
+	}
+
+	public void setToolBar(ToolBar toolBar)
+	{
+		this.toolBar = toolBar;
+	}
 }
