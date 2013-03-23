@@ -196,8 +196,9 @@ public class LangEditor extends JPanel {
 		}
 		else
 		{
-			JOptionPane.showMessageDialog(null, "Select a row to delete.",
-			"Error", JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(null,
+			"Please, select a row to delete.", "Error",
+			JOptionPane.ERROR_MESSAGE);
 		}
 	}
 

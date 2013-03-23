@@ -121,4 +121,54 @@ public class ToolBar extends JToolBar implements ActionListener {
 		}
 		return i;
 	}
+
+	public JButton getBtnNewFile()
+	{
+		return btnNewFile;
+	}
+
+	public void setBtnNewFile(JButton btnNewFile)
+	{
+		this.btnNewFile = btnNewFile;
+	}
+
+	public JButton getBtnOpenFile()
+	{
+		return btnOpenFile;
+	}
+
+	public void setBtnOpenFile(JButton btnOpenFile)
+	{
+		this.btnOpenFile = btnOpenFile;
+	}
+
+	public JButton getBtnSaveFile()
+	{
+		return btnSaveFile;
+	}
+
+	public void setBtnSaveFile(JButton btnSaveFile)
+	{
+		this.btnSaveFile = btnSaveFile;
+	}
+
+	public JButton getBtnSaveAsFile()
+	{
+		return btnSaveAsFile;
+	}
+
+	public void setBtnSaveAsFile(JButton btnSaveAsFile)
+	{
+		this.btnSaveAsFile = btnSaveAsFile;
+	}
+
+	public JButton getBtnPrint()
+	{
+		return btnPrint;
+	}
+
+	public void setBtnPrint(JButton btnPrint)
+	{
+		this.btnPrint = btnPrint;
+	}
 }

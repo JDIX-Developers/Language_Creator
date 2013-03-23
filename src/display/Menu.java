@@ -197,7 +197,6 @@ public class Menu extends JMenuBar implements ActionListener {
 
 	private void preferencesAction()
 	{
-		Window.getInstance().getGlassPane().setVisible(true);
 		Preferences p = new Preferences();
 
 		String[] options = {"OK", "Cancel"};
@@ -230,8 +229,6 @@ public class Menu extends JMenuBar implements ActionListener {
 			SwingUtilities.updateComponentTreeUI(Window.getInstance());
 			Window.getInstance().pack();
 		}
-
-		Window.getInstance().getGlassPane().setVisible(false);
 	}
 
 	private int isOpenFile(File file, Vector<String> openFiles)

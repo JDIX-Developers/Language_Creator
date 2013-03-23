@@ -1,11 +1,9 @@
 package display;
 
-import java.awt.Color;
 import java.awt.Dimension;
 
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
-import javax.swing.JPanel;
 
 public class Window extends JFrame {
 
@@ -20,7 +18,6 @@ public class Window extends JFrame {
 		setSize(800, 600);
 		setLocationRelativeTo(null);
 		setTitle("Language Creator");
-		setGlassPane(new GlassPane());
 	}
 
 	/**
@@ -34,17 +31,6 @@ public class Window extends JFrame {
 		}
 
 		return instance;
-	}
-
-	private class GlassPane extends JPanel {
-
-		private static final long	serialVersionUID	= -1090557698531749088L;
-
-		private GlassPane()
-		{
-			super();
-			setBackground(new Color(0, 0, 0, 50));
-		}
 	}
 
 	@Override
