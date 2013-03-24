@@ -6,6 +6,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
+import java.awt.print.PrinterException;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -95,6 +96,7 @@ public class Menu extends JMenuBar implements ActionListener {
 		InputEvent.CTRL_MASK));
 		print.setIcon(new ImageIcon("img/print-icon.png"));
 		print.setMargin(new Insets(5, 5, 5, 5));
+		print.addActionListener(this);
 
 		preferences = new JMenuItem("Preferences");
 		preferences.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
@@ -135,6 +137,10 @@ public class Menu extends JMenuBar implements ActionListener {
 		else if (e.getSource() == open)
 		{
 			openAction(tPane, vector);
+		}
+		else if (e.getSource() == print)
+		{
+			printAction(tPane, startPanel);
 		}
 		else if (e.getSource() == preferences)
 		{
@@ -231,6 +237,24 @@ public class Menu extends JMenuBar implements ActionListener {
 		{
 			doc.addString("The file: " + file.toString() + " is already open.");
 			tabs.setSelectedIndex(i);
+		}
+	}
+
+	private void printAction(JTabbedPane tPane, Start startPanel)
+	{
+		int index = tPane.getSelectedIndex();
+		if (index >= 0)
+		{
+			LangEditor lEditor = startPanel.getLangEditors().get(index);
+			try
+			{
+				lEditor.getTable().print();
+			}
+			catch (PrinterException e)
+			{
+				e.printStackTrace();
+			}
+
 		}
 	}
 

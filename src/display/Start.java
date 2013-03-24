@@ -45,16 +45,20 @@ public class Start extends JPanel {
 		langEditors = new Vector<LangEditor>();
 
 		splitPane = new JSplitPane();
+		splitPane.setDividerLocation(300);
+		splitPane.setDividerSize(10);
 		splitPane.setOrientation(JSplitPane.VERTICAL_SPLIT);
 		add(splitPane, BorderLayout.CENTER);
 
 		tabs = new JTabbedPane(JTabbedPane.TOP);
+		tabs.setFocusable(false);
 		tabs.setPreferredSize(new Dimension(5, 350));
 		splitPane.setLeftComponent(tabs);
 
 		panel = new JPanel();
 		splitPane.setRightComponent(panel);
-		panel.setLayout(new BorderLayout(0, 0));
+		panel.setLayout(new BorderLayout(5, 5));
+		panel.setBorder(new EmptyBorder(5, 10, 5, 10));
 
 		lblConsole = new JLabel("Console");
 		panel.add(lblConsole, BorderLayout.NORTH);

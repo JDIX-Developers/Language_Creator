@@ -39,37 +39,57 @@ public class LangEditor extends JPanel {
 	private JButton					btnInsertRow, btnDeleteRow;
 	private File					file;
 	private boolean					changes;
+	private JLabel					lblFilePath;
 
 	public LangEditor(HashMap<String, String> lines, File file)
 	{
+		setFont(new Font("Segoe UI Symbol", Font.PLAIN, 14));
 		this.lines = lines;
 		this.file = file;
 		this.changes = false;
 
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[] {0, 0};
-		gridBagLayout.rowHeights = new int[] {0, 0, 0};
+		gridBagLayout.rowHeights = new int[] {0, 0, 0, 0};
 		gridBagLayout.columnWeights = new double[] {1.0, Double.MIN_VALUE};
-		gridBagLayout.rowWeights = new double[] {0.0, 1.0, Double.MIN_VALUE};
+		gridBagLayout.rowWeights = new double[] {0.0, 0.0, 1.0,
+		Double.MIN_VALUE};
 		setLayout(gridBagLayout);
 
 		Locale l = new Locale(file.getName().substring(0, 2), file.getName()
 		.substring(3, 5));
 
-		JLabel lblNombrelenguaje = new JLabel("Language: "
+		JLabel lblNameLanguage = new JLabel("Language: "
 		+ StringUtils.firstToUpper(l.getDisplayLanguage()) + " ("
 		+ l.getDisplayCountry() + ")");
-		lblNombrelenguaje.setFont(new Font("Segoe UI Symbol", Font.PLAIN, 14));
-		lblNombrelenguaje.setForeground(Color.BLACK);
-		lblNombrelenguaje.setHorizontalAlignment(SwingConstants.CENTER);
+		lblNameLanguage.setFont(new Font("Segoe UI Symbol", Font.PLAIN, 14));
+		lblNameLanguage.setForeground(Color.BLACK);
+		lblNameLanguage.setHorizontalAlignment(SwingConstants.CENTER);
 		GridBagConstraints gbc_lblNombrelenguaje = new GridBagConstraints();
 		gbc_lblNombrelenguaje.anchor = GridBagConstraints.WEST;
 		gbc_lblNombrelenguaje.insets = new Insets(10, 15, 10, 15);
 		gbc_lblNombrelenguaje.gridx = 0;
 		gbc_lblNombrelenguaje.gridy = 0;
-		add(lblNombrelenguaje, gbc_lblNombrelenguaje);
+		add(lblNameLanguage, gbc_lblNombrelenguaje);
 
-		String[] header = {"", "id", "Description"};
+		lblFilePath = new JLabel("Saved file path: " + file.toString());
+		lblFilePath.setFont(new Font("Segoe UI Symbol", Font.PLAIN, 14));
+		lblFilePath.setForeground(Color.BLACK);
+		lblFilePath.setHorizontalAlignment(SwingConstants.CENTER);
+		GridBagConstraints gbc_lblNewLabel = new GridBagConstraints();
+		gbc_lblNewLabel.fill = GridBagConstraints.VERTICAL;
+		gbc_lblNewLabel.anchor = GridBagConstraints.WEST;
+		gbc_lblNewLabel.insets = new Insets(0, 15, 10, 15);
+		gbc_lblNewLabel.gridx = 0;
+		gbc_lblNewLabel.gridy = 1;
+		add(lblFilePath, gbc_lblNewLabel);
+
+		if ( ! file.exists())
+		{
+			lblFilePath.setText("Saved file path: Unsaved.");
+		}
+
+		String[] header = {"Lines", "id", "Description"};
 		String[][] content = new String[this.lines.size()][3];
 		loadContent(content);
 
@@ -83,7 +103,6 @@ public class LangEditor extends JPanel {
 		scrollPane_Content = new JScrollPane();
 		scrollPane_Content.setPreferredSize(new Dimension(2, 250));
 		scrollPane_Content.setMinimumSize(new Dimension(23, 50));
-		scrollPane_Content.setFont(new Font("Segoe UI Symbol", Font.PLAIN, 13));
 
 		table = new JTable(modelTable);
 		table.getTableHeader().setReorderingAllowed(false);
@@ -106,7 +125,7 @@ public class LangEditor extends JPanel {
 		gbc_splitPane.anchor = GridBagConstraints.NORTH;
 		gbc_splitPane.insets = new Insets(0, 10, 10, 10);
 		gbc_splitPane.gridx = 0;
-		gbc_splitPane.gridy = 1;
+		gbc_splitPane.gridy = 2;
 		add(scrollPane_Content, gbc_splitPane);
 
 		scrollPane_Content.setViewportView(table);
@@ -155,7 +174,7 @@ public class LangEditor extends JPanel {
 			for (int i = indexRows.length - 1; 0 <= i; i--)
 			{
 				modelTable.removeRow(indexRows[i]);
-				doc.addString("Row " + (i + 1) + " deleted.");
+				doc.addString("Row " + (indexRows[i] + 1) + " deleted.");
 			}
 			doc.addString(indexRows.length + " row(s) have been removed.");
 		}
@@ -195,6 +214,16 @@ public class LangEditor extends JPanel {
 		this.lines = lines;
 	}
 
+	public JTable getTable()
+	{
+		return table;
+	}
+
+	public void setTable(JTable table)
+	{
+		this.table = table;
+	}
+
 	public boolean isChanges()
 	{
 		return changes;
@@ -203,6 +232,16 @@ public class LangEditor extends JPanel {
 	public void setChanges(boolean changes)
 	{
 		this.changes = changes;
+	}
+
+	public String getLblFilePathText()
+	{
+		return lblFilePath.getText();
+	}
+
+	public void setLblFilePathText(String string)
+	{
+		this.lblFilePath.setText("Saved file path: " + string);
 	}
 
 	class TableModel extends DefaultTableModel {
@@ -219,5 +258,4 @@ public class LangEditor extends JPanel {
 			return true;
 		}
 	}
-
 }

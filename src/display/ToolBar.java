@@ -3,6 +3,7 @@ package display;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.print.PrinterException;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -56,6 +57,7 @@ public class ToolBar extends JToolBar implements ActionListener {
 		btnPrint = new JButton(new ImageIcon("img/print-icon.png"));
 		btnPrint.setFocusable(false);
 		btnPrint.setToolTipText("Print File");
+		btnPrint.addActionListener(this);
 
 		btnAddRow = new JButton(new ImageIcon("img/newRow-icon.png"));
 		btnAddRow.setFocusable(false);
@@ -91,6 +93,10 @@ public class ToolBar extends JToolBar implements ActionListener {
 		else if (e.getSource() == btnOpenFile)
 		{
 			openAction(tPane, vector);
+		}
+		else if (e.getSource() == btnPrint)
+		{
+			printAction(tPane, startPanel);
 		}
 		else if (e.getSource() == btnAddRow)
 		{
@@ -177,6 +183,23 @@ public class ToolBar extends JToolBar implements ActionListener {
 		{
 			doc.addString("The file: " + file.toString() + " is already open.");
 			tabs.setSelectedIndex(i);
+		}
+	}
+
+	private void printAction(JTabbedPane tPane, Start startPanel)
+	{
+		int index = tPane.getSelectedIndex();
+		if (index >= 0)
+		{
+			LangEditor lEditor = startPanel.getLangEditors().get(index);
+			try
+			{
+				lEditor.getTable().print();
+			}
+			catch (PrinterException e)
+			{
+				e.printStackTrace();
+			}
 		}
 	}
 
