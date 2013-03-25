@@ -1,1 +1,1 @@
-Main-Class: Start
+Main-Class: IntroFrame

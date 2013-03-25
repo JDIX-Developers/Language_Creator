@@ -13,8 +13,6 @@ import javax.swing.JSplitPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JTextPane;
 import javax.swing.SwingConstants;
-import javax.swing.UIManager;
-import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.border.EmptyBorder;
 import javax.swing.text.StyleContext;
 
@@ -76,25 +74,6 @@ public class Start extends JPanel {
 		signatureLabel.setVerticalAlignment(SwingConstants.BOTTOM);
 		signatureLabel.setBorder(new EmptyBorder(0, 0, 3, 7));
 		add(signatureLabel, BorderLayout.SOUTH);
-	}
-
-	public static void main(String[] args)
-	{
-		try
-		{
-			UIManager.setLookAndFeel(utils.Preferences.getLookAndFeel());
-		}
-		catch (ClassNotFoundException | InstantiationException
-		| IllegalAccessException | UnsupportedLookAndFeelException e)
-		{
-			e.printStackTrace();
-		}
-
-		Window.getInstance().setJMenuBar(new Menu());
-		Window.getInstance().setContentPane(new Start());
-		Window.getInstance().setVisible(true);
-		((Start) Window.getInstance().getContentPane()).getTabbedPane()
-		.requestFocus();
 	}
 
 	/**

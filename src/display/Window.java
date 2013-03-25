@@ -7,8 +7,9 @@ import javax.swing.JFrame;
 
 public class Window extends JFrame {
 
-	private static final long	serialVersionUID	= -8641413596663241575L;
+	private static final long	serialVersionUID	= - 8641413596663241575L;
 	private static Window		instance;
+	private Menu				menu;
 
 	private Window()
 	{
@@ -18,6 +19,18 @@ public class Window extends JFrame {
 		setSize(800, 600);
 		setLocationRelativeTo(null);
 		setTitle("Language Creator");
+		this.menu = new Menu();
+		setJMenuBar(menu);
+	}
+
+	public Menu getMenu()
+	{
+		return menu;
+	}
+
+	public void setMenu(Menu menu)
+	{
+		this.menu = menu;
 	}
 
 	/**
