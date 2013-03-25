@@ -96,7 +96,7 @@ public class IntroFrame extends JFrame {
 			}
 			catch (IOException es)
 			{
-				System.out.println("Erro reading file.");
+				System.out.println("Error reading file.");
 			}
 		}
 	}
