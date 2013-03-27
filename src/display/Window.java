@@ -5,6 +5,8 @@ import java.awt.Dimension;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 
+import components.Menu;
+
 public class Window extends JFrame {
 
 	private static final long	serialVersionUID	= - 8641413596663241575L;

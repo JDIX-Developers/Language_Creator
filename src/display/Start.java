@@ -16,6 +16,8 @@ import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 import javax.swing.text.StyleContext;
 
+import components.ToolBar;
+
 import utils.ConsoleContent;
 
 public class Start extends JPanel {

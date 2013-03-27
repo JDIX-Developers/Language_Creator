@@ -3,7 +3,8 @@ package utils;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import display.Menu;
+import components.Menu;
+
 import display.Window;
 
 public class Observers implements ActionListener {
