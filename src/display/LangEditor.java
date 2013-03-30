@@ -213,7 +213,7 @@ public class LangEditor extends JPanel {
 					{
 						isCorrectLang = false;
 						lines.add(j);
-						doc.addErrorMessage("The lines " + (i + 1) + " and "
+						doc.addErrorMessage("Lines " + (i + 1) + " and "
 						+ (j + 1) + " have the same key.");
 					}
 				}
@@ -224,13 +224,13 @@ public class LangEditor extends JPanel {
 		{
 			if (((String) modelTable.getValueAt(i, 1)).trim().equals(""))
 			{
-				doc.addErrorMessage("The row " + (i + 1) + " has not key.");
+				doc.addErrorMessage("The row " + (i + 1) + " has no key.");
 				isCorrectLang = false;
 			}
 			if (((String) modelTable.getValueAt(i, 2)).trim().equals(""))
 			{
 				doc.addErrorMessage("The row " + (i + 1)
-				+ " has not description.");
+				+ " has no description.");
 				isCorrectLang = false;
 			}
 		}
