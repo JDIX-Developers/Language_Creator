@@ -35,7 +35,7 @@ public class LangEditor extends JPanel {
 	private HashMap<String, String>	lines;
 	private TableModel				modelTable;
 	private File					file;
-	private boolean					changes;
+	private boolean					saved;
 	private JLabel					lblFilePath;
 
 	public LangEditor(HashMap<String, String> lines, File file)
@@ -43,7 +43,7 @@ public class LangEditor extends JPanel {
 		setFont(new Font("Segoe UI Symbol", Font.PLAIN, 14));
 		this.lines = lines;
 		this.file = file;
-		this.changes = false;
+		this.saved = true;
 
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[] {0, 0};
@@ -155,7 +155,7 @@ public class LangEditor extends JPanel {
 		table.clearSelection();
 		table.setRowSelectionInterval(row, row);
 		modelTable.fireTableDataChanged();
-		this.changes = true;
+		this.saved = false;
 	}
 
 	public void deleteRow()
@@ -180,7 +180,7 @@ public class LangEditor extends JPanel {
 			doc.addErrorMessage("¡Error! Please, select a row(s) to delete.");
 		}
 		updateLinesNumbers();
-		this.changes = true;
+		this.saved = false;
 	}
 
 	private void updateLinesNumbers()
@@ -191,12 +191,77 @@ public class LangEditor extends JPanel {
 		}
 	}
 
+	public boolean isCorrectLang()
+	{
+		Start st = (Start) Window.getInstance().getContentPane();
+		ConsoleContent doc = (ConsoleContent) st.getTextPane_console()
+		.getStyledDocument();
+		doc.clearContent();
+
+		Vector<Integer> lines = new Vector<Integer>();
+		boolean isCorrectLang = true;
+
+		for (int i = 0; i < modelTable.getRowCount(); i++)
+		{
+			if ( ! existLine(i, lines))
+			{
+				String key1 = (String) modelTable.getValueAt(i, 1);
+				for (int j = 0; j < modelTable.getRowCount(); j++)
+				{
+					String key2 = (String) modelTable.getValueAt(j, 1);
+					if (key1.trim().equals(key2.trim()) && i != j)
+					{
+						isCorrectLang = false;
+						lines.add(j);
+						doc.addErrorMessage("The lines " + (i + 1) + " and "
+						+ (j + 1) + " have the same key.");
+					}
+				}
+			}
+		}
+
+		for (int i = 0; i < modelTable.getRowCount(); i++)
+		{
+			if (((String) modelTable.getValueAt(i, 1)).trim().equals(""))
+			{
+				doc.addErrorMessage("The row " + (i + 1) + " has not key.");
+				isCorrectLang = false;
+			}
+			if (((String) modelTable.getValueAt(i, 2)).trim().equals(""))
+			{
+				doc.addErrorMessage("The row " + (i + 1)
+				+ " has not description.");
+				isCorrectLang = false;
+			}
+		}
+
+		return isCorrectLang;
+	}
+
+	private boolean existLine(int i, Vector<Integer> lines)
+	{
+		boolean enc = false;
+		int index = 0;
+		while ( ! enc && index < lines.size())
+		{
+			if (lines.get(index) == i)
+			{
+				enc = true;
+			}
+			else
+			{
+				index++;
+			}
+		}
+		return enc;
+	}
+
 	public File getFile()
 	{
 		return this.file;
 	}
 
-	public void setFilePath(File file)
+	public void setFile(File file)
 	{
 		this.file = file;
 	}
@@ -221,14 +286,14 @@ public class LangEditor extends JPanel {
 		this.table = table;
 	}
 
-	public boolean isChanges()
+	public boolean isSaved()
 	{
-		return changes;
+		return this.saved;
 	}
 
-	public void setChanges(boolean changes)
+	public void setSaved(boolean saved)
 	{
-		this.changes = changes;
+		this.saved = saved;
 	}
 
 	public String getLblFilePathText()

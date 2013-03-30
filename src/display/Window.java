@@ -1,9 +1,13 @@
 package display;
 
 import java.awt.Dimension;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.util.Vector;
 
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 
 import components.Menu;
 
@@ -16,23 +20,41 @@ public class Window extends JFrame {
 	private Window()
 	{
 		super();
-		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+		setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
 		setIconImage((new ImageIcon("img/app-icon.png")).getImage());
 		setSize(800, 600);
 		setLocationRelativeTo(null);
 		setTitle("Language Creator");
 		this.menu = new Menu();
 		setJMenuBar(menu);
-	}
+		addWindowListener(new WindowAdapter()
+		{
 
-	public Menu getMenu()
-	{
-		return menu;
-	}
+			@Override
+			public void windowClosing(WindowEvent winEvt)
+			{
+				if ( ! allSaved())
+				{
+					String[] options = {"No", "Yes"};
+					int selection = JOptionPane
+					.showOptionDialog(
+					Window.getInstance(),
+					"Some files have not been saved, are you sure you want to exit the application?",
+					"Not Saved", JOptionPane.YES_NO_OPTION,
+					JOptionPane.WARNING_MESSAGE, new ImageIcon(
+					"img/warning.png"), options, options[0]);
 
-	public void setMenu(Menu menu)
-	{
-		this.menu = menu;
+					if (selection == 1)
+					{
+						dispose();
+					}
+				}
+				else
+				{
+					dispose();
+				}
+			}
+		});
 	}
 
 	/**
@@ -51,9 +73,28 @@ public class Window extends JFrame {
 	@Override
 	public void pack()
 	{
-		// CAMBIAR
 		super.pack();
 		Dimension d = getSize();
 		setSize(d);
+	}
+
+	private boolean allSaved()
+	{
+		Start startPanel = (Start) Window.getInstance().getContentPane();
+		Vector<LangEditor> langEditors = startPanel.getLangEditors();
+		int i = 0;
+		boolean allSaved = true;
+		while (allSaved && i < langEditors.size())
+		{
+			if (langEditors.get(i).isSaved())
+			{
+				i++;
+			}
+			else
+			{
+				allSaved = false;
+			}
+		}
+		return allSaved;
 	}
 }

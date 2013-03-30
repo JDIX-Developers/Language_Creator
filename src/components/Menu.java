@@ -132,23 +132,19 @@ public class Menu extends JMenuBar implements ActionListener {
 	{
 		Start startPanel = (Start) Window.getInstance().getContentPane();
 		JTabbedPane tPane = startPanel.getTabbedPane();
-		Vector<String> vector = startPanel.getOpenFiles();
+		Vector<LangEditor> langEditors = startPanel.getLangEditors();
 
 		if (e.getSource() == newLang)
 		{
-			newLangAction(tPane);
+			newLangAction(tPane, langEditors);
 		}
 		else if (e.getSource() == open)
 		{
-			openAction(tPane, vector);
+			openAction(tPane, langEditors);
 		}
 		else if (e.getSource() == print)
 		{
 			printAction(tPane, startPanel);
-		}
-		else if (e.getSource() == preferences)
-		{
-			preferencesAction();
 		}
 		else if (e.getSource() == showToolBar)
 		{
@@ -166,7 +162,7 @@ public class Menu extends JMenuBar implements ActionListener {
 		}
 	}
 
-	private void newLangAction(JTabbedPane tabs)
+	private void newLangAction(JTabbedPane tabs, Vector<LangEditor> langEditors)
 	{
 		Start st = (Start) Window.getInstance().getContentPane();
 		ConsoleContent doc = (ConsoleContent) st.getTextPane_console()
@@ -182,31 +178,43 @@ public class Menu extends JMenuBar implements ActionListener {
 		if (selection != null)
 		{
 			File file = new File(Lang.getNameFileLang(selection));
-			HashMap<String, String> hashMap = new HashMap<String, String>();
-			hashMap.put("", "");
-			LangEditor langEditor = new LangEditor(hashMap, file);
-			TabPanel pTab = new TabPanel(file.getName(), hashMap.size(),
-			file.toString(), tabs);
-			tabs.addTab(file.getName() + " (" + hashMap.size() + ")",
-			langEditor);
-			langEditor.setChanges(true);
+			int i = isOpenFile(file, langEditors);
+			if (i == langEditors.size())
+			{
+				HashMap<String, String> hashMap = new HashMap<String, String>();
+				hashMap.put("", "");
+				LangEditor langEditor = new LangEditor(hashMap, file);
+				TabPanel pTab = new TabPanel(file.getName(), file.toString(),
+				tabs);
+				tabs.addTab(file.getName(), langEditor);
+				langEditor.setSaved(false);
 
-			tabs.setTabComponentAt(tabs.getTabCount() - 1, pTab);
-			tabs.setSelectedIndex(tabs.getTabCount() - 1);
+				tabs.setTabComponentAt(tabs.getTabCount() - 1, pTab);
+				tabs.setSelectedIndex(tabs.getTabCount() - 1);
 
-			doc.addString("A new language file has been succesfully created.");
+				st.getLangEditors().add(langEditor);
+
+				doc
+				.addString("A new language file has been succesfully created.");
+			}
+			else if (i < langEditors.size())
+			{
+				doc.addString("The file: " + file.toString()
+				+ " is already open.");
+				tabs.setSelectedIndex(i);
+			}
 		}
 	}
 
-	private void openAction(JTabbedPane tabs, Vector<String> openFiles)
+	private void openAction(JTabbedPane tabs, Vector<LangEditor> langEditors)
 	{
 		Start st = (Start) Window.getInstance().getContentPane();
 		ConsoleContent doc = (ConsoleContent) st.getTextPane_console()
 		.getStyledDocument();
 		doc.clearContent();
 		File file = FileMode.openFileMode("Language file", "lang");
-		int i = isOpenFile(file, openFiles);
-		if (file != null && i == openFiles.size())
+		int i = isOpenFile(file, langEditors);
+		if (file != null && i == langEditors.size())
 		{
 			try
 			{
@@ -219,15 +227,13 @@ public class Menu extends JMenuBar implements ActionListener {
 
 				LangEditor langEditor = new LangEditor(hashMap, file);
 				st.getLangEditors().add(langEditor);
-				TabPanel pTab = new TabPanel(file.getName(), hashMap.size(),
-				file.toString(), tabs);
-				tabs.addTab(file.getName() + " (" + hashMap.size() + ")",
-				langEditor);
+				TabPanel pTab = new TabPanel(file.getName(), file.toString(),
+				tabs);
+				tabs.addTab(file.getName(), langEditor);
 
 				tabs.setTabComponentAt(tabs.getTabCount() - 1, pTab);
 				tabs.setSelectedIndex(tabs.getTabCount() - 1);
 
-				openFiles.add(file.toString());
 				doc.addString("The file: " + file.toString()
 				+ "  successfully opened.");
 			}
@@ -237,7 +243,7 @@ public class Menu extends JMenuBar implements ActionListener {
 				+ " file");
 			}
 		}
-		else if (i < openFiles.size())
+		else if (i < langEditors.size())
 		{
 			doc.addString("The file: " + file.toString() + " is already open.");
 			tabs.setSelectedIndex(i);
@@ -258,7 +264,6 @@ public class Menu extends JMenuBar implements ActionListener {
 			{
 				e.printStackTrace();
 			}
-
 		}
 	}
 
@@ -298,13 +303,13 @@ public class Menu extends JMenuBar implements ActionListener {
 		dialog.dispose();
 	}
 
-	private int isOpenFile(File file, Vector<String> openFiles)
+	private int isOpenFile(File file, Vector<LangEditor> langEditors)
 	{
 		boolean enc = false;
 		int i = 0;
-		while ( ! enc && i < openFiles.size())
+		while ( ! enc && i < langEditors.size())
 		{
-			if (file.toString().equals(openFiles.get(i)))
+			if (file.toString().equals(langEditors.get(i).getFile().toString()))
 			{
 				enc = true;
 			}

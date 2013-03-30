@@ -6,8 +6,10 @@ import java.awt.event.ActionListener;
 import java.awt.print.PrinterException;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.HashMap;
 import java.util.Vector;
 
@@ -17,14 +19,13 @@ import javax.swing.JOptionPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JToolBar;
 
-import display.LangEditor;
-import display.Start;
-import display.Window;
-
 import utils.ConsoleContent;
 import utils.FileMode;
 import utils.Lang;
 import utils.TabPanel;
+import display.LangEditor;
+import display.Start;
+import display.Window;
 
 public class ToolBar extends JToolBar implements ActionListener {
 
@@ -54,6 +55,7 @@ public class ToolBar extends JToolBar implements ActionListener {
 		btnSaveFile = new JButton(new ImageIcon("img/save-icon.png"));
 		btnSaveFile.setFocusable(false);
 		btnSaveFile.setToolTipText("Save File");
+		btnSaveFile.addActionListener(this);
 
 		btnSaveAsFile = new JButton(new ImageIcon("img/save-as-icon.png"));
 		btnSaveAsFile.setFocusable(false);
@@ -88,15 +90,19 @@ public class ToolBar extends JToolBar implements ActionListener {
 	{
 		Start startPanel = (Start) Window.getInstance().getContentPane();
 		JTabbedPane tPane = startPanel.getTabbedPane();
-		Vector<String> vector = startPanel.getOpenFiles();
+		Vector<LangEditor> langEditors = startPanel.getLangEditors();
 
 		if (e.getSource() == btnNewFile)
 		{
-			newLangAction(tPane);
+			newLangAction(tPane, langEditors);
 		}
 		else if (e.getSource() == btnOpenFile)
 		{
-			openAction(tPane, vector);
+			openAction(tPane, langEditors);
+		}
+		else if (e.getSource() == btnSaveFile)
+		{
+			saveAction(tPane, langEditors);
 		}
 		else if (e.getSource() == btnPrint)
 		{
@@ -112,7 +118,7 @@ public class ToolBar extends JToolBar implements ActionListener {
 		}
 	}
 
-	private void newLangAction(JTabbedPane tabs)
+	private void newLangAction(JTabbedPane tabs, Vector<LangEditor> langEditors)
 	{
 		Start st = (Start) Window.getInstance().getContentPane();
 		ConsoleContent doc = (ConsoleContent) st.getTextPane_console()
@@ -128,31 +134,43 @@ public class ToolBar extends JToolBar implements ActionListener {
 		if (selection != null)
 		{
 			File file = new File(Lang.getNameFileLang(selection));
-			HashMap<String, String> hashMap = new HashMap<String, String>();
-			hashMap.put("", "");
-			LangEditor langEditor = new LangEditor(hashMap, file);
-			TabPanel pTab = new TabPanel(file.getName(), hashMap.size(),
-			file.toString(), tabs);
-			tabs.addTab(file.getName() + " (" + hashMap.size() + ")",
-			langEditor);
-			langEditor.setChanges(true);
+			int i = isOpenFile(file, langEditors);
+			if (i == langEditors.size())
+			{
+				HashMap<String, String> hashMap = new HashMap<String, String>();
+				hashMap.put("", "");
+				LangEditor langEditor = new LangEditor(hashMap, file);
+				TabPanel pTab = new TabPanel(file.getName(), file.toString(),
+				tabs);
+				tabs.addTab(file.getName(), langEditor);
+				langEditor.setSaved(false);
 
-			tabs.setTabComponentAt(tabs.getTabCount() - 1, pTab);
-			tabs.setSelectedIndex(tabs.getTabCount() - 1);
+				tabs.setTabComponentAt(tabs.getTabCount() - 1, pTab);
+				tabs.setSelectedIndex(tabs.getTabCount() - 1);
 
-			doc.addString("A new language file has been succesfully created.");
+				st.getLangEditors().add(langEditor);
+
+				doc
+				.addString("A new language file has been succesfully created.");
+			}
+			else if (i < langEditors.size())
+			{
+				doc.addString("The file: " + file.toString()
+				+ " is already open.");
+				tabs.setSelectedIndex(i);
+			}
 		}
 	}
 
-	private void openAction(JTabbedPane tabs, Vector<String> openFiles)
+	private void openAction(JTabbedPane tabs, Vector<LangEditor> langEditors)
 	{
 		Start st = (Start) Window.getInstance().getContentPane();
 		ConsoleContent doc = (ConsoleContent) st.getTextPane_console()
 		.getStyledDocument();
 		doc.clearContent();
 		File file = FileMode.openFileMode("Language file", "lang");
-		int i = isOpenFile(file, openFiles);
-		if (file != null && i == openFiles.size())
+		int i = isOpenFile(file, langEditors);
+		if (file != null && i == langEditors.size())
 		{
 			try
 			{
@@ -165,15 +183,13 @@ public class ToolBar extends JToolBar implements ActionListener {
 
 				LangEditor langEditor = new LangEditor(hashMap, file);
 				st.getLangEditors().add(langEditor);
-				TabPanel pTab = new TabPanel(file.getName(), hashMap.size(),
-				file.toString(), tabs);
-				tabs.addTab(file.getName() + " (" + hashMap.size() + ")",
-				langEditor);
+				TabPanel pTab = new TabPanel(file.getName(), file.toString(),
+				tabs);
+				tabs.addTab(file.getName(), langEditor);
 
 				tabs.setTabComponentAt(tabs.getTabCount() - 1, pTab);
 				tabs.setSelectedIndex(tabs.getTabCount() - 1);
 
-				openFiles.add(file.toString());
 				doc.addString("The file: " + file.toString()
 				+ "  successfully opened.");
 			}
@@ -183,16 +199,42 @@ public class ToolBar extends JToolBar implements ActionListener {
 				+ " file");
 			}
 		}
-		else if (i < openFiles.size())
+		else if (i < langEditors.size())
 		{
 			doc.addString("The file: " + file.toString() + " is already open.");
 			tabs.setSelectedIndex(i);
 		}
 	}
 
-	private void printAction(JTabbedPane tPane, Start startPanel)
+	private void saveAction(JTabbedPane tabs, Vector<LangEditor> langEditors)
 	{
-		int index = tPane.getSelectedIndex();
+		int index = tabs.getSelectedIndex();
+		if (index >= 0)
+		{
+			LangEditor langEditor = langEditors.get(index);
+			if (langEditor.isCorrectLang())
+			{
+				if (langEditor.getFile().exists())
+				{
+					try
+					{
+						ObjectOutputStream oos = new ObjectOutputStream(
+						new FileOutputStream(langEditor.toString()));
+						// oos.writeObject();
+						oos.close();
+					}
+					catch (Exception e)
+					{
+						e.printStackTrace();
+					}
+				}
+			}
+		}
+	}
+
+	private void printAction(JTabbedPane tabs, Start startPanel)
+	{
+		int index = tabs.getSelectedIndex();
 		if (index >= 0)
 		{
 			LangEditor lEditor = startPanel.getLangEditors().get(index);
@@ -230,13 +272,13 @@ public class ToolBar extends JToolBar implements ActionListener {
 		}
 	}
 
-	private int isOpenFile(File file, Vector<String> openFiles)
+	private int isOpenFile(File file, Vector<LangEditor> langEditors)
 	{
 		boolean enc = false;
 		int i = 0;
-		while ( ! enc && i < openFiles.size())
+		while ( ! enc && i < langEditors.size())
 		{
-			if (file.toString().equals(openFiles.get(i)))
+			if (file.toString().equals(langEditors.get(i).getFile().toString()))
 			{
 				enc = true;
 			}
@@ -248,73 +290,4 @@ public class ToolBar extends JToolBar implements ActionListener {
 		return i;
 	}
 
-	public JButton getBtnNewFile()
-	{
-		return btnNewFile;
-	}
-
-	public void setBtnNewFile(JButton btnNewFile)
-	{
-		this.btnNewFile = btnNewFile;
-	}
-
-	public JButton getBtnOpenFile()
-	{
-		return btnOpenFile;
-	}
-
-	public void setBtnOpenFile(JButton btnOpenFile)
-	{
-		this.btnOpenFile = btnOpenFile;
-	}
-
-	public JButton getBtnSaveFile()
-	{
-		return btnSaveFile;
-	}
-
-	public void setBtnSaveFile(JButton btnSaveFile)
-	{
-		this.btnSaveFile = btnSaveFile;
-	}
-
-	public JButton getBtnSaveAsFile()
-	{
-		return btnSaveAsFile;
-	}
-
-	public void setBtnSaveAsFile(JButton btnSaveAsFile)
-	{
-		this.btnSaveAsFile = btnSaveAsFile;
-	}
-
-	public JButton getBtnPrint()
-	{
-		return btnPrint;
-	}
-
-	public void setBtnPrint(JButton btnPrint)
-	{
-		this.btnPrint = btnPrint;
-	}
-
-	public JButton getBtnAddRow()
-	{
-		return btnAddRow;
-	}
-
-	public void setBtnAddRow(JButton btnAddRow)
-	{
-		this.btnAddRow = btnAddRow;
-	}
-
-	public JButton getBtnRemoveRow()
-	{
-		return btnRemoveRow;
-	}
-
-	public void setBtnRemoveRow(JButton btnRemoveRow)
-	{
-		this.btnRemoveRow = btnRemoveRow;
-	}
 }

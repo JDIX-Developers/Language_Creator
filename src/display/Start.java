@@ -16,16 +16,15 @@ import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 import javax.swing.text.StyleContext;
 
-import components.ToolBar;
-
 import utils.ConsoleContent;
+
+import components.ToolBar;
 
 public class Start extends JPanel {
 
 	private static final long	serialVersionUID	= - 3019955922941567348L;
 
 	private ToolBar				toolBar;
-	private Vector<String>		openFiles;
 	private Vector<LangEditor>	langEditors;
 	private JSplitPane			splitPane;
 	private JTabbedPane			tabs;
@@ -41,7 +40,6 @@ public class Start extends JPanel {
 		toolBar = new ToolBar();
 		add(toolBar, BorderLayout.NORTH);
 
-		openFiles = new Vector<String>();
 		langEditors = new Vector<LangEditor>();
 
 		splitPane = new JSplitPane();
@@ -84,19 +82,6 @@ public class Start extends JPanel {
 	public JTabbedPane getTabbedPane()
 	{
 		return tabs;
-	}
-
-	/**
-	 * @return The vector with opened files
-	 */
-	public Vector<String> getOpenFiles()
-	{
-		return openFiles;
-	}
-
-	public void setOpenFiles(Vector<String> openFiles)
-	{
-		this.openFiles = openFiles;
 	}
 
 	public ToolBar getToolBar()
