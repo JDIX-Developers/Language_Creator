@@ -15,7 +15,6 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Vector;
 
-import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -35,8 +34,6 @@ public class LangEditor extends JPanel {
 	private JTable					table;
 	private HashMap<String, String>	lines;
 	private TableModel				modelTable;
-	private JPanel					panelBtnSouth;
-	private JButton					btnInsertRow, btnDeleteRow;
 	private File					file;
 	private boolean					changes;
 	private JLabel					lblFilePath;

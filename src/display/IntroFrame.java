@@ -20,51 +20,27 @@ public class IntroFrame extends JFrame {
 		contentPane = new JPanel();
 		contentPane.setLayout(new BorderLayout(0, 0));
 		setContentPane(contentPane);
-<<<<<<< HEAD
 		// AÑADIR CONTENIDO
-=======
 
->>>>>>> parent of f6803ff... Se añade intro
 	}
 
 	public static void main(String[] args)
 	{
-		IntroFrame frame = new IntroFrame();
-		frame.setVisible(true);
-		try
-		{
-			Thread.sleep(5050);
-		}
-		catch (InterruptedException e)
-		{
-			e.printStackTrace();
-		}
-<<<<<<< HEAD
-		Window.getInstance().setContentPane(new Start());
-		Window.getInstance().setVisible(true);
-		IntroFrame frame = new IntroFrame();
-		frame.setVisible(true);
-		try
-		{
-			Thread.sleep(4000);
-=======
-		frame.dispose();
+		/*
+		 * IntroFrame frame = new IntroFrame(); frame.setVisible(true); try {
+		 * Thread.sleep(5050); } catch (InterruptedException e) {
+		 * e.printStackTrace(); } frame.dispose();
+		 */
 		try
 		{
 			UIManager.setLookAndFeel(utils.Preferences.getLookAndFeel());
->>>>>>> parent of f6803ff... Se añade intro
 		}
 		catch (ClassNotFoundException | InstantiationException
 		| IllegalAccessException | UnsupportedLookAndFeelException e)
 		{
 			e.printStackTrace();
 		}
-<<<<<<< HEAD
-		frame.dispose();
-=======
-
 		Window.getInstance().setContentPane(new Start());
->>>>>>> parent of f6803ff... Se añade intro
 		Window.getInstance().setVisible(true);
 		((Start) Window.getInstance().getContentPane()).getTabbedPane()
 		.requestFocus();

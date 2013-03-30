@@ -26,15 +26,14 @@ import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
-import display.LangEditor;
-import display.Preferences;
-import display.Start;
-import display.Window;
-
 import utils.ConsoleContent;
 import utils.FileMode;
 import utils.Lang;
 import utils.TabPanel;
+import display.LangEditor;
+import display.Preferences;
+import display.Start;
+import display.Window;
 
 public class Menu extends JMenuBar implements ActionListener {
 
@@ -279,8 +278,7 @@ public class Menu extends JMenuBar implements ActionListener {
 			utils.Preferences.setLocale(Lang.getAvailableLocales().get(
 			p.getLocaleIndex()));
 
-			// Lang
-			// .setLang(Lang.getAvailableLocales().get(p.getLocaleIndex()));
+			Lang.setLang(Lang.getAvailableLocales().get(p.getLocaleIndex()));
 
 			utils.Preferences.setLookAndFeelClass(p.getLookAndFeel());
 
@@ -297,6 +295,7 @@ public class Menu extends JMenuBar implements ActionListener {
 			SwingUtilities.updateComponentTreeUI(Window.getInstance());
 			Window.getInstance().pack();
 		}
+		dialog.dispose();
 	}
 
 	private int isOpenFile(File file, Vector<String> openFiles)
