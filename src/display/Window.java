@@ -23,6 +23,7 @@ public class Window extends JFrame {
 		setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
 		setIconImage((new ImageIcon("img/app-icon.png")).getImage());
 		setSize(800, 600);
+		setMinimumSize(new Dimension(450, 500));
 		setLocationRelativeTo(null);
 		setTitle("Language Creator");
 		this.menu = new Menu();
@@ -35,16 +36,16 @@ public class Window extends JFrame {
 			{
 				if ( ! allSaved())
 				{
-					String[] options = {"No", "Yes"};
+					String[] options = {"Yes", "No"};
 					int selection = JOptionPane
 					.showOptionDialog(
 					Window.getInstance(),
 					"Some files have not been saved, are you sure you want to exit the application?",
 					"Not Saved", JOptionPane.YES_NO_OPTION,
 					JOptionPane.WARNING_MESSAGE, new ImageIcon(
-					"img/warning.png"), options, options[0]);
+					"img/warning.png"), options, options[1]);
 
-					if (selection == 1)
+					if (selection == 0)
 					{
 						dispose();
 					}

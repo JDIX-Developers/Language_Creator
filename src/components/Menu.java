@@ -20,6 +20,7 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
+import javax.swing.JSplitPane;
 import javax.swing.JTabbedPane;
 import javax.swing.KeyStroke;
 import javax.swing.SwingUtilities;
@@ -41,7 +42,7 @@ public class Menu extends JMenuBar implements ActionListener {
 
 	private JMenu				file, edit, window, help;
 	private JMenuItem			newLang, open, save, save_as, print,
-	preferences, showToolBar;
+	preferences, showToolBar, showConsole;
 
 	/**
 	 * Create the menu.
@@ -111,6 +112,10 @@ public class Menu extends JMenuBar implements ActionListener {
 		showToolBar.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		showToolBar.addActionListener(this);
 
+		showConsole = new JMenuItem("Hide Console");
+		showConsole.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		showConsole.addActionListener(this);
+
 		file.add(newLang);
 		file.add(open);
 		file.add(save);
@@ -120,6 +125,7 @@ public class Menu extends JMenuBar implements ActionListener {
 		edit.add(preferences);
 
 		window.add(showToolBar);
+		window.add(showConsole);
 
 		add(file);
 		add(edit);
@@ -158,6 +164,25 @@ public class Menu extends JMenuBar implements ActionListener {
 			{
 				showToolBar.setText("Hide ToolBar");
 				tB.setVisible(true);
+			}
+		}
+		else if (e.getSource() == showConsole)
+		{
+			JSplitPane panel = startPanel.getSplitPane();
+			if (showConsole.getText().equals("Hide Console"))
+			{
+				showConsole.setText("Show Console");
+				panel.getRightComponent().setVisible(false);
+				panel.setDividerSize(0);
+			}
+			else
+			{
+				showConsole.setText("Hide Console");
+				panel.setDividerSize(10);
+				panel.getRightComponent().setVisible(true);
+				panel.setDividerLocation(panel.getHeight() - 150);
+				panel.revalidate();
+				panel.repaint();
 			}
 		}
 	}

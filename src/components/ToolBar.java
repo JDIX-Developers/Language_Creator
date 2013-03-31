@@ -92,7 +92,7 @@ public class ToolBar extends JToolBar implements ActionListener {
 		lblFilter.setFont(new Font("Segoe UI Symbol", Font.PLAIN, 14));
 
 		textField_Find = new JTextField();
-		textField_Find.setColumns(12);
+		textField_Find.setColumns(8);
 		textField_Find.addKeyListener(new java.awt.event.KeyAdapter()
 		{
 
@@ -113,7 +113,7 @@ public class ToolBar extends JToolBar implements ActionListener {
 					final TableRowSorter<TableModel> sorter = new TableRowSorter<TableModel>(
 					(TableModel) table.getModel());
 					table.setRowSorter(sorter);
-					String word = textField_Find.getText();
+					String word = textField_Find.getText().trim();
 					if (word.length() == 0)
 					{
 						sorter.setRowFilter(null);
@@ -135,12 +135,10 @@ public class ToolBar extends JToolBar implements ActionListener {
 			@Override
 			public void keyPressed(java.awt.event.KeyEvent e)
 			{
-
 				if (e.getKeyCode() == KeyEvent.VK_ESCAPE)
 				{
 					textField_Find.setText("");
 				}
-
 			}
 		});
 
@@ -286,7 +284,7 @@ public class ToolBar extends JToolBar implements ActionListener {
 		}
 	}
 
-	private void saveAction(JTabbedPane tabs, Vector<LangEditor> langEditors)
+	public void saveAction(JTabbedPane tabs, Vector<LangEditor> langEditors)
 	{
 		int index = tabs.getSelectedIndex();
 		if (index >= 0)
@@ -310,7 +308,6 @@ public class ToolBar extends JToolBar implements ActionListener {
 						doc.addString("The file "
 						+ langEditor.getFile().toString()
 						+ " successfully saved.");
-
 					}
 					catch (Exception e)
 					{
@@ -411,24 +408,4 @@ public class ToolBar extends JToolBar implements ActionListener {
 		return i;
 	}
 
-	private void searchAction(JTabbedPane tabs, Start startPanel)
-	{
-		String searchWord = textField_Find.getText().trim().toUpperCase();
-
-		int index = tabs.getSelectedIndex();
-		if (index >= 0)
-		{
-			LangEditor langEditor = startPanel.getLangEditors().get(index);
-			TableModel modelTable = langEditor.getTableModel();
-			JTable table = langEditor.getTable();
-			for (int i = 0; i < modelTable.getRowCount(); i++)
-			{
-				if (((String) modelTable.getValueAt(0, 1)).toUpperCase()
-				.equals(searchWord))
-				{
-
-				}
-			}
-		}
-	}
 }

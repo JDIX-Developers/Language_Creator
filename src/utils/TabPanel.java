@@ -7,9 +7,11 @@ import java.awt.event.ActionListener;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 
+import display.LangEditor;
 import display.Start;
 import display.Window;
 
@@ -51,9 +53,29 @@ public class TabPanel extends JPanel implements ActionListener {
 		{
 			if (tabs.getTitleAt(i).equals(title))
 			{
-				tabs.removeTabAt(i);
-				aux = true;
-				st.getLangEditors().remove(i);
+				LangEditor langEditor = st.getLangEditors().get(i);
+				if ( ! langEditor.isSaved())
+				{
+					int selection = JOptionPane
+					.showOptionDialog(
+					Window.getInstance(),
+					"The file has not been saved. Are you sure you want to close this file without saving?",
+					"Not Saved", JOptionPane.YES_NO_OPTION,
+					JOptionPane.WARNING_MESSAGE, new ImageIcon(
+					"img/warning.png"), new Object[] {"Yes", "No"}, "No");
+					if (selection == 0)
+					{
+						tabs.removeTabAt(i);
+						st.getLangEditors().remove(i);
+					}
+					aux = true;
+				}
+				else
+				{
+					tabs.removeTabAt(i);
+					aux = true;
+					st.getLangEditors().remove(i);
+				}
 			}
 		}
 		return false;

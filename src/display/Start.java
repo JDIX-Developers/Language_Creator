@@ -43,9 +43,9 @@ public class Start extends JPanel {
 		langEditors = new Vector<LangEditor>();
 
 		splitPane = new JSplitPane();
-		splitPane.setDividerLocation(300);
 		splitPane.setDividerSize(10);
 		splitPane.setOrientation(JSplitPane.VERTICAL_SPLIT);
+		splitPane.setDividerLocation(splitPane.getHeight() - 150);
 		add(splitPane, BorderLayout.CENTER);
 
 		tabs = new JTabbedPane(JTabbedPane.TOP);
@@ -112,5 +112,15 @@ public class Start extends JPanel {
 	public void setLangEditors(Vector<LangEditor> langEditors)
 	{
 		this.langEditors = langEditors;
+	}
+
+	public JPanel getConsolePanel()
+	{
+		return this.panel;
+	}
+
+	public JSplitPane getSplitPane()
+	{
+		return this.splitPane;
 	}
 }

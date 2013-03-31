@@ -86,7 +86,7 @@ public class LangEditor extends JPanel {
 			lblFilePath.setText("Saved file path: Unsaved.");
 		}
 
-		String[] header = {"Lines", "id", "Description"};
+		String[] header = {"Lines", "Key", "Description"};
 		String[][] content = new String[this.lines.size()][3];
 		loadContent(content);
 
@@ -111,6 +111,8 @@ public class LangEditor extends JPanel {
 		table.setBackground(Color.WHITE);
 		table.setFont(new Font("Segoe UI Symbol", Font.PLAIN, 14));
 		table.setRowHeight(30);
+
+		table.getTableHeader().setFont(new Font("Arial", Font.PLAIN, 15));
 
 		table.getColumnModel().getColumn(0).setMinWidth(50);
 		table.getColumnModel().getColumn(0).setMaxWidth(50);
