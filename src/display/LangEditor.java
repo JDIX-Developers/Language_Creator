@@ -21,10 +21,10 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableCellRenderer;
-import javax.swing.table.DefaultTableModel;
 
 import utils.ConsoleContent;
 import utils.StringUtils;
+import utils.TableModel;
 
 public class LangEditor extends JPanel {
 
@@ -93,7 +93,6 @@ public class LangEditor extends JPanel {
 		DefaultTableCellRenderer tableCellModel = new DefaultTableCellRenderer();
 		tableCellModel.setHorizontalAlignment(SwingConstants.CENTER);
 
-		// Table Model
 		modelTable = new TableModel();
 		modelTable.setDataVector(content, header);
 
@@ -256,6 +255,18 @@ public class LangEditor extends JPanel {
 		return enc;
 	}
 
+	public HashMap<String, String> getFinaleHashMap()
+	{
+		HashMap<String, String> hashMap = new HashMap<String, String>();
+		for (int i = 0; i < modelTable.getRowCount(); i++)
+		{
+			String key = ((String) modelTable.getValueAt(i, 1)).trim();
+			String description = ((String) modelTable.getValueAt(i, 2)).trim();
+			hashMap.put(key, description);
+		}
+		return hashMap;
+	}
+
 	public File getFile()
 	{
 		return this.file;
@@ -281,9 +292,9 @@ public class LangEditor extends JPanel {
 		return table;
 	}
 
-	public void setTable(JTable table)
+	public TableModel getTableModel()
 	{
-		this.table = table;
+		return this.modelTable;
 	}
 
 	public boolean isSaved()
@@ -296,28 +307,8 @@ public class LangEditor extends JPanel {
 		this.saved = saved;
 	}
 
-	public String getLblFilePathText()
-	{
-		return lblFilePath.getText();
-	}
-
 	public void setLblFilePathText(String string)
 	{
 		this.lblFilePath.setText("Saved file path: " + string);
-	}
-
-	class TableModel extends DefaultTableModel {
-
-		private static final long	serialVersionUID	= 1L;
-
-		@Override
-		public boolean isCellEditable(int row, int column)
-		{
-			if (column == 0)
-			{
-				return false;
-			}
-			return true;
-		}
 	}
 }

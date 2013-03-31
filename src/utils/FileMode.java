@@ -34,13 +34,14 @@ public class FileMode {
 		return file;
 	}
 
-	public static String saveFile(Object content, String description,
-	String extension)
+	public static String saveObjectFile(Object content, String description,
+	String extension, File file)
 	{
 		JFileChooser fileChooser = new JFileChooser();
 		FileNameExtensionFilter langFilter = new FileNameExtensionFilter(
 		description, extension);
 		fileChooser.setFileFilter(langFilter);
+		fileChooser.setSelectedFile(file);
 		String path = "";
 		try
 		{
@@ -51,12 +52,12 @@ public class FileMode {
 				{
 					path += "." + extension;
 				}
-				File file = new File(path);
-				if ((file.exists() && JOptionPane.OK_OPTION == JOptionPane
+				File file2 = new File(path);
+				if ((file2.exists() && JOptionPane.OK_OPTION == JOptionPane
 				.showConfirmDialog(null,
 				"The file exists, do you want to replace it?", "File Exists",
 				JOptionPane.YES_NO_OPTION))
-				|| ! file.exists())
+				|| ! file2.exists())
 				{
 					ObjectOutputStream oos = new ObjectOutputStream(
 					new FileOutputStream(path));
