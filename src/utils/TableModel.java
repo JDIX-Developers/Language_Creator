@@ -1,6 +1,10 @@
 package utils;
+
 import javax.swing.table.DefaultTableModel;
 
+/**
+ * @author Jordan Aranda Tejada
+ */
 public class TableModel extends DefaultTableModel {
 
 	private static final long	serialVersionUID	= 1L;

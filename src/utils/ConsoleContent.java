@@ -8,6 +8,9 @@ import javax.swing.text.Style;
 import javax.swing.text.StyleConstants;
 import javax.swing.text.StyleContext;
 
+/**
+ * @author Jordan Aranda Tejada
+ */
 public class ConsoleContent extends DefaultStyledDocument {
 
 	private StyleContext	sC;

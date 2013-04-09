@@ -15,6 +15,9 @@ import display.LangEditor;
 import display.Start;
 import display.Window;
 
+/**
+ * @author Jordan Aranda Tejada
+ */
 public class TabPanel extends JPanel implements ActionListener {
 
 	private static final long	serialVersionUID	= 8155818731609154350L;
@@ -44,7 +47,7 @@ public class TabPanel extends JPanel implements ActionListener {
 		removeTab(title);
 	}
 
-	public boolean removeTab(String title)
+	private boolean removeTab(String title)
 	{
 		Start st = (Start) Window.getInstance().getContentPane();
 		boolean aux = false;

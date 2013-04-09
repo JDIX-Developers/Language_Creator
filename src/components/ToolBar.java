@@ -36,18 +36,25 @@ import display.LangEditor;
 import display.Start;
 import display.Window;
 
+/**
+ * @author Jordan Aranda Tejada
+ */
 public class ToolBar extends JToolBar implements ActionListener {
 
-	private JButton		btnNewFile;
-	private JButton		btnOpenFile;
-	private JButton		btnSaveFile;
-	private JButton		btnSaveAsFile;
-	private JButton		btnPrint;
-	private JButton		btnAddRow;
-	private JButton		btnRemoveRow;
-	private JLabel		lblFilter;
-	private JTextField	textField_Find;
+	private static final long	serialVersionUID	= - 4146568246110544527L;
+	private JButton				btnNewFile;
+	private JButton				btnOpenFile;
+	private JButton				btnSaveFile;
+	private JButton				btnSaveAsFile;
+	private JButton				btnPrint;
+	private JButton				btnAddRow;
+	private JButton				btnRemoveRow;
+	private JLabel				lblFilter;
+	private JTextField			textField_Find;
 
+	/**
+	 * Create the toolbar.
+	 */
 	public ToolBar()
 	{
 		super();
@@ -284,7 +291,7 @@ public class ToolBar extends JToolBar implements ActionListener {
 		}
 	}
 
-	public void saveAction(JTabbedPane tabs, Vector<LangEditor> langEditors)
+	private void saveAction(JTabbedPane tabs, Vector<LangEditor> langEditors)
 	{
 		int index = tabs.getSelectedIndex();
 		if (index >= 0)

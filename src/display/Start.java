@@ -20,6 +20,9 @@ import utils.ConsoleContent;
 
 import components.ToolBar;
 
+/**
+ * @author Jordan Aranda Tejada
+ */
 public class Start extends JPanel {
 
 	private static final long	serialVersionUID	= - 3019955922941567348L;

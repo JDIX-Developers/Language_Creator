@@ -36,6 +36,9 @@ import display.Preferences;
 import display.Start;
 import display.Window;
 
+/**
+ * @author Jordan Aranda Tejada
+ */
 public class Menu extends JMenuBar implements ActionListener {
 
 	private static final long	serialVersionUID	= - 2674054941368737779L;

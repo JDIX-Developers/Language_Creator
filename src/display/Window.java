@@ -11,6 +11,9 @@ import javax.swing.JOptionPane;
 
 import components.Menu;
 
+/**
+ * @author Jordan Aranda Tejada
+ */
 public class Window extends JFrame {
 
 	private static final long	serialVersionUID	= - 8641413596663241575L;

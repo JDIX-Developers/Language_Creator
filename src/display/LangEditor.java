@@ -26,6 +26,9 @@ import utils.ConsoleContent;
 import utils.StringUtils;
 import utils.TableModel;
 
+/**
+ * @author Jordan Aranda Tejada
+ */
 public class LangEditor extends JPanel {
 
 	private static final long		serialVersionUID	= 2486033380987365663L;
