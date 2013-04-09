@@ -77,6 +77,10 @@ public class TabPanel extends JPanel implements ActionListener {
 					st.getLangEditors().remove(i);
 				}
 			}
+			else
+			{
+				i++;
+			}
 		}
 		return false;
 	}

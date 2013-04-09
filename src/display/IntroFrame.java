@@ -30,16 +30,11 @@ public class IntroFrame extends JFrame {
 
 	public static void main(String[] args)
 	{
-		IntroFrame frame = new IntroFrame();
-		try
-		{
-			Thread.sleep(5100);
-		}
-		catch (InterruptedException e)
-		{
-			e.printStackTrace();
-		}
-		frame.dispose();
+		/*
+		 * IntroFrame frame = new IntroFrame(); try { Thread.sleep(5100); }
+		 * catch (InterruptedException e) { e.printStackTrace(); }
+		 * frame.dispose();
+		 */
 
 		try
 		{
