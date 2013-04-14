@@ -12,9 +12,12 @@ import java.util.Locale;
 import javax.swing.UIManager;
 import javax.swing.UIManager.LookAndFeelInfo;
 
+/**
+ * @author Razican (Iban Eguia)
+ */
 public class Preferences implements Serializable {
 
-	private static final long	serialVersionUID	= -1140374742103678200L;
+	private static final long	serialVersionUID	= - 1140374742103678200L;
 	private static Preferences	preferences;
 	private Locale				locale;
 	private String				lookAndFeelClass;
@@ -52,7 +55,7 @@ public class Preferences implements Serializable {
 		}
 		catch (IOException | ClassNotFoundException e)
 		{
-			if (!(e instanceof FileNotFoundException))
+			if ( ! (e instanceof FileNotFoundException))
 			{
 				e.printStackTrace();
 			}
@@ -74,28 +77,6 @@ public class Preferences implements Serializable {
 		}
 
 		return preferences.locale;
-	}
-
-	/**
-	 * @param l Locale to set as default
-	 */
-	public static void setLocale(Locale l)
-	{
-		if (preferences == null)
-		{
-			init();
-		}
-
-		if (Lang.getAvailableLocales().contains(l))
-		{
-			preferences.locale = l;
-		}
-		else
-		{
-			preferences.locale = Lang.getDefaultLocale();
-		}
-
-		preferences.update();
 	}
 
 	/**

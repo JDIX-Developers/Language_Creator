@@ -142,7 +142,11 @@ public class Menu extends JMenuBar implements ActionListener {
 		JTabbedPane tPane = startPanel.getTabbedPane();
 		Vector<LangEditor> langEditors = startPanel.getLangEditors();
 
-		if (e.getSource() == newLang)
+		if (e.getSource() == preferences)
+		{
+			preferencesAction();
+		}
+		else if (e.getSource() == newLang)
 		{
 			newLangAction(tPane, langEditors);
 		}
@@ -307,11 +311,6 @@ public class Menu extends JMenuBar implements ActionListener {
 
 		if (pane.getValue() == options[0])
 		{
-			utils.Preferences.setLocale(Lang.getAvailableLocales().get(
-			p.getLocaleIndex()));
-
-			Lang.setLang(Lang.getAvailableLocales().get(p.getLocaleIndex()));
-
 			utils.Preferences.setLookAndFeelClass(p.getLookAndFeel());
 
 			try
