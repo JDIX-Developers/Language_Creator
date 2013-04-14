@@ -28,7 +28,7 @@ import javax.swing.RowFilter;
 import javax.swing.table.TableRowSorter;
 
 import utils.ConsoleContent;
-import utils.FileMode;
+import utils.FileChooser;
 import utils.Lang;
 import utils.TabPanel;
 import utils.TableModel;
@@ -249,7 +249,7 @@ public class ToolBar extends JToolBar implements ActionListener {
 		ConsoleContent doc = (ConsoleContent) st.getTextPane_console()
 		.getStyledDocument();
 		doc.clearContent();
-		File file = FileMode.openFileMode("Language file", "lang");
+		File file = FileChooser.openFile("Language file", "lang");
 		if (file != null)
 		{
 			int i = isOpenFile(file, langEditors);
@@ -342,7 +342,7 @@ public class ToolBar extends JToolBar implements ActionListener {
 				.getStyledDocument();
 				doc.clearContent();
 
-				String path = FileMode.saveObjectFile(
+				String path = FileChooser.saveObjectFile(
 				langEditor.getFinaleHashMap(), "Language File", "lang",
 				langEditor.getFile());
 				if (path != "")

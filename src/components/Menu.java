@@ -28,7 +28,7 @@ import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
 import utils.ConsoleContent;
-import utils.FileMode;
+import utils.FileChooser;
 import utils.Lang;
 import utils.TabPanel;
 import display.LangEditor;
@@ -240,7 +240,7 @@ public class Menu extends JMenuBar implements ActionListener {
 		ConsoleContent doc = (ConsoleContent) st.getTextPane_console()
 		.getStyledDocument();
 		doc.clearContent();
-		File file = FileMode.openFileMode("Language file", "lang");
+		File file = FileChooser.openFile("Language file", "lang");
 		int i = isOpenFile(file, langEditors);
 		if (file != null && i == langEditors.size())
 		{

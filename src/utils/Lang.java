@@ -14,6 +14,9 @@ import java.util.Vector;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 
+/**
+ * @author Razican (Iban Eguia)
+ */
 public class Lang {
 
 	private static Vector<Locale>						locales;
@@ -227,7 +230,7 @@ public class Lang {
 	}
 
 	/**
-	 * @return All available locales
+	 * @return All available locales, ready to be used in a JComboBox
 	 */
 	public static Vector<String> getCombableAvalaibleLocales()
 	{
@@ -247,6 +250,9 @@ public class Lang {
 		return combo;
 	}
 
+	/**
+	 * @return All available locales
+	 */
 	public static Vector<Locale> getAllAvalaibleLocales()
 	{
 		Locale list[] = DateFormat.getAvailableLocales();
@@ -261,6 +267,11 @@ public class Lang {
 		return vector;
 	}
 
+	/**
+	 * @param string - The string for the JComboBox returned by
+	 *            getCombableAvalaibleLocales()
+	 * @return File name for the JComboBox string
+	 */
 	public static String getNameFileLang(String string)
 	{
 		int i = 0;
