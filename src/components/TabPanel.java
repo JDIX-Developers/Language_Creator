@@ -1,4 +1,4 @@
-package utils;
+package components;
 
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
@@ -11,7 +11,6 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 
-import components.Window;
 
 import display.LangEditor;
 import display.Start;

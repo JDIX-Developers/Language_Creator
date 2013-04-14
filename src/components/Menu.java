@@ -30,7 +30,6 @@ import javax.swing.UnsupportedLookAndFeelException;
 import utils.ConsoleContent;
 import utils.FileChooser;
 import utils.Lang;
-import utils.TabPanel;
 import display.LangEditor;
 import display.Preferences;
 import display.Start;

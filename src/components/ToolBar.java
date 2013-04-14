@@ -30,8 +30,6 @@ import javax.swing.table.TableRowSorter;
 import utils.ConsoleContent;
 import utils.FileChooser;
 import utils.Lang;
-import utils.TabPanel;
-import utils.TableModel;
 import display.LangEditor;
 import display.Start;
 

@@ -22,11 +22,11 @@ import javax.swing.JTable;
 import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableCellRenderer;
 
+import components.TableModel;
 import components.Window;
 
 import utils.ConsoleContent;
 import utils.StringUtils;
-import utils.TableModel;
 
 /**
  * @author Jordan Aranda Tejada
