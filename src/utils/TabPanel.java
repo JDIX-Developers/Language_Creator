@@ -11,9 +11,10 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 
+import components.Window;
+
 import display.LangEditor;
 import display.Start;
-import display.Window;
 
 /**
  * @author Jordan Aranda Tejada

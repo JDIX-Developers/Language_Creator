@@ -13,12 +13,15 @@ import javax.swing.JSplitPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JTextPane;
 import javax.swing.SwingConstants;
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.border.EmptyBorder;
 import javax.swing.text.StyleContext;
 
 import utils.ConsoleContent;
 
 import components.ToolBar;
+import components.Window;
 
 /**
  * @author Jordan Aranda Tejada
@@ -35,6 +38,29 @@ public class Start extends JPanel {
 	private JLabel				lblConsole;
 	private JScrollPane			scrollPane;
 	private JTextPane			textPane_console;
+
+	public static void main(String[] args)
+	{
+		/*
+		 * IntroFrame frame = new IntroFrame(); try { Thread.sleep(3100); }
+		 * catch (InterruptedException e) { e.printStackTrace(); }
+		 * frame.dispose();
+		 */
+
+		try
+		{
+			UIManager.setLookAndFeel(utils.Preferences.getLookAndFeel());
+		}
+		catch (ClassNotFoundException | InstantiationException
+		| IllegalAccessException | UnsupportedLookAndFeelException e)
+		{
+			e.printStackTrace();
+		}
+		Window.getInstance().setContentPane(new Start());
+		Window.getInstance().setVisible(true);
+		((Start) Window.getInstance().getContentPane()).getTabbedPane()
+		.requestFocus();
+	}
 
 	public Start()
 	{

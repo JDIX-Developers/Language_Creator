@@ -1,4 +1,4 @@
-package display;
+package components;
 
 import java.awt.Dimension;
 import java.awt.Graphics;
@@ -6,8 +6,6 @@ import java.awt.Graphics;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
-import javax.swing.UIManager;
-import javax.swing.UnsupportedLookAndFeelException;
 
 public class IntroFrame extends JFrame {
 
@@ -26,29 +24,6 @@ public class IntroFrame extends JFrame {
 		contentPane.updateUI();
 
 		setVisible(true);
-	}
-
-	public static void main(String[] args)
-	{
-		/*
-		 * IntroFrame frame = new IntroFrame(); try { Thread.sleep(5100); }
-		 * catch (InterruptedException e) { e.printStackTrace(); }
-		 * frame.dispose();
-		 */
-
-		try
-		{
-			UIManager.setLookAndFeel(utils.Preferences.getLookAndFeel());
-		}
-		catch (ClassNotFoundException | InstantiationException
-		| IllegalAccessException | UnsupportedLookAndFeelException e)
-		{
-			e.printStackTrace();
-		}
-		Window.getInstance().setContentPane(new Start());
-		Window.getInstance().setVisible(true);
-		((Start) Window.getInstance().getContentPane()).getTabbedPane()
-		.requestFocus();
 	}
 
 	class PanelBackground extends JPanel {

@@ -34,7 +34,6 @@ import utils.TabPanel;
 import utils.TableModel;
 import display.LangEditor;
 import display.Start;
-import display.Window;
 
 /**
  * @author Jordan Aranda Tejada

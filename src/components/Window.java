@@ -1,4 +1,4 @@
-package display;
+package components;
 
 import java.awt.Dimension;
 import java.awt.event.WindowAdapter;
@@ -9,7 +9,8 @@ import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
-import components.Menu;
+import display.LangEditor;
+import display.Start;
 
 /**
  * @author Jordan Aranda Tejada
