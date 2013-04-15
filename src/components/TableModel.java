@@ -7,7 +7,7 @@ import javax.swing.table.DefaultTableModel;
  */
 public class TableModel extends DefaultTableModel {
 
-	private static final long	serialVersionUID	= 1L;
+	private static final long	serialVersionUID	= - 6263295638389047704L;
 
 	@Override
 	public boolean isCellEditable(int row, int column)
