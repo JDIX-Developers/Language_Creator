@@ -9,7 +9,7 @@ import javax.swing.JPanel;
 
 public class IntroFrame extends JFrame {
 
-	private PanelBackground	contentPane;
+	private final PanelBackground	contentPane;
 
 	public IntroFrame()
 	{
@@ -28,18 +28,18 @@ public class IntroFrame extends JFrame {
 
 	class PanelBackground extends JPanel {
 
-		private ImageIcon	image;
-		private String		name;
+		private ImageIcon		image;
+		private final String	name;
 
-		public PanelBackground(String name)
+		public PanelBackground(final String name)
 		{
 			this.name = name;
 		}
 
 		@Override
-		public void paint(Graphics g)
+		public void paint(final Graphics g)
 		{
-			Dimension size = getSize();
+			final Dimension size = getSize();
 			image = new ImageIcon(name);
 			g.drawImage(image.getImage(), 0, 0, size.width, size.height, null);
 			setOpaque(false);

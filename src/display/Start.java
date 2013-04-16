@@ -32,14 +32,14 @@ public class Start extends JPanel {
 
 	private ToolBar				toolBar;
 	private Vector<LangEditor>	langEditors;
-	private JSplitPane			splitPane;
-	private JTabbedPane			tabs;
-	private JPanel				panel;
-	private JLabel				lblConsole;
-	private JScrollPane			scrollPane;
+	private final JSplitPane	splitPane;
+	private final JTabbedPane	tabs;
+	private final JPanel		panel;
+	private final JLabel		lblConsole;
+	private final JScrollPane	scrollPane;
 	private JTextPane			textPane_console;
 
-	public static void main(String[] args)
+	public static void main(final String[] args)
 	{
 		/*
 		 * IntroFrame frame = new IntroFrame(); try { Thread.sleep(3100); }
@@ -96,7 +96,7 @@ public class Start extends JPanel {
 		textPane_console = new JTextPane(new ConsoleContent(new StyleContext()));
 		scrollPane.setViewportView(textPane_console);
 
-		JLabel signatureLabel = new JLabel("JDIX Developers");
+		final JLabel signatureLabel = new JLabel("JDIX Developers");
 		signatureLabel.setFont(new Font("DejaVu Sans", Font.PLAIN, 10));
 		signatureLabel.setForeground(Color.GRAY);
 		signatureLabel.setHorizontalAlignment(SwingConstants.RIGHT);
@@ -118,7 +118,7 @@ public class Start extends JPanel {
 		return toolBar;
 	}
 
-	public void setToolBar(ToolBar toolBar)
+	public void setToolBar(final ToolBar toolBar)
 	{
 		this.toolBar = toolBar;
 	}
@@ -128,7 +128,7 @@ public class Start extends JPanel {
 		return textPane_console;
 	}
 
-	public void setTextPane_console(JTextPane textPane_console)
+	public void setTextPane_console(final JTextPane textPane_console)
 	{
 		this.textPane_console = textPane_console;
 	}
@@ -138,7 +138,7 @@ public class Start extends JPanel {
 		return langEditors;
 	}
 
-	public void setLangEditors(Vector<LangEditor> langEditors)
+	public void setLangEditors(final Vector<LangEditor> langEditors)
 	{
 		this.langEditors = langEditors;
 	}

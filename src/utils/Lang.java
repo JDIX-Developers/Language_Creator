@@ -21,8 +21,8 @@ public class Lang {
 	 */
 	public static Vector<String> getCombableAvalaibleLocales()
 	{
-		Locale list[] = DateFormat.getAvailableLocales();
-		Vector<String> combo = new Vector<String>();
+		final Locale list[] = DateFormat.getAvailableLocales();
+		final Vector<String> combo = new Vector<String>();
 
 		for (int i = 0; i < list.length; i++)
 		{
@@ -42,8 +42,8 @@ public class Lang {
 	 */
 	public static Vector<Locale> getAllAvalaibleLocales()
 	{
-		Locale list[] = DateFormat.getAvailableLocales();
-		Vector<Locale> vector = new Vector<Locale>();
+		final Locale list[] = DateFormat.getAvailableLocales();
+		final Vector<Locale> vector = new Vector<Locale>();
 		for (int i = 0; i < list.length; i++)
 		{
 			if ( ! list[i].getCountry().equals(""))
@@ -59,14 +59,14 @@ public class Lang {
 	 *            getCombableAvalaibleLocales()
 	 * @return File name for the JComboBox string
 	 */
-	public static String getNameFileLang(String string)
+	public static String getNameFileLang(final String string)
 	{
 		int i = 0;
-		Vector<Locale> vector = getAllAvalaibleLocales();
+		final Vector<Locale> vector = getAllAvalaibleLocales();
 		boolean enc = false;
 		while ( ! enc && i < vector.size())
 		{
-			String aux = StringUtils.firstToUpper(vector.get(i)
+			final String aux = StringUtils.firstToUpper(vector.get(i)
 			.getDisplayLanguage())
 			+ " ("
 			+ vector.get(i).getDisplayCountry()

@@ -19,7 +19,7 @@ public class Window extends JFrame {
 
 	private static final long	serialVersionUID	= - 8641413596663241575L;
 	private static Window		instance;
-	private Menu				menu;
+	private final Menu			menu;
 
 	private Window()
 	{
@@ -36,12 +36,12 @@ public class Window extends JFrame {
 		{
 
 			@Override
-			public void windowClosing(WindowEvent winEvt)
+			public void windowClosing(final WindowEvent winEvt)
 			{
 				if ( ! allSaved())
 				{
-					String[] options = {"Yes", "No"};
-					int selection = JOptionPane
+					final String[] options = {"Yes", "No"};
+					final int selection = JOptionPane
 					.showOptionDialog(
 					Window.getInstance(),
 					"Some files have not been saved, are you sure you want to exit the application?",
@@ -79,14 +79,14 @@ public class Window extends JFrame {
 	public void pack()
 	{
 		super.pack();
-		Dimension d = getSize();
+		final Dimension d = getSize();
 		setSize(d);
 	}
 
 	private boolean allSaved()
 	{
-		Start startPanel = (Start) Window.getInstance().getContentPane();
-		Vector<LangEditor> langEditors = startPanel.getLangEditors();
+		final Start startPanel = (Start) Window.getInstance().getContentPane();
+		final Vector<LangEditor> langEditors = startPanel.getLangEditors();
 		int i = 0;
 		boolean allSaved = true;
 		while (allSaved && i < langEditors.size())

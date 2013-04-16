@@ -20,7 +20,7 @@ public class ConsoleContent extends DefaultStyledDocument {
 		super();
 	}
 
-	public ConsoleContent(StyleContext sC)
+	public ConsoleContent(final StyleContext sC)
 	{
 		super(sC);
 		this.sC = sC;
@@ -32,43 +32,43 @@ public class ConsoleContent extends DefaultStyledDocument {
 		return super.getLength();
 	}
 
-	public void addString(String string)
+	public void addString(final String string)
 	{
-		Style style = sC.addStyle(null, null);
+		final Style style = sC.addStyle(null, null);
 		StyleConstants.setForeground(style, Color.BLACK);
 		try
 		{
 			super.insertString(getLength(), string + "\n", style);
 		}
-		catch (BadLocationException e)
+		catch (final BadLocationException e)
 		{
 			e.printStackTrace();
 		}
 	}
 
-	public void addErrorMessage(String string)
+	public void addErrorMessage(final String string)
 	{
-		Style style = sC.addStyle(null, null);
+		final Style style = sC.addStyle(null, null);
 		StyleConstants.setForeground(style, Color.RED);
 		try
 		{
 			super.insertString(getLength(), string + "\n", style);
 		}
-		catch (BadLocationException e)
+		catch (final BadLocationException e)
 		{
 			e.printStackTrace();
 		}
 	}
 
-	public void addWarningMessage(String string)
+	public void addWarningMessage(final String string)
 	{
-		Style style = sC.addStyle(null, null);
+		final Style style = sC.addStyle(null, null);
 		StyleConstants.setForeground(style, Color.ORANGE);
 		try
 		{
 			super.insertString(getLength(), string + "\n", style);
 		}
-		catch (BadLocationException e)
+		catch (final BadLocationException e)
 		{
 			e.printStackTrace();
 		}
@@ -80,7 +80,7 @@ public class ConsoleContent extends DefaultStyledDocument {
 		{
 			super.remove(0, getLength());
 		}
-		catch (BadLocationException e)
+		catch (final BadLocationException e)
 		{
 			e.printStackTrace();
 		}

@@ -41,8 +41,8 @@ public class Menu extends JMenuBar implements ActionListener {
 
 	private static final long	serialVersionUID	= - 2674054941368737779L;
 
-	private JMenu				file, edit, window, help;
-	private JMenuItem			newLang, open, save, save_as, print,
+	private final JMenu			file, edit, window, help;
+	private final JMenuItem		newLang, open, save, save_as, print,
 	preferences, showToolBar, showConsole;
 
 	/**
@@ -135,11 +135,11 @@ public class Menu extends JMenuBar implements ActionListener {
 	}
 
 	@Override
-	public void actionPerformed(ActionEvent e)
+	public void actionPerformed(final ActionEvent e)
 	{
-		Start startPanel = (Start) Window.getInstance().getContentPane();
-		JTabbedPane tPane = startPanel.getTabbedPane();
-		Vector<LangEditor> langEditors = startPanel.getLangEditors();
+		final Start startPanel = (Start) Window.getInstance().getContentPane();
+		final JTabbedPane tPane = startPanel.getTabbedPane();
+		final Vector<LangEditor> langEditors = startPanel.getLangEditors();
 
 		if (e.getSource() == preferences)
 		{
@@ -159,7 +159,7 @@ public class Menu extends JMenuBar implements ActionListener {
 		}
 		else if (e.getSource() == showToolBar)
 		{
-			ToolBar tB = startPanel.getToolBar();
+			final ToolBar tB = startPanel.getToolBar();
 			if (showToolBar.getText().equals("Hide ToolBar"))
 			{
 				showToolBar.setText("Show ToolBar");
@@ -173,7 +173,7 @@ public class Menu extends JMenuBar implements ActionListener {
 		}
 		else if (e.getSource() == showConsole)
 		{
-			JSplitPane panel = startPanel.getSplitPane();
+			final JSplitPane panel = startPanel.getSplitPane();
 			if (showConsole.getText().equals("Hide Console"))
 			{
 				showConsole.setText("Show Console");
@@ -192,30 +192,31 @@ public class Menu extends JMenuBar implements ActionListener {
 		}
 	}
 
-	private void newLangAction(JTabbedPane tabs, Vector<LangEditor> langEditors)
+	private void newLangAction(final JTabbedPane tabs,
+	final Vector<LangEditor> langEditors)
 	{
-		Start st = (Start) Window.getInstance().getContentPane();
-		ConsoleContent doc = (ConsoleContent) st.getTextPane_console()
+		final Start st = (Start) Window.getInstance().getContentPane();
+		final ConsoleContent doc = (ConsoleContent) st.getTextPane_console()
 		.getStyledDocument();
 		doc.clearContent();
 
-		Vector<String> vect = Lang.getCombableAvalaibleLocales();
+		final Vector<String> vect = Lang.getCombableAvalaibleLocales();
 
-		String selection = (String) JOptionPane.showInputDialog(null,
+		final String selection = (String) JOptionPane.showInputDialog(null,
 		"Select a language", "Select a language", JOptionPane.QUESTION_MESSAGE,
 		new ImageIcon("img/app-icon.png"), vect.toArray(), vect.get(0));
 
 		if (selection != null)
 		{
-			File file = new File(Lang.getNameFileLang(selection));
-			int i = isOpenFile(file, langEditors);
+			final File file = new File(Lang.getNameFileLang(selection));
+			final int i = isOpenFile(file, langEditors);
 			if (i == langEditors.size())
 			{
-				HashMap<String, String> hashMap = new HashMap<String, String>();
+				final HashMap<String, String> hashMap = new HashMap<String, String>();
 				hashMap.put("", "");
-				LangEditor langEditor = new LangEditor(hashMap, file);
-				TabPanel pTab = new TabPanel(file.getName(), file.toString(),
-				tabs);
+				final LangEditor langEditor = new LangEditor(hashMap, file);
+				final TabPanel pTab = new TabPanel(file.getName(),
+				file.toString(), tabs);
 				tabs.addTab(file.getName(), langEditor);
 				langEditor.setSaved(false);
 
@@ -236,29 +237,30 @@ public class Menu extends JMenuBar implements ActionListener {
 		}
 	}
 
-	private void openAction(JTabbedPane tabs, Vector<LangEditor> langEditors)
+	private void openAction(final JTabbedPane tabs,
+	final Vector<LangEditor> langEditors)
 	{
-		Start st = (Start) Window.getInstance().getContentPane();
-		ConsoleContent doc = (ConsoleContent) st.getTextPane_console()
+		final Start st = (Start) Window.getInstance().getContentPane();
+		final ConsoleContent doc = (ConsoleContent) st.getTextPane_console()
 		.getStyledDocument();
 		doc.clearContent();
-		File file = FileChooser.openFile("Language file", "lang");
-		int i = isOpenFile(file, langEditors);
+		final File file = FileChooser.openFile("Language file", "lang");
+		final int i = isOpenFile(file, langEditors);
 		if (file != null && i == langEditors.size())
 		{
 			try
 			{
-				ObjectInputStream ois = new ObjectInputStream(
+				final ObjectInputStream ois = new ObjectInputStream(
 				new FileInputStream(file.toString()));
 				@SuppressWarnings ("unchecked")
-				HashMap<String, String> hashMap = (HashMap<String, String>) ois
+				final HashMap<String, String> hashMap = (HashMap<String, String>) ois
 				.readObject();
 				ois.close();
 
-				LangEditor langEditor = new LangEditor(hashMap, file);
+				final LangEditor langEditor = new LangEditor(hashMap, file);
 				st.getLangEditors().add(langEditor);
-				TabPanel pTab = new TabPanel(file.getName(), file.toString(),
-				tabs);
+				final TabPanel pTab = new TabPanel(file.getName(),
+				file.toString(), tabs);
 				tabs.addTab(file.getName(), langEditor);
 
 				tabs.setTabComponentAt(tabs.getTabCount() - 1, pTab);
@@ -280,17 +282,17 @@ public class Menu extends JMenuBar implements ActionListener {
 		}
 	}
 
-	private void printAction(JTabbedPane tPane, Start startPanel)
+	private void printAction(final JTabbedPane tPane, final Start startPanel)
 	{
-		int index = tPane.getSelectedIndex();
+		final int index = tPane.getSelectedIndex();
 		if (index >= 0)
 		{
-			LangEditor lEditor = startPanel.getLangEditors().get(index);
+			final LangEditor lEditor = startPanel.getLangEditors().get(index);
 			try
 			{
 				lEditor.getTable().print();
 			}
-			catch (PrinterException e)
+			catch (final PrinterException e)
 			{
 				e.printStackTrace();
 			}
@@ -299,12 +301,12 @@ public class Menu extends JMenuBar implements ActionListener {
 
 	private void preferencesAction()
 	{
-		Preferences p = new Preferences();
+		final Preferences p = new Preferences();
 
-		String[] options = {"OK", "Cancel"};
-		JOptionPane pane = new JOptionPane(p, JOptionPane.PLAIN_MESSAGE,
+		final String[] options = {"OK", "Cancel"};
+		final JOptionPane pane = new JOptionPane(p, JOptionPane.PLAIN_MESSAGE,
 		JOptionPane.OK_CANCEL_OPTION, null, options, options[1]);
-		JDialog dialog = pane.createDialog("Preferences");
+		final JDialog dialog = pane.createDialog("Preferences");
 		dialog.setLocationRelativeTo(Window.getInstance());
 		dialog.setVisible(true);
 
@@ -328,7 +330,7 @@ public class Menu extends JMenuBar implements ActionListener {
 		dialog.dispose();
 	}
 
-	private int isOpenFile(File file, Vector<LangEditor> langEditors)
+	private int isOpenFile(final File file, final Vector<LangEditor> langEditors)
 	{
 		boolean enc = false;
 		int i = 0;

@@ -18,7 +18,7 @@ import javax.swing.UIManager.LookAndFeelInfo;
 public class Preferences extends JPanel {
 
 	private static final long		serialVersionUID	= - 9082799207563983259L;
-	private JComboBox<String>		lookNFeelCombo;
+	private final JComboBox<String>	lookNFeelCombo;
 	private HashMap<String, String>	lookNFeelHashMap;
 	private String					currentLookAndFeel;
 
@@ -27,7 +27,7 @@ public class Preferences extends JPanel {
 	 */
 	public Preferences()
 	{
-		GridBagLayout gbl_panel = new GridBagLayout();
+		final GridBagLayout gbl_panel = new GridBagLayout();
 		gbl_panel.columnWidths = new int[] {0, 40, 32, 0, 0};
 		gbl_panel.rowHeights = new int[] {24, 0, 0, 0};
 		gbl_panel.columnWeights = new double[] {1.0, 0.0, 1.0, 1.0,
@@ -35,8 +35,8 @@ public class Preferences extends JPanel {
 		gbl_panel.rowWeights = new double[] {0.0, 0.0, 0.0, Double.MIN_VALUE};
 		setLayout(gbl_panel);
 
-		JLabel lbLookandfeel = new JLabel("Themes");
-		GridBagConstraints gbc_lbLookandfeel = new GridBagConstraints();
+		final JLabel lbLookandfeel = new JLabel("Themes");
+		final GridBagConstraints gbc_lbLookandfeel = new GridBagConstraints();
 		gbc_lbLookandfeel.fill = GridBagConstraints.VERTICAL;
 		gbc_lbLookandfeel.anchor = GridBagConstraints.WEST;
 		gbc_lbLookandfeel.insets = new Insets(0, 5, 15, 10);
@@ -46,7 +46,7 @@ public class Preferences extends JPanel {
 
 		lookNFeelCombo = new JComboBox<>(getAvailableLF());
 		lookNFeelCombo.setSelectedItem(currentLookAndFeel);
-		GridBagConstraints gbc_lfCombo = new GridBagConstraints();
+		final GridBagConstraints gbc_lfCombo = new GridBagConstraints();
 		gbc_lfCombo.fill = GridBagConstraints.BOTH;
 		gbc_lfCombo.insets = new Insets(0, 0, 15, 5);
 		gbc_lfCombo.gridx = 2;
@@ -64,11 +64,11 @@ public class Preferences extends JPanel {
 
 	private Vector<String> getAvailableLF()
 	{
-		LookAndFeelInfo lfs[] = UIManager.getInstalledLookAndFeels();
+		final LookAndFeelInfo lfs[] = UIManager.getInstalledLookAndFeels();
 		lookNFeelHashMap = new HashMap<>(lfs.length);
-		Vector<String> v = new Vector<>(lfs.length);
+		final Vector<String> v = new Vector<>(lfs.length);
 
-		for (LookAndFeelInfo lf2: lfs)
+		for (final LookAndFeelInfo lf2: lfs)
 		{
 			lookNFeelHashMap.put(lf2.getName(), lf2.getClassName());
 			v.add(lf2.getName());
