@@ -20,6 +20,7 @@ import javax.swing.text.StyleContext;
 
 import utils.ConsoleContent;
 
+import components.IntroFrame;
 import components.ToolBar;
 import components.Window;
 
@@ -32,36 +33,16 @@ public class Start extends JPanel {
 
 	private ToolBar				toolBar;
 	private Vector<LangEditor>	langEditors;
-	private final JSplitPane	splitPane;
-	private final JTabbedPane	tabs;
-	private final JPanel		panel;
-	private final JLabel		lblConsole;
-	private final JScrollPane	scrollPane;
+	private JSplitPane			splitPane;
+	private JTabbedPane			tabs;
+	private JPanel				panel;
+	private JLabel				lblConsole;
+	private JScrollPane			scrollPane;
 	private JTextPane			textPane_console;
 
-	public static void main(final String[] args)
-	{
-		/*
-		 * IntroFrame frame = new IntroFrame(); try { Thread.sleep(3100); }
-		 * catch (InterruptedException e) { e.printStackTrace(); }
-		 * frame.dispose();
-		 */
-
-		try
-		{
-			UIManager.setLookAndFeel(utils.Preferences.getLookAndFeel());
-		}
-		catch (ClassNotFoundException | InstantiationException
-		| IllegalAccessException | UnsupportedLookAndFeelException e)
-		{
-			e.printStackTrace();
-		}
-		Window.getInstance().setContentPane(new Start());
-		Window.getInstance().setVisible(true);
-		((Start) Window.getInstance().getContentPane()).getTabbedPane()
-		.requestFocus();
-	}
-
+	/**
+	 * Create the panel.
+	 */
 	public Start()
 	{
 		setLayout(new BorderLayout(0, 0));
@@ -96,7 +77,7 @@ public class Start extends JPanel {
 		textPane_console = new JTextPane(new ConsoleContent(new StyleContext()));
 		scrollPane.setViewportView(textPane_console);
 
-		final JLabel signatureLabel = new JLabel("JDIX Developers");
+		JLabel signatureLabel = new JLabel("JDIX Developers");
 		signatureLabel.setFont(new Font("DejaVu Sans", Font.PLAIN, 10));
 		signatureLabel.setForeground(Color.GRAY);
 		signatureLabel.setHorizontalAlignment(SwingConstants.RIGHT);
@@ -113,43 +94,75 @@ public class Start extends JPanel {
 		return tabs;
 	}
 
+	/**
+	 * @return toolbar
+	 */
 	public ToolBar getToolBar()
 	{
 		return toolBar;
 	}
 
-	public void setToolBar(final ToolBar toolBar)
-	{
-		this.toolBar = toolBar;
-	}
-
+	/**
+	 * @return Console textPane
+	 */
 	public JTextPane getTextPane_console()
 	{
 		return textPane_console;
 	}
 
-	public void setTextPane_console(final JTextPane textPane_console)
-	{
-		this.textPane_console = textPane_console;
-	}
-
+	/**
+	 * @return Vector with opennig lang editors
+	 */
 	public Vector<LangEditor> getLangEditors()
 	{
 		return langEditors;
 	}
 
-	public void setLangEditors(final Vector<LangEditor> langEditors)
-	{
-		this.langEditors = langEditors;
-	}
-
+	/**
+	 * @return Console panel
+	 */
 	public JPanel getConsolePanel()
 	{
 		return this.panel;
 	}
 
+	/**
+	 * @return SplitPane
+	 */
 	public JSplitPane getSplitPane()
 	{
 		return this.splitPane;
+	}
+
+	/**
+	 * @param args Arguments for the program
+	 */
+	public static void main(String[] args)
+	{
+		IntroFrame frame = new IntroFrame();
+		try
+		{
+			Thread.sleep(3000);
+		}
+		catch (InterruptedException e)
+		{
+			e.printStackTrace();
+		}
+		frame.dispose();
+
+		try
+		{
+			UIManager
+			.setLookAndFeel("javax.swing.plaf.nimbus.NimbusLookAndFeel");
+		}
+		catch (ClassNotFoundException | InstantiationException
+		| IllegalAccessException | UnsupportedLookAndFeelException e)
+		{
+			e.printStackTrace();
+		}
+		Window.getInstance().setContentPane(new Start());
+		Window.getInstance().setVisible(true);
+		((Start) Window.getInstance().getContentPane()).getTabbedPane()
+		.requestFocus();
 	}
 }

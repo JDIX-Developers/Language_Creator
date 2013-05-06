@@ -11,6 +11,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 
+
 import display.LangEditor;
 import display.Start;
 
@@ -23,14 +24,18 @@ public class TabPanel extends JPanel implements ActionListener {
 	private String				title				= null;
 	private JButton				button				= null;
 	private JTabbedPane			tabs				= null;
-	private final String		filePath;
 
-	public TabPanel(final String title, final String filePath,
-	final JTabbedPane tabs)
+	/**
+	 * Create the panel.
+	 * 
+	 * @param title The tittle for the panel.
+	 * @param filePath The lang filePath.
+	 * @param tabs The tabs of start panel.
+	 */
+	public TabPanel(String title, String filePath, JTabbedPane tabs)
 	{
-		this.filePath = filePath;
 		this.title = title;
-		final JLabel label = new JLabel(title);
+		JLabel label = new JLabel(title);
 		this.button = new JButton(new ImageIcon("img/x-icon.png"));
 		this.button.setPreferredSize(new Dimension(20, 20));
 		this.button.setContentAreaFilled(false);
@@ -47,19 +52,19 @@ public class TabPanel extends JPanel implements ActionListener {
 		removeTab(title);
 	}
 
-	private boolean removeTab(final String title)
+	private boolean removeTab(String title)
 	{
-		final Start st = (Start) Window.getInstance().getContentPane();
+		Start st = (Start) Window.getInstance().getContentPane();
 		boolean aux = false;
 		int i = 0;
 		while ( ! aux && i < tabs.getTabCount())
 		{
 			if (tabs.getTitleAt(i).equals(title))
 			{
-				final LangEditor langEditor = st.getLangEditors().get(i);
+				LangEditor langEditor = st.getLangEditors().get(i);
 				if ( ! langEditor.isSaved())
 				{
-					final int selection = JOptionPane
+					int selection = JOptionPane
 					.showOptionDialog(
 					Window.getInstance(),
 					"The file has not been saved. Are you sure you want to close this file without saving?",

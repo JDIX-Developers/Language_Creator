@@ -6,23 +6,17 @@ import java.util.Locale;
 import java.util.Vector;
 
 /**
- * @author Razican (Iban Eguia)
+ * @author Jordan Aranda Tejada
  */
 public class Lang {
-
-	private static Vector<Locale>	locales;
-
-	private Lang()
-	{
-	}
 
 	/**
 	 * @return All available locales, ready to be used in a JComboBox
 	 */
 	public static Vector<String> getCombableAvalaibleLocales()
 	{
-		final Locale list[] = DateFormat.getAvailableLocales();
-		final Vector<String> combo = new Vector<String>();
+		Locale list[] = DateFormat.getAvailableLocales();
+		Vector<String> combo = new Vector<String>();
 
 		for (int i = 0; i < list.length; i++)
 		{
@@ -42,8 +36,8 @@ public class Lang {
 	 */
 	public static Vector<Locale> getAllAvalaibleLocales()
 	{
-		final Locale list[] = DateFormat.getAvailableLocales();
-		final Vector<Locale> vector = new Vector<Locale>();
+		Locale list[] = DateFormat.getAvailableLocales();
+		Vector<Locale> vector = new Vector<Locale>();
 		for (int i = 0; i < list.length; i++)
 		{
 			if ( ! list[i].getCountry().equals(""))
@@ -59,14 +53,14 @@ public class Lang {
 	 *            getCombableAvalaibleLocales()
 	 * @return File name for the JComboBox string
 	 */
-	public static String getNameFileLang(final String string)
+	public static String getNameFileLang(String string)
 	{
 		int i = 0;
-		final Vector<Locale> vector = getAllAvalaibleLocales();
+		Vector<Locale> vector = getAllAvalaibleLocales();
 		boolean enc = false;
 		while ( ! enc && i < vector.size())
 		{
-			final String aux = StringUtils.firstToUpper(vector.get(i)
+			String aux = StringUtils.firstToUpper(vector.get(i)
 			.getDisplayLanguage())
 			+ " ("
 			+ vector.get(i).getDisplayCountry()

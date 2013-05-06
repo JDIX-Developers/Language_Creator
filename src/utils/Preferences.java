@@ -19,10 +19,10 @@ public class Preferences implements Serializable {
 
 	private static final long	serialVersionUID	= - 1140374742103678200L;
 	private static Preferences	preferences;
-	private final Locale		locale;
+	private Locale				locale;
 	private String				lookAndFeelClass;
 
-	private Preferences(final Locale l, final String lf)
+	private Preferences(Locale l, String lf)
 	{
 		locale = l;
 		lookAndFeelClass = lf;
@@ -37,7 +37,7 @@ public class Preferences implements Serializable {
 			oos.writeObject(preferences);
 			oos.close();
 		}
-		catch (final IOException e)
+		catch (IOException e)
 		{
 			preferences = new Preferences(Locale.getDefault(),
 			UIManager.getSystemLookAndFeelClassName());
@@ -95,7 +95,7 @@ public class Preferences implements Serializable {
 	/**
 	 * @param lf The new Look and feel to set
 	 */
-	public static void setLookAndFeelClass(final String lf)
+	public static void setLookAndFeelClass(String lf)
 	{
 		if (preferences == null)
 		{
@@ -110,10 +110,10 @@ public class Preferences implements Serializable {
 		preferences.update();
 	}
 
-	private static boolean isLFAvailable(final String lf)
+	private static boolean isLFAvailable(String lf)
 	{
-		final LookAndFeelInfo lfs[] = UIManager.getInstalledLookAndFeels();
-		for (final LookAndFeelInfo lf2: lfs)
+		LookAndFeelInfo lfs[] = UIManager.getInstalledLookAndFeels();
+		for (LookAndFeelInfo lf2: lfs)
 		{
 			if (lf2.getClassName().equals(lf))
 			{

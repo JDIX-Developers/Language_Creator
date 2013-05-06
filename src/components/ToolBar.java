@@ -39,15 +39,15 @@ import display.Start;
 public class ToolBar extends JToolBar implements ActionListener {
 
 	private static final long	serialVersionUID	= - 4146568246110544527L;
-	private final JButton		btnNewFile;
-	private final JButton		btnOpenFile;
-	private final JButton		btnSaveFile;
-	private final JButton		btnSaveAsFile;
-	private final JButton		btnPrint;
-	private final JButton		btnAddRow;
-	private final JButton		btnRemoveRow;
-	private final JLabel		lblFilter;
-	private final JTextField	textField_Find;
+	private JButton				btnNewFile;
+	private JButton				btnOpenFile;
+	private JButton				btnSaveFile;
+	private JButton				btnSaveAsFile;
+	private JButton				btnPrint;
+	private JButton				btnAddRow;
+	private JButton				btnRemoveRow;
+	private JLabel				lblFilter;
+	private JTextField			textField_Find;
 
 	/**
 	 * Create the toolbar.
@@ -101,23 +101,23 @@ public class ToolBar extends JToolBar implements ActionListener {
 		{
 
 			@Override
-			public void keyTyped(final java.awt.event.KeyEvent e)
+			public void keyTyped(java.awt.event.KeyEvent e)
 			{
-				final Start startPanel = (Start) Window.getInstance()
+				Start startPanel = (Start) Window.getInstance()
 				.getContentPane();
-				final JTabbedPane tabs = startPanel.getTabbedPane();
+				JTabbedPane tabs = startPanel.getTabbedPane();
 
-				final int index = tabs.getSelectedIndex();
+				int index = tabs.getSelectedIndex();
 				if (index >= 0)
 				{
-					final LangEditor langEditor = startPanel.getLangEditors()
-					.get(index);
-					final JTable table = langEditor.getTable();
+					LangEditor langEditor = startPanel.getLangEditors().get(
+					index);
+					JTable table = langEditor.getTable();
 
 					final TableRowSorter<TableModel> sorter = new TableRowSorter<TableModel>(
 					(TableModel) table.getModel());
 					table.setRowSorter(sorter);
-					final String word = textField_Find.getText().trim();
+					String word = textField_Find.getText().trim();
 					if (word.length() == 0)
 					{
 						sorter.setRowFilter(null);
@@ -128,7 +128,7 @@ public class ToolBar extends JToolBar implements ActionListener {
 						{
 							sorter.setRowFilter(RowFilter.regexFilter(word));
 						}
-						catch (final PatternSyntaxException pse)
+						catch (PatternSyntaxException pse)
 						{
 							System.err.println("Bad regex pattern");
 						}
@@ -137,7 +137,7 @@ public class ToolBar extends JToolBar implements ActionListener {
 			}
 
 			@Override
-			public void keyPressed(final java.awt.event.KeyEvent e)
+			public void keyPressed(java.awt.event.KeyEvent e)
 			{
 				if (e.getKeyCode() == KeyEvent.VK_ESCAPE)
 				{
@@ -160,11 +160,11 @@ public class ToolBar extends JToolBar implements ActionListener {
 	}
 
 	@Override
-	public void actionPerformed(final ActionEvent e)
+	public void actionPerformed(ActionEvent e)
 	{
-		final Start startPanel = (Start) Window.getInstance().getContentPane();
-		final JTabbedPane tPane = startPanel.getTabbedPane();
-		final Vector<LangEditor> langEditors = startPanel.getLangEditors();
+		Start startPanel = (Start) Window.getInstance().getContentPane();
+		JTabbedPane tPane = startPanel.getTabbedPane();
+		Vector<LangEditor> langEditors = startPanel.getLangEditors();
 
 		if (e.getSource() == btnNewFile)
 		{
@@ -196,31 +196,35 @@ public class ToolBar extends JToolBar implements ActionListener {
 		}
 	}
 
-	private void newLangAction(final JTabbedPane tabs,
-	final Vector<LangEditor> langEditors)
+	/**
+	 * @param tabs TabbedPane
+	 * @param langEditors Vector with lang editors
+	 */
+	public static void newLangAction(JTabbedPane tabs,
+	Vector<LangEditor> langEditors)
 	{
-		final Start st = (Start) Window.getInstance().getContentPane();
-		final ConsoleContent doc = (ConsoleContent) st.getTextPane_console()
+		Start st = (Start) Window.getInstance().getContentPane();
+		ConsoleContent doc = (ConsoleContent) st.getTextPane_console()
 		.getStyledDocument();
-		doc.clearContent();
+		doc.cleanContent();
 
-		final Vector<String> vect = Lang.getCombableAvalaibleLocales();
+		Vector<String> vect = Lang.getCombableAvalaibleLocales();
 
-		final String selection = (String) JOptionPane.showInputDialog(null,
+		String selection = (String) JOptionPane.showInputDialog(null,
 		"Select a language", "Select a language", JOptionPane.QUESTION_MESSAGE,
 		new ImageIcon("img/app-icon.png"), vect.toArray(), vect.get(0));
 
 		if (selection != null)
 		{
-			final File file = new File(Lang.getNameFileLang(selection));
-			final int i = isOpenFile(file, langEditors);
+			File file = new File(Lang.getNameFileLang(selection));
+			int i = isOpenFile(file, langEditors);
 			if (i == langEditors.size())
 			{
-				final HashMap<String, String> hashMap = new HashMap<String, String>();
+				HashMap<String, String> hashMap = new HashMap<String, String>();
 				hashMap.put("", "");
-				final LangEditor langEditor = new LangEditor(hashMap, file);
-				final TabPanel pTab = new TabPanel(file.getName(),
-				file.toString(), tabs);
+				LangEditor langEditor = new LangEditor(hashMap, file);
+				TabPanel pTab = new TabPanel(file.getName(), file.toString(),
+				tabs);
 				tabs.addTab(file.getName(), langEditor);
 				langEditor.setSaved(false);
 
@@ -241,31 +245,35 @@ public class ToolBar extends JToolBar implements ActionListener {
 		}
 	}
 
-	private void openAction(final JTabbedPane tabs,
-	final Vector<LangEditor> langEditors)
+	/**
+	 * @param tabs TabbedPane
+	 * @param langEditors Vector with lang editors
+	 */
+	public static void openAction(JTabbedPane tabs,
+	Vector<LangEditor> langEditors)
 	{
-		final Start st = (Start) Window.getInstance().getContentPane();
-		final ConsoleContent doc = (ConsoleContent) st.getTextPane_console()
+		Start st = (Start) Window.getInstance().getContentPane();
+		ConsoleContent doc = (ConsoleContent) st.getTextPane_console()
 		.getStyledDocument();
-		doc.clearContent();
-		final File file = FileChooser.openFile("Language file", "lang");
+		doc.cleanContent();
+		File file = FileChooser.openFile("Language file", "lang");
 		if (file != null)
 		{
-			final int i = isOpenFile(file, langEditors);
+			int i = isOpenFile(file, langEditors);
 			if (i == langEditors.size())
 			{
 				try
 				{
-					final ObjectInputStream ois = new ObjectInputStream(
+					ObjectInputStream ois = new ObjectInputStream(
 					new FileInputStream(file.toString()));
 					@SuppressWarnings ("unchecked")
-					final HashMap<String, String> hashMap = (HashMap<String, String>) ois
+					HashMap<String, String> hashMap = (HashMap<String, String>) ois
 					.readObject();
 					ois.close();
 
-					final LangEditor langEditor = new LangEditor(hashMap, file);
+					LangEditor langEditor = new LangEditor(hashMap, file);
 					st.getLangEditors().add(langEditor);
-					final TabPanel pTab = new TabPanel(file.getName(),
+					TabPanel pTab = new TabPanel(file.getName(),
 					file.toString(), tabs);
 					tabs.addTab(file.getName(), langEditor);
 
@@ -290,25 +298,28 @@ public class ToolBar extends JToolBar implements ActionListener {
 		}
 	}
 
-	private void saveAction(final JTabbedPane tabs,
-	final Vector<LangEditor> langEditors)
+	/**
+	 * @param tabs TabbedPane
+	 * @param langEditors Vector with lang editors
+	 */
+	public static void saveAction(JTabbedPane tabs,
+	Vector<LangEditor> langEditors)
 	{
-		final int index = tabs.getSelectedIndex();
+		int index = tabs.getSelectedIndex();
 		if (index >= 0)
 		{
-			final LangEditor langEditor = langEditors.get(index);
+			LangEditor langEditor = langEditors.get(index);
 			if (langEditor.isCorrectLang())
 			{
 				if (langEditor.getFile().exists())
 				{
-					final Start st = (Start) Window.getInstance()
-					.getContentPane();
-					final ConsoleContent doc = (ConsoleContent) st
+					Start st = (Start) Window.getInstance().getContentPane();
+					ConsoleContent doc = (ConsoleContent) st
 					.getTextPane_console().getStyledDocument();
-					doc.clearContent();
+					doc.cleanContent();
 					try
 					{
-						final ObjectOutputStream oos = new ObjectOutputStream(
+						ObjectOutputStream oos = new ObjectOutputStream(
 						new FileOutputStream(langEditor.getFile().toString()));
 						oos.writeObject(langEditor.getFinaleHashMap());
 						oos.close();
@@ -317,7 +328,7 @@ public class ToolBar extends JToolBar implements ActionListener {
 						+ langEditor.getFile().toString()
 						+ " successfully saved.");
 					}
-					catch (final Exception e)
+					catch (Exception e)
 					{
 						e.printStackTrace();
 					}
@@ -330,21 +341,25 @@ public class ToolBar extends JToolBar implements ActionListener {
 		}
 	}
 
-	private void saveAsAction(final JTabbedPane tabs,
-	final Vector<LangEditor> langEditors)
+	/**
+	 * @param tabs TabbedPane
+	 * @param langEditors Vector with lang editors
+	 */
+	public static void saveAsAction(JTabbedPane tabs,
+	Vector<LangEditor> langEditors)
 	{
-		final int index = tabs.getSelectedIndex();
+		int index = tabs.getSelectedIndex();
 		if (index >= 0)
 		{
-			final LangEditor langEditor = langEditors.get(index);
+			LangEditor langEditor = langEditors.get(index);
 			if (langEditor.isCorrectLang())
 			{
-				final Start st = (Start) Window.getInstance().getContentPane();
-				final ConsoleContent doc = (ConsoleContent) st
-				.getTextPane_console().getStyledDocument();
-				doc.clearContent();
+				Start st = (Start) Window.getInstance().getContentPane();
+				ConsoleContent doc = (ConsoleContent) st.getTextPane_console()
+				.getStyledDocument();
+				doc.cleanContent();
 
-				final String path = FileChooser.saveObjectFile(
+				String path = FileChooser.saveObjectFile(
 				langEditor.getFinaleHashMap(), "Language File", "lang",
 				langEditor.getFile());
 				if (path != "")
@@ -359,47 +374,51 @@ public class ToolBar extends JToolBar implements ActionListener {
 		}
 	}
 
-	private void printAction(final JTabbedPane tabs, final Start startPanel)
+	/**
+	 * @param tabs TabbedPane
+	 * @param startPanel The start panel
+	 */
+	public static void printAction(JTabbedPane tabs, Start startPanel)
 	{
-		final int index = tabs.getSelectedIndex();
+		int index = tabs.getSelectedIndex();
 		if (index >= 0)
 		{
-			final LangEditor lEditor = startPanel.getLangEditors().get(index);
+			LangEditor lEditor = startPanel.getLangEditors().get(index);
 			try
 			{
 				lEditor.getTable().print();
 			}
-			catch (final PrinterException e)
+			catch (PrinterException e)
 			{
 				e.printStackTrace();
 			}
 		}
 	}
 
-	private void addRowAction(final JTabbedPane tPane)
+	private void addRowAction(JTabbedPane tPane)
 	{
-		final int index = tPane.getSelectedIndex();
-		final Start st = (Start) Window.getInstance().getContentPane();
+		int index = tPane.getSelectedIndex();
+		Start st = (Start) Window.getInstance().getContentPane();
 		if (index >= 0)
 		{
-			final LangEditor lEditor = st.getLangEditors().get(index);
+			LangEditor lEditor = st.getLangEditors().get(index);
 			lEditor.insertRow();
 		}
 
 	}
 
-	private void removeRowAction(final JTabbedPane tPane)
+	private void removeRowAction(JTabbedPane tPane)
 	{
-		final int index = tPane.getSelectedIndex();
-		final Start st = (Start) Window.getInstance().getContentPane();
+		int index = tPane.getSelectedIndex();
+		Start st = (Start) Window.getInstance().getContentPane();
 		if (index >= 0)
 		{
-			final LangEditor lEditor = st.getLangEditors().get(index);
+			LangEditor lEditor = st.getLangEditors().get(index);
 			lEditor.deleteRow();
 		}
 	}
 
-	private int isOpenFile(final File file, final Vector<LangEditor> langEditors)
+	private static int isOpenFile(File file, Vector<LangEditor> langEditors)
 	{
 		boolean enc = false;
 		int i = 0;

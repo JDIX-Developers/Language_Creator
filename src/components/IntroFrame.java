@@ -7,10 +7,17 @@ import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
+/**
+ * @author Jordan Aranda Tejada
+ */
 public class IntroFrame extends JFrame {
 
-	private final PanelBackground	contentPane;
+	private static final long	serialVersionUID	= - 8447565784108781483L;
+	private PanelBackground		contentPane;
 
+	/**
+	 * Create the frame.
+	 */
 	public IntroFrame()
 	{
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -26,21 +33,29 @@ public class IntroFrame extends JFrame {
 		setVisible(true);
 	}
 
+	/**
+	 * @author Jordan Aranda Tejada
+	 */
 	class PanelBackground extends JPanel {
 
-		private ImageIcon		image;
-		private final String	name;
+		private static final long	serialVersionUID	= - 6298418879639583183L;
+		private String				imagePath;
 
-		public PanelBackground(final String name)
+		/**
+		 * Create the panel with image.
+		 * 
+		 * @param imagePath The background image.
+		 */
+		public PanelBackground(String imagePath)
 		{
-			this.name = name;
+			this.imagePath = imagePath;
 		}
 
 		@Override
-		public void paint(final Graphics g)
+		public void paint(Graphics g)
 		{
-			final Dimension size = getSize();
-			image = new ImageIcon(name);
+			Dimension size = getSize();
+			ImageIcon image = new ImageIcon(imagePath);
 			g.drawImage(image.getImage(), 0, 0, size.width, size.height, null);
 			setOpaque(false);
 			super.paint(g);
