@@ -12,8 +12,8 @@ import javax.swing.JPanel;
  */
 public class IntroFrame extends JFrame {
 
-	private static final long	serialVersionUID	= - 8447565784108781483L;
-	private PanelBackground		contentPane;
+	private static final long		serialVersionUID	= - 8447565784108781483L;
+	private final PanelBackground	contentPane;
 
 	/**
 	 * Create the frame.
@@ -39,23 +39,23 @@ public class IntroFrame extends JFrame {
 	class PanelBackground extends JPanel {
 
 		private static final long	serialVersionUID	= - 6298418879639583183L;
-		private String				imagePath;
+		private final String		imagePath;
 
 		/**
 		 * Create the panel with image.
 		 * 
 		 * @param imagePath The background image.
 		 */
-		public PanelBackground(String imagePath)
+		public PanelBackground(final String imagePath)
 		{
 			this.imagePath = imagePath;
 		}
 
 		@Override
-		public void paint(Graphics g)
+		public void paint(final Graphics g)
 		{
-			Dimension size = getSize();
-			ImageIcon image = new ImageIcon(imagePath);
+			final Dimension size = getSize();
+			final ImageIcon image = new ImageIcon(imagePath);
 			g.drawImage(image.getImage(), 0, 0, size.width, size.height, null);
 			setOpaque(false);
 			super.paint(g);

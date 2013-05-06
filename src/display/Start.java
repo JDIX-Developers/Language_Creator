@@ -29,16 +29,16 @@ import components.Window;
  */
 public class Start extends JPanel {
 
-	private static final long	serialVersionUID	= - 3019955922941567348L;
+	private static final long			serialVersionUID	= - 3019955922941567348L;
 
-	private ToolBar				toolBar;
-	private Vector<LangEditor>	langEditors;
-	private JSplitPane			splitPane;
-	private JTabbedPane			tabs;
-	private JPanel				panel;
-	private JLabel				lblConsole;
-	private JScrollPane			scrollPane;
-	private JTextPane			textPane_console;
+	private final ToolBar				toolBar;
+	private final Vector<LangEditor>	langEditors;
+	private final JSplitPane			splitPane;
+	private final JTabbedPane			tabs;
+	private final JPanel				panel;
+	private final JLabel				lblConsole;
+	private final JScrollPane			scrollPane;
+	private final JTextPane				textPane_console;
 
 	/**
 	 * Create the panel.
@@ -77,7 +77,7 @@ public class Start extends JPanel {
 		textPane_console = new JTextPane(new ConsoleContent(new StyleContext()));
 		scrollPane.setViewportView(textPane_console);
 
-		JLabel signatureLabel = new JLabel("JDIX Developers");
+		final JLabel signatureLabel = new JLabel("JDIX Developers");
 		signatureLabel.setFont(new Font("DejaVu Sans", Font.PLAIN, 10));
 		signatureLabel.setForeground(Color.GRAY);
 		signatureLabel.setHorizontalAlignment(SwingConstants.RIGHT);
@@ -137,14 +137,14 @@ public class Start extends JPanel {
 	/**
 	 * @param args Arguments for the program
 	 */
-	public static void main(String[] args)
+	public static void main(final String[] args)
 	{
-		IntroFrame frame = new IntroFrame();
+		final IntroFrame frame = new IntroFrame();
 		try
 		{
 			Thread.sleep(3000);
 		}
-		catch (InterruptedException e)
+		catch (final InterruptedException e)
 		{
 			e.printStackTrace();
 		}

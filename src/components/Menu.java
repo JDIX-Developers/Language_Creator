@@ -26,8 +26,8 @@ public class Menu extends JMenuBar implements ActionListener {
 
 	private static final long	serialVersionUID	= - 2674054941368737779L;
 
-	private JMenu				file, window, help;
-	private JMenuItem			newLang, open, save, save_as, print,
+	private final JMenu			file, window, help;
+	private final JMenuItem		newLang, open, save, save_as, print,
 	showToolBar, showConsole;
 
 	/**
@@ -110,11 +110,11 @@ public class Menu extends JMenuBar implements ActionListener {
 	}
 
 	@Override
-	public void actionPerformed(ActionEvent e)
+	public void actionPerformed(final ActionEvent e)
 	{
-		Start startPanel = (Start) Window.getInstance().getContentPane();
-		JTabbedPane tabs = startPanel.getTabbedPane();
-		Vector<LangEditor> langEditors = startPanel.getLangEditors();
+		final Start startPanel = (Start) Window.getInstance().getContentPane();
+		final JTabbedPane tabs = startPanel.getTabbedPane();
+		final Vector<LangEditor> langEditors = startPanel.getLangEditors();
 
 		if (e.getSource() == newLang)
 		{
@@ -138,7 +138,7 @@ public class Menu extends JMenuBar implements ActionListener {
 		}
 		else if (e.getSource() == showToolBar)
 		{
-			ToolBar tB = startPanel.getToolBar();
+			final ToolBar tB = startPanel.getToolBar();
 			if (showToolBar.getText().equals("Hide ToolBar"))
 			{
 				showToolBar.setText("Show ToolBar");
@@ -152,7 +152,7 @@ public class Menu extends JMenuBar implements ActionListener {
 		}
 		else if (e.getSource() == showConsole)
 		{
-			JSplitPane panel = startPanel.getSplitPane();
+			final JSplitPane panel = startPanel.getSplitPane();
 			if (showConsole.getText().equals("Hide Console"))
 			{
 				showConsole.setText("Show Console");

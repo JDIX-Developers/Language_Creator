@@ -33,14 +33,14 @@ import components.Window;
  */
 public class LangEditor extends JPanel {
 
-	private static final long		serialVersionUID	= 2486033380987365663L;
-	private JScrollPane				scrollPane_Content;
-	private JTable					table;
-	private HashMap<String, String>	lines;
-	private TableModel				modelTable;
-	private File					file;
-	private boolean					saved;
-	private JLabel					lblFilePath;
+	private static final long				serialVersionUID	= 2486033380987365663L;
+	private final JScrollPane				scrollPane_Content;
+	private final JTable					table;
+	private final HashMap<String, String>	lines;
+	private final TableModel				modelTable;
+	private File							file;
+	private boolean							saved;
+	private final JLabel					lblFilePath;
 
 	/**
 	 * Create the panel
@@ -48,14 +48,14 @@ public class LangEditor extends JPanel {
 	 * @param hashMap The file hashMap.
 	 * @param file The current file
 	 */
-	public LangEditor(HashMap<String, String> hashMap, File file)
+	public LangEditor(final HashMap<String, String> hashMap, final File file)
 	{
 		setFont(new Font("Segoe UI Symbol", Font.PLAIN, 14));
 		this.lines = hashMap;
 		this.file = file;
 		this.saved = true;
 
-		GridBagLayout gridBagLayout = new GridBagLayout();
+		final GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[] {0, 0};
 		gridBagLayout.rowHeights = new int[] {0, 0, 0, 0};
 		gridBagLayout.columnWeights = new double[] {1.0, Double.MIN_VALUE};
@@ -63,16 +63,16 @@ public class LangEditor extends JPanel {
 		Double.MIN_VALUE};
 		setLayout(gridBagLayout);
 
-		Locale l = new Locale(file.getName().substring(0, 2), file.getName()
-		.substring(3, 5));
+		final Locale l = new Locale(file.getName().substring(0, 2), file
+		.getName().substring(3, 5));
 
-		JLabel lblNameLanguage = new JLabel("Language: "
+		final JLabel lblNameLanguage = new JLabel("Language: "
 		+ StringUtils.firstToUpper(l.getDisplayLanguage()) + " ("
 		+ l.getDisplayCountry() + ")");
 		lblNameLanguage.setFont(new Font("Segoe UI Symbol", Font.PLAIN, 14));
 		lblNameLanguage.setForeground(Color.BLACK);
 		lblNameLanguage.setHorizontalAlignment(SwingConstants.CENTER);
-		GridBagConstraints gbc_lblNombrelenguaje = new GridBagConstraints();
+		final GridBagConstraints gbc_lblNombrelenguaje = new GridBagConstraints();
 		gbc_lblNombrelenguaje.anchor = GridBagConstraints.WEST;
 		gbc_lblNombrelenguaje.insets = new Insets(10, 15, 10, 15);
 		gbc_lblNombrelenguaje.gridx = 0;
@@ -83,7 +83,7 @@ public class LangEditor extends JPanel {
 		lblFilePath.setFont(new Font("Segoe UI Symbol", Font.PLAIN, 14));
 		lblFilePath.setForeground(Color.BLACK);
 		lblFilePath.setHorizontalAlignment(SwingConstants.CENTER);
-		GridBagConstraints gbc_lblNewLabel = new GridBagConstraints();
+		final GridBagConstraints gbc_lblNewLabel = new GridBagConstraints();
 		gbc_lblNewLabel.fill = GridBagConstraints.VERTICAL;
 		gbc_lblNewLabel.anchor = GridBagConstraints.WEST;
 		gbc_lblNewLabel.insets = new Insets(0, 15, 10, 15);
@@ -96,11 +96,11 @@ public class LangEditor extends JPanel {
 			lblFilePath.setText("Saved file path: Unsaved.");
 		}
 
-		String[] header = {"Lines", "Key", "Description"};
-		String[][] content = new String[this.lines.size()][3];
+		final String[] header = {"Lines", "Key", "Description"};
+		final String[][] content = new String[this.lines.size()][3];
 		loadContent(content);
 
-		DefaultTableCellRenderer tableCellModel = new DefaultTableCellRenderer();
+		final DefaultTableCellRenderer tableCellModel = new DefaultTableCellRenderer();
 		tableCellModel.setHorizontalAlignment(SwingConstants.CENTER);
 
 		modelTable = new TableModel();
@@ -128,7 +128,7 @@ public class LangEditor extends JPanel {
 		table.getColumnModel().getColumn(0).setMaxWidth(50);
 		table.getColumnModel().getColumn(0).setCellRenderer(tableCellModel);
 
-		GridBagConstraints gbc_splitPane = new GridBagConstraints();
+		final GridBagConstraints gbc_splitPane = new GridBagConstraints();
 		gbc_splitPane.fill = GridBagConstraints.BOTH;
 		gbc_splitPane.anchor = GridBagConstraints.NORTH;
 		gbc_splitPane.insets = new Insets(0, 10, 10, 10);
@@ -139,13 +139,14 @@ public class LangEditor extends JPanel {
 		scrollPane_Content.setViewportView(table);
 	}
 
-	private void loadContent(String[][] content)
+	private void loadContent(final String[][] content)
 	{
-		Iterator<Entry<String, String>> it = this.lines.entrySet().iterator();
+		final Iterator<Entry<String, String>> it = this.lines.entrySet()
+		.iterator();
 		int i = 0;
 		while (it.hasNext())
 		{
-			Map.Entry<String, String> e = it.next();
+			final Map.Entry<String, String> e = it.next();
 			content[i][0] = i + 1 + "";
 			content[i][1] = e.getKey().toString();
 			content[i][2] = e.getValue().toString();
@@ -158,13 +159,13 @@ public class LangEditor extends JPanel {
 	 */
 	public void insertRow()
 	{
-		Vector<String> vec = new Vector<String>();
+		final Vector<String> vec = new Vector<String>();
 		vec.add((modelTable.getRowCount() + 1) + "");
 		vec.add("");
 		vec.add("");
 		modelTable.addRow(vec);
-		int row = modelTable.getRowCount() - 1;
-		Rectangle rect = table.getCellRect(row, 0, true);
+		final int row = modelTable.getRowCount() - 1;
+		final Rectangle rect = table.getCellRect(row, 0, true);
 		table.scrollRectToVisible(rect);
 		table.clearSelection();
 		table.setRowSelectionInterval(row, row);
@@ -177,11 +178,11 @@ public class LangEditor extends JPanel {
 	 */
 	public void deleteRow()
 	{
-		Start st = (Start) Window.getInstance().getContentPane();
-		ConsoleContent doc = (ConsoleContent) st.getTextPane_console()
+		final Start st = (Start) Window.getInstance().getContentPane();
+		final ConsoleContent doc = (ConsoleContent) st.getTextPane_console()
 		.getStyledDocument();
 		doc.cleanContent();
-		int[] indexRows = table.getSelectedRows();
+		final int[] indexRows = table.getSelectedRows();
 
 		if (indexRows.length > 0)
 		{
@@ -215,22 +216,22 @@ public class LangEditor extends JPanel {
 	 */
 	public boolean isCorrectLang()
 	{
-		Start st = (Start) Window.getInstance().getContentPane();
-		ConsoleContent doc = (ConsoleContent) st.getTextPane_console()
+		final Start st = (Start) Window.getInstance().getContentPane();
+		final ConsoleContent doc = (ConsoleContent) st.getTextPane_console()
 		.getStyledDocument();
 		doc.cleanContent();
 
-		Vector<Integer> lines = new Vector<Integer>();
+		final Vector<Integer> lines = new Vector<Integer>();
 		boolean isCorrectLang = true;
 
 		for (int i = 0; i < modelTable.getRowCount(); i++)
 		{
 			if ( ! existLine(i, lines))
 			{
-				String key1 = (String) modelTable.getValueAt(i, 1);
+				final String key1 = (String) modelTable.getValueAt(i, 1);
 				for (int j = 0; j < modelTable.getRowCount(); j++)
 				{
-					String key2 = (String) modelTable.getValueAt(j, 1);
+					final String key2 = (String) modelTable.getValueAt(j, 1);
 					if (key1.trim().equals(key2.trim()) && i != j)
 					{
 						isCorrectLang = false;
@@ -260,7 +261,7 @@ public class LangEditor extends JPanel {
 		return isCorrectLang;
 	}
 
-	private boolean existLine(int i, Vector<Integer> lines)
+	private boolean existLine(final int i, final Vector<Integer> lines)
 	{
 		boolean enc = false;
 		int index = 0;
@@ -285,11 +286,12 @@ public class LangEditor extends JPanel {
 	 */
 	public HashMap<String, String> getFinaleHashMap()
 	{
-		HashMap<String, String> hashMap = new HashMap<String, String>();
+		final HashMap<String, String> hashMap = new HashMap<String, String>();
 		for (int i = 0; i < modelTable.getRowCount(); i++)
 		{
-			String key = ((String) modelTable.getValueAt(i, 1)).trim();
-			String description = ((String) modelTable.getValueAt(i, 2)).trim();
+			final String key = ((String) modelTable.getValueAt(i, 1)).trim();
+			final String description = ((String) modelTable.getValueAt(i, 2))
+			.trim();
 			hashMap.put(key, description);
 		}
 		return hashMap;
@@ -306,7 +308,7 @@ public class LangEditor extends JPanel {
 	/**
 	 * @param file Other file
 	 */
-	public void setFile(File file)
+	public void setFile(final File file)
 	{
 		this.file = file;
 	}
@@ -330,7 +332,7 @@ public class LangEditor extends JPanel {
 	/**
 	 * @param saved yes if file is saved.
 	 */
-	public void setSaved(boolean saved)
+	public void setSaved(final boolean saved)
 	{
 		this.saved = saved;
 	}
@@ -338,7 +340,7 @@ public class LangEditor extends JPanel {
 	/**
 	 * @param text New text for file path label.
 	 */
-	public void setLblFilePathText(String text)
+	public void setLblFilePathText(final String text)
 	{
 		this.lblFilePath.setText("Saved file path: " + text);
 	}
